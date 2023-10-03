@@ -1,0 +1,2 @@
+在 all: 加上 -i 變 all -i: 來使其忽略錯誤檔案
+"When you run make with the ‘-i’ or ‘--ignore-errors’ flag, errors are ignored in all recipes of all rules."
