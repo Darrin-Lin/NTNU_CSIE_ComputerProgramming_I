@@ -4,3 +4,5 @@ all -i:
 	do\
 		gcc hw$(hw_number)0$$i.c -lm -o hw$(hw_number)0$$i;\
 	done
+clear:
+	rm hw010?
