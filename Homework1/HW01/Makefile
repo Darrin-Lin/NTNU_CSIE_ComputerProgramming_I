@@ -5,4 +5,4 @@ all -i:
 		gcc hw$(hw_number)0$$i.c -lm -o hw$(hw_number)0$$i;\
 	done
 clear:
-	rm hw010?
+	rm hw$(hw_number)0?

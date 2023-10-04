@@ -1,6 +1,9 @@
 hw_number = 0
+# example: 01
 all -i:
 	for i in 1 2 3 4 5;\
 	do\
 		gcc hw$(hw_number)0$$i.c -o hw$(hw_number)0$$i;\
 	done
+clear:
+	rm hw{hw_number}0?
