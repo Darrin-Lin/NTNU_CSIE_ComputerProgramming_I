@@ -11,6 +11,11 @@ hw01
 
 ---
 
+## How to build my code
+在 HW01 directory 下 make 指令。
+
+---
+
 ## [<div class="hw">hw0101</div>](./hw0101.c)
 
 ### 9/24 完成
