@@ -1,7 +1,7 @@
 NTNU_CSIE_ComputerProgramming_I
 ===
 
-## homework maker shell script
+## [homework maker shell script](./homework_maker.sh)
 
 ### 9/23 Create
 Can create file and directory.
@@ -11,14 +11,14 @@ Don't need to edit number in every file.
 
 ---
 
-## HW1
+## [HW1](./Homework1/)
 
 ### 10/3 Upload file
 Had finished this homework before today.
 
 ---
 
-## HW2
+## [HW2](./Homework2/)
 
 ### 10/4 Create
 Create file only.
