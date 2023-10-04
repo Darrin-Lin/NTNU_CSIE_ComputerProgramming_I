@@ -5,6 +5,11 @@ hw0
 
 ---
 
+## How to build my code
+在 HW0 directory 下 make 指令。
+
+---
+
 ## hw001
 
 ---
