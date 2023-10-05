@@ -21,7 +21,7 @@ Had finished this homework before today.
 ## [HW2](./Homework2/)
 
 ### 10/4 Create
-Create file only.\
+Create file only.
 
 ### 10/5 Update
 Start to write hw0202 and finished.
