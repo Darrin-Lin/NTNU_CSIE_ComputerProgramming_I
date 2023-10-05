@@ -25,7 +25,7 @@ int main()
 	int32_t longest = 0;
 	uint64_t answer = 0;
 	int32_t separate = 0, space = 0, num_long = 0, num_print = 0, t_power = 0;
-	int32_t count_num = 0,count_inp2=2;
+	int32_t count_num = 0,count_inp2=2,inp2_long=0;
 	printf("Please enter the first  number: ");
 	scanf("%ld", &inp1);
 	printf("Please enter the second number: ");
@@ -56,10 +56,10 @@ int main()
 	for (int32_t i = 0; i < num_long - 1; i++)
 	{
 		t_power = ten_power(num_long - i - 1);
-		printf("%ld ", num_print / t_power);
+		printf("%d ", num_print / t_power);
 		num_print %= t_power; //
 	}
-	printf("%d", inp1 % 10);
+	printf("%d", (int)(inp1 % 10));
 
 	// n2
 	// space
@@ -74,24 +74,26 @@ int main()
 	for (int32_t i = 0; i < num_long - 1; i++)
 	{
 		t_power = ten_power(num_long - i - 1);
-		printf("%ld ", num_print / t_power);
+		printf("%d ", num_print / t_power);
 		num_print %= t_power; //
 	}
-	printf("%d", inp2 % 10);
+	printf("%d", (int)(inp2 % 10));
 	printf("\n");
 	//-----
 	for (int32_t i = 0; i < separate; i++)
 		printf("-");
 	printf("\n");
-	num_long = num_long_f(inp2); // Don't need, just for safe
 	// counting//fix
 	if (answer)
 	{
+		inp2_long = num_long_f(inp2);
 		count_inp2=inp2;
-		for (int32_t i = 0; i < num_long; i++)
+		for (int32_t i = 0; i < inp2_long; i++)
 		{
-			count_num=count_inp2%10;
+			count_num=(count_inp2%10)*inp1;
 			count_inp2/=10;
+			num_long = num_long_f(count_num);
+			//space
 			space = separate - (num_long * 2 - 1) - (i * 2);
 			for (int32_t j = 0; j < space; j++)
 				printf(" ");
@@ -100,10 +102,10 @@ int main()
 			for (int32_t j = 0; j < num_long - 1; j++)
 			{
 				t_power = ten_power(num_long - j - 1);
-				printf("%ld ", num_print / t_power);
+				printf("%d ", num_print / t_power);
 				num_print %= t_power; //
 			}
-			printf("%d", count_num % 10);
+			printf("%d", num_print % 10);
 			for (int32_t j = 0; j < i * 2; j++)
 				printf(" ");
 			printf("\n");
@@ -126,10 +128,10 @@ int main()
 	for (int32_t i = 0; i < num_long - 1; i++)
 	{
 		t_power = ten_power(num_long - i - 1);
-		printf("%ld ", num_print / t_power);
+		printf("%d ", num_print / t_power);
 		num_print %= t_power; //
 	}
-	printf("%d", answer % 10);
+	printf("%d", (int)(answer % 10));
 	printf("\n");
 	return 0;
 }

@@ -24,4 +24,4 @@ Had finished this homework before today.
 Create file only.\
 
 ### 10/5 Update
-Start to write hw0202.
+Start to write hw0202 and finished.
