@@ -8,6 +8,7 @@ int main()
 	// char mail='\0';
 	int32_t beforeAt = 0, domain = 0;
 	int32_t hw = 0, p = 0, general = 0, title = 0,hwp_finish=0;
+	int32_t left = 0;
 	char space;
 	int32_t content_scores = 0, negative = 0;
 	int32_t errorD = 0, errorS = 0;
@@ -31,9 +32,12 @@ int main()
 	// if (!general)
 	// 	scanf("hw%d][p%d] %*[^\n]%n", &hw, &p,&title);
 
-	scanf("[general]%n", &general); // if enter without title error
-	if (!general)
-		scanf("hw%d][p%d]%n", &hw, &p,&hwp_finish);
+	scanf("[%n", &left);// if hw]
+	if (left){
+		scanf("general]%n", &general); // if enter without title error
+		if (!general)
+			scanf("hw%d][p%d]%n", &hw, &p,&hwp_finish);
+	}
 	if (general || (hw && p))
 	{
 		scanf("%c", &space);
@@ -75,6 +79,11 @@ int main()
 	if (sucess == 0)
 	{
 		printf("-");
+	}
+	else if (!left)
+	{
+		sucess = 0;
+		printf("Failed, no category");
 	}
 	else if ((hw <= 0 || hw >= 10 || p <= 0 || p >= 10) && general == 0)
 	{
