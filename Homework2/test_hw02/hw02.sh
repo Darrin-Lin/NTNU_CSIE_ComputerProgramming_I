@@ -12,14 +12,14 @@ for n in $(
 		mkdir ./0${n}/in
 	fi
 
-	python test010${n}.py
+	python test0${hw}0${n}.py
 
 	if ! [ -d "0${n}/out" ]; then
 		mkdir ./0${n}/out
 	fi
 
-	if ! [ -f "hw010${n}" ]; then
-		cp ../HW01/hw010${n} .
+	if ! [ -f "hw0${hw}0${n}" ]; then
+		cp ../HW0${hw}/hw0${hw}0${n} .
 	fi
 
 	for i in $(seq 0 9); do
