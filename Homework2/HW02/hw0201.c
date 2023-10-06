@@ -34,7 +34,7 @@ int main()
 			preprem = save;
 			// printf("%lu %lu %lu %lu\n", prec, prem, preprec, preprem);
 			count_root_2 = (double)prec / (double)prem;
-			printf("n = %hu: %.20f (%.18f)\n", i, count_root_2, count_root_2 - real_root_2);
+			printf("n = %hu: %.20f (%.20f)\n", i, count_root_2, count_root_2 - real_root_2);
 		}
 	}
 	return 0;
