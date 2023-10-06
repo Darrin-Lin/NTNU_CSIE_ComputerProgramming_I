@@ -83,7 +83,7 @@ int main()
 	for (int64_t i = 0; i < separate; i++)
 		printf("-");
 	printf("\n");
-	// counting//fix
+	// counting
 	if (answer&&inp2>9)
 	{
 		inp2_long = num_long_f(inp2);

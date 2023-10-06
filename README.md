@@ -25,3 +25,6 @@ Create file only.
 
 ### 10/5 Update
 Start to write hw0202 and finished.
+
+### 10/6 Update
+Start to write hw0206 and finished.
