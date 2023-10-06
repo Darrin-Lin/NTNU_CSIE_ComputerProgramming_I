@@ -5,5 +5,5 @@ all -i:
 	do\
 		gcc hw0${hw_number}0$$i.c -o hw0${hw_number}0$$i;\
 	done
-clear:
+clean:
 	rm hw0${hw_number}0?

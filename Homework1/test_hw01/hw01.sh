@@ -1,5 +1,6 @@
 #!/bin/sh
 hw=1
+make_clean=0
 
 for n in $(
 	#for hw01 only
@@ -13,14 +14,18 @@ for n in $(
 		mkdir ./0${n}/in
 	fi
 
-	python test010${n}.py
+	python test0${hw}0${n}.py
 
 	if ! [ -d "0${n}/out" ]; then
 		mkdir ./0${n}/out
 	fi
 
-	if ! [ -f "hw010${n}" ]; then
-		cp ../HW01/hw010${n} .
+	if ! [ -f "hw0${hw}0${n}" ]; then
+		if ! [ -f "../HW0${hw}/hw0${hw}0${n}" ]; then
+			make -C ../HW0${hw}
+			make_clean=1
+		fi
+		cp ../HW0${hw}/hw0${hw}0${n} .
 	fi
 
 	for i in $(seq 0 9); do
@@ -32,3 +37,6 @@ for n in $(
 		fi
 	done
 done
+if [ ${make_clean} -eq 1 ]; then
+	make clean -C ../HW0${hw}
+fi

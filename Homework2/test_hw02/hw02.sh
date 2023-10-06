@@ -1,5 +1,6 @@
 #!/bin/sh
 hw=2
+make_clean=0
 
 for n in $(
 	seq 1 5
@@ -19,6 +20,10 @@ for n in $(
 	fi
 
 	if ! [ -f "hw0${hw}0${n}" ]; then
+		if ! [ -f "../HW0${hw}/hw0${hw}0${n}" ]; then
+			make -C ../HW0${hw}
+			make_clean=1
+		fi
 		cp ../HW0${hw}/hw0${hw}0${n} .
 	fi
 
@@ -31,3 +36,6 @@ for n in $(
 		fi
 	done
 done
+if [ ${make_clean} -eq 1 ]; then
+	make clean -C ../HW0${hw}
+fi
