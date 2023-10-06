@@ -4,8 +4,7 @@
 int main()
 {
 	double real_root_2 = 1.41421356237309504880;
-	double count_root_2 = 0;							   // prec *2 +preprec /prem*2 +preprem
-	uint64_t save = 0;
+	double count_root_2 = 0;
 	uint16_t n = 0;
 	printf(" Please enter n (16-bits unsigned): ");
 	scanf("%hu", &n);
