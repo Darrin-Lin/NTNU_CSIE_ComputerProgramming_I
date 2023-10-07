@@ -77,7 +77,10 @@ int main()
             money_input += month_inv;
             money_now = money_now * (1 + return_rate) + month_inv;
             money_get = money_now - (double)money_input;
-            ROI = money_get / (double)money_input * 100;
+            if (money_input)
+                ROI = money_get / (double)money_input * 100;
+            else
+                ROI = 0;
         }
         start_month = 1;
     }
