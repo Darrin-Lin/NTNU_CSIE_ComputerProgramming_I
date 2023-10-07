@@ -10,28 +10,28 @@ int main()
     double money_now = 0, money_get = 0, ROI = 0;
     printf("Initial Investment: ");
     scanf("%ld", &init_inv);
-    if(init_inv<0)
+    if (init_inv < 0)
     {
         printf("Invalid Input.\n");
         return 1;
     }
     printf("Recurring Monthly Investment: ");
     scanf("%ld", &month_inv);
-    if(month_inv<0)
+    if (month_inv < 0)
     {
         printf("Invalid Input.\n");
         return 1;
     }
     printf("Start Month: ");
     scanf("%d", &start_month);
-    if(start_month<1||start_month>12)
+    if (start_month < 1 || start_month > 12)
     {
         printf("Invalid Input.\n");
         return 1;
     }
     printf("Start Year: ");
     scanf("%d", &start_year);
-    if(start_year<0)
+    if (start_year < 0)
     {
         printf("Invalid Input.\n");
         return 1;
@@ -45,7 +45,7 @@ int main()
     }
     printf("End Year: ");
     scanf("%d", &end_years);
-    if (end_years < 0||end_years<start_year||(end_years==start_year&&end_months<start_month))
+    if (end_years < 0 || end_years < start_year || (end_years == start_year && end_months < start_month))
     {
         printf("Invalid Input.\n");
         return 1;
@@ -74,8 +74,8 @@ int main()
             {
                 printf("%d.%d) %ld/%.2f/%.2f/%.2f%%\n", i, j, money_input, money_now, money_get, ROI); // how many float
             }
-            money_input+=month_inv;
-            money_now = money_now*(1+return_rate)+month_inv;
+            money_input += month_inv;
+            money_now = money_now * (1 + return_rate) + month_inv;
             money_get = money_now - (double)money_input;
             ROI = money_get / (double)money_input * 100;
         }
