@@ -7,9 +7,14 @@ int main()
 	double count_root_2 = 1;							   // prec *2 +preprec /prem*2 +preprem
 	uint64_t prec = 3, prem = 2, preprec = 1, preprem = 1; // start from n = 3
 	uint64_t save = 0;
-	uint16_t n = 0;
+	int32_t n = 0;
 	printf(" Please enter n (16-bits unsigned): ");
-	scanf("%hu", &n);
+	scanf("%d", &n);
+	if (n < 0)
+	{
+		printf("Invalid Input.\n");
+		return 1;
+	}
 	if (n == 0)
 	{
 		printf("n = 0: 0.00000000000000000000 (-1.41421356237309504880)\n");
@@ -24,7 +29,7 @@ int main()
 	}
 	if (n >= 3)
 	{
-		for (uint16_t i = 3; i <= n; i++)
+		for (int32_t i = 3; i <= n; i++)
 		{
 			save = prec;
 			prec = 2 * prec + preprec;
@@ -34,7 +39,7 @@ int main()
 			preprem = save;
 			// printf("%lu %lu %lu %lu\n", prec, prem, preprec, preprem);
 			count_root_2 = (double)prec / (double)prem;
-			printf("n = %hu: %.20f (%.20f)\n", i, count_root_2, count_root_2 - real_root_2);
+			printf("n = %d: %.20f (%.20f)\n", i, count_root_2, count_root_2 - real_root_2);
 		}
 	}
 	return 0;
