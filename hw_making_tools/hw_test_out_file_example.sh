@@ -28,11 +28,11 @@ for n in $(
 	fi
 
 	for i in $(seq 0 9); do
-		./hw0${hw}0${n} <./0${n}/in/hw0${hw}0${n}-${i}.in >./0${n}/out/hw0${hw}0${n}-${i}.out
+		./hw0${hw}0${n} <./0${n}/in/hw0${hw}0${n}_0${i}.in >./0${n}/out/hw0${hw}0${n}_0${i}.out
 	done
 	for i in $(seq 10 19); do
-		if [ -f "./0${n}/in/hw0${hw}0${n}-${i}.in" ]; then
-			./hw0${hw}0${n} <./0${n}/in/hw0${hw}0${n}-${i}.in >./0${n}/out/hw0${hw}0${n}-${i}.out
+		if [ -f "./0${n}/in/hw0${hw}0${n}_${i}.in" ]; then
+			./hw0${hw}0${n} <./0${n}/in/hw0${hw}0${n}_${i}.in >./0${n}/out/hw0${hw}0${n}_${i}.out
 		fi
 	done
 done
