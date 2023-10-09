@@ -47,223 +47,13 @@ int main()
 	}
 	double H_half = 0;
 	i32 negavite_i = 0;
-	H_half = ((double)L - 1.0) * (2.0 * (double)N - 1.0);
+	H_half = ((double)L - 1.0) * (2.0 * (double)N - 1.0) + 1.0;
 
 	for (i32 i = 1; i <= Hight; i++) // easy to count / i row
 	{
+		// printf("%.20f,%.20f\n", H_half, (double)i);
 		negavite_i = Hight - i + 1;
-
-		if (!(N % 2)) // even N
-		{
-			//-------------------longest-------------------                                                        // odd
-			if (i % (2 * (L - 1)) == 1 && i > N * (L - 1) && negavite_i > N * (L - 1)) //*  *
-			{
-				printf("*");
-				print_line_space();
-				for (i32 j = 0; j < N - 1; j++)
-				{
-					print_line();
-					print_line_space();
-				}
-				printf("*");
-			}
-			//-------------------normal line-------------------
-			else if (i % (L - 1) == 1) //__*-*  *-*
-			{
-				if ((double)i < H_half)
-				{
-					if (i / (L - 1) < N)
-					{
-						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (i / (L - 1))); j++)
-							printf(" ");
-						print_line();
-						for (i32 j = 0; j < i / (L - 1); j++)
-						{
-							print_line_space();
-							print_line();
-						}
-					}
-					else
-					{
-						for (i32 j = 0; j < L - 1; j++)
-							printf(" ");
-						print_line();
-						for (i32 j = 0; j < N - 1; j++)
-						{
-							print_line_space();
-							print_line();
-						}
-					}
-				}
-				else if ((double)i == H_half)
-				{
-					for (i32 j = 0; j < L - 1; j++) ////////
-						printf(" ");
-					print_line();
-					for (i32 j = 0; j < N - 1; j++)
-					{
-						print_line_space();
-						print_line();
-					}
-				}
-				else
-				{
-					if (negavite_i / (L - 1) < N)
-					{
-						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (negavite_i / (L - 1))); j++) ////////
-							printf(" ");
-						print_line();
-						for (i32 j = 0; j < negavite_i / (L - 1); j++)
-						{
-							print_line_space();
-							print_line();
-						}
-					}
-					else
-					{
-						for (i32 j = 0; j < L - 1; j++)
-							printf(" ");
-						print_line();
-						for (i32 j = 0; j < N - 1; j++)
-						{
-							print_line_space();
-							print_line();
-						}
-					}
-				}
-			}
-			//-------------------slash---------------------
-			else
-			{
-				i32 i_mod_m_1_st1 = 0; // start from 1
-
-				if ((double)i < H_half)
-				{
-					if (i % (L - 1) == 0)
-						i_mod_m_1_st1 = L - 1;
-					else
-						i_mod_m_1_st1 = i % (L - 1);
-					if (i / (L - 1) < N) // _/_+\_/_*n +
-					{
-
-						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (i / (L - 1))) - (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						printf("/");
-						for (i32 j = 0; j < L + 2 * (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						for (i32 j = 0; j < i / (L - 1); j++)
-						{
-							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-						}
-						printf("\\");
-					}
-					else if ((i / (L - 1)) % 2) // odd(\)
-					{
-						for (i32 j = 0; j < i_mod_m_1_st1 - 1; j++)
-							printf(" ");
-						printf("\\");
-						for (i32 j = 0; j < L + 2 * (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						for (i32 j = 0; j < N - 1; j++)
-						{
-							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-						}
-						printf("/");
-					}
-					else // even(/)
-					{
-						for (i32 j = 0; j < L - (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						printf("/");
-						for (i32 j = 0; j < L - 2 * (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						for (i32 j = 0; j < N - 1; j++)
-						{
-							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-						}
-						printf("\\");
-					}
-				}
-				else // negitive
-				{
-					if (negavite_i % (L - 1) == 0)
-						i_mod_m_1_st1 = L - 1;
-					else
-						i_mod_m_1_st1 = negavite_i % (L - 1);
-					if (negavite_i / (L - 1) < N) // _/_+\_/_*n +
-					{
-
-						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (negavite_i / (L - 1))) - (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						printf("/");
-						for (i32 j = 0; j < L + 2 * (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						for (i32 j = 0; j < negavite_i / (L - 1); j++)
-						{
-							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-						}
-						printf("\\");
-					}
-					else if ((negavite_i / (L - 1)) % 2) // odd(\)
-					{
-						for (i32 j = 0; j < i_mod_m_1_st1 - 1; j++)
-							printf(" ");
-						printf("\\");
-						for (i32 j = 0; j < L + 2 * (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						for (i32 j = 0; j < N - 1; j++)
-						{
-							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-						}
-						printf("/");
-					}
-					else // even(/)
-					{
-						for (i32 j = 0; j < L - (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						printf("/");
-						for (i32 j = 0; j < L - 2 * (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
-						for (i32 j = 0; j < N - 1; j++)
-						{
-							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-						}
-						printf("\\");
-					}
-				}
-			}
-		}
-		else // odd N
+		if (N % 2) // odd N	
 		{
 			//-------------------longest-------------------
 			if (i % (2 * (L - 1)) == L && i > N * (L - 1) && i <= Hight - N * (L - 1)) //* *-*
@@ -309,7 +99,7 @@ int main()
 				{
 					if (negavite_i / (L - 1) < N)
 					{
-						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (negavite_i / (L - 1))); j++) ////////
+						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (negavite_i / (L - 1))); j++) 
 							printf(" ");
 						print_line();
 						for (i32 j = 0; j < negavite_i / (L - 1); j++)
@@ -334,65 +124,276 @@ int main()
 			//-------------------slash-------------------
 			else
 			{
-				i32 i_mod_m_1_st1 = 0; // start from 1
+				i32 i_mod_L_1_st1 = 0; // start from 1
 
-				if ((double)i < H_half)
+				if ((double)i < H_half)//positive
 				{
 					if (i % (L - 1) == 0)
-						i_mod_m_1_st1 = L - 1;
+						i_mod_L_1_st1 = L - 1;
 					else
-						i_mod_m_1_st1 = i % (L - 1);
-					if (i / (L - 1) < N) // _/_+\_/_*n +
+						i_mod_L_1_st1 = i % (L - 1);
+					if ((i - 1) / (L - 1) < N) // _/_+\_/_*n +
 					{
 
-						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (i / (L - 1))) - (i_mod_m_1_st1 - 1); j++)
+						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * ((i - 1) / (L - 1))) - (i_mod_L_1_st1 - 1); j++)
 							printf(" ");
 						printf("/");
-						for (i32 j = 0; j < L + 2 * (i_mod_m_1_st1 - 1); j++)
+						for (i32 j = 0; j < L + 2 * (i_mod_L_1_st1 - 2); j++)
 							printf(" ");
+						for (i32 j = 0; j < (i - 1) / (L - 1); j++)
+						{
+							printf("\\");
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+							printf("/");
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+						}
+						printf("\\");
+					}
+					else if (((i - 1) / (L - 1)) % 2) // (\)
+					{
+						for (i32 j = 0; j < i_mod_L_1_st1 - 1; j++)
+							printf(" ");
+						printf("\\");
+						for (i32 j = 0; j < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); j++)
+								printf(" ");
+						for (i32 j = 0; j < N - 1; j++)
+						{
+							printf("/");
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");/////////////////
+							printf("\\");
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+						}
+						printf("/");
+					}
+					else // (/)
+					{
+						for (i32 j = 0; j < L - i_mod_L_1_st1 ; j++)
+							printf(" ");
+						printf("/");
+						for (i32 j = 0; j < L + 2 * (i_mod_L_1_st1 - 2); j++)
+							printf(" ");
+						for (i32 j = 0; j < N - 1; j++)
+						{
+							printf("\\");
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+							printf("/");
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+						}
+						printf("\\");
+						
+					}
+				}
+				else // negitive
+				{
+					if (negavite_i % (L - 1) == 0)
+						i_mod_L_1_st1 = L - 1;
+					else
+						i_mod_L_1_st1 = negavite_i % (L - 1);
+					if ((negavite_i - 1) / (L - 1) < N) // _/_+\_/_*n +
+					{
+
+						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * ((negavite_i-1) / (L - 1))) - (i_mod_L_1_st1 - 1); j++)
+							printf(" ");
+						printf("\\");
+						for (i32 j = 0; j < L + 2 * (i_mod_L_1_st1 - 2); j++)
+							printf(" ");
+						for (i32 j = 0; j < (negavite_i-1) / (L - 1); j++)
+						{
+							printf("/");
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+							printf("\\");
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+						}
+						printf("/");
+					}
+					else if (((negavite_i - 1) / (L - 1)) % 2) // (/)
+					{
+						for (i32 j = 0; j < i_mod_L_1_st1 - 1; j++)
+							printf(" ");
+						printf("/");
+						for (i32 j = 0; j < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); j++)
+								printf(" ");
+						for (i32 j = 0; j < N - 1; j++)
+						{
+							printf("\\");
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+							printf("/");
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+						}
+						printf("\\");
+					}
+					else // (\)
+					{
+						for (i32 j = 0; j < L - i_mod_L_1_st1; j++)
+							printf(" ");
+						printf("\\");
+						for (i32 j = 0; j < L + 2 * (i_mod_L_1_st1 - 2); j++)
+							printf(" ");
+						for (i32 j = 0; j < N - 1; j++)
+						{
+							printf("/");
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+							printf("\\");
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+						}
+						printf("/");
+					}
+				}
+			}
+		}
+		else // even N
+		{
+			//-------------------longest-------------------                                                        // odd
+			if (i % (2 * (L - 1)) == 1 && i > N * (L - 1) && negavite_i > N * (L - 1)) //*  *
+			{
+				printf("*");
+				print_line_space();
+				for (i32 j = 0; j < N - 1; j++)
+				{
+					print_line();
+					print_line_space();
+				}
+				printf("*");
+			}
+			//-------------------normal line-------------------
+			else if (i % (L - 1) == 1) //__*-*  *-*
+			{
+				if ((double)i < H_half)
+				{
+					if (i / (L - 1) < N)
+					{
+						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (i / (L - 1))); j++)
+							printf(" ");
+						print_line();
 						for (i32 j = 0; j < i / (L - 1); j++)
 						{
-							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
-							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
-								printf(" ");
+							print_line_space();
+							print_line();
 						}
-						printf("\\");
 					}
-					else if ((i / (L - 1)) % 2) // odd(/)
+					else
 					{
-						for (i32 j = 0; j < L - (i_mod_m_1_st1 - 1); j++)
+						for (i32 j = 0; j < L - 1; j++)
+							printf(" ");
+						print_line();
+						for (i32 j = 0; j < N - 1; j++)
+						{
+							print_line_space();
+							print_line();
+						}
+					}
+				}
+				else if ((double)i == H_half)
+				{
+					for (i32 j = 0; j < L - 1; j++) 
+						printf(" ");
+					print_line();
+					for (i32 j = 0; j < N - 1; j++)
+					{
+						print_line_space();
+						print_line();
+					}
+				}
+				else
+				{
+					if (negavite_i / (L - 1) < N)
+					{
+						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (negavite_i / (L - 1))); j++) 
+							printf(" ");
+						print_line();
+						for (i32 j = 0; j < negavite_i / (L - 1); j++)
+						{
+							print_line_space();
+							print_line();
+						}
+					}
+					else
+					{
+						for (i32 j = 0; j < L - 1; j++)
+							printf(" ");
+						print_line();
+						for (i32 j = 0; j < N - 1; j++)
+						{
+							print_line_space();
+							print_line();
+						}
+					}
+				}
+			}
+			//-------------------slash---------------------
+			else
+			{
+				i32 i_mod_L_1_st1 = 0; // start from 1
+
+				if ((double)i < H_half)//positive
+				{
+					if (i % (L - 1) == 0)
+						i_mod_L_1_st1 = L - 1;
+					else
+						i_mod_L_1_st1 = i % (L - 1);
+					if ((i - 1) / (L - 1) < N) // _/_+\_/_*n +
+					{
+
+						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * ((i-1) / (L - 1))) - (i_mod_L_1_st1 - 1); j++)
 							printf(" ");
 						printf("/");
-						for (i32 j = 0; j < L - 2 * (i_mod_m_1_st1 - 1); j++)
+						for (i32 j = 0; j < L + 2 * (i_mod_L_1_st1 - 2); j++)
 							printf(" ");
-						for (i32 j = 0; j < N - 1; j++)
+						for (i32 j = 0; j < (i-1) / (L - 1); j++)
 						{
 							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 						}
 						printf("\\");
 					}
-					else // even(\)
+					else if (((i - 1) / (L - 1)) % 2) // (/)
 					{
-						for (i32 j = 0; j < i_mod_m_1_st1 - 1; j++)
+						for (i32 j = 0; j < L - i_mod_L_1_st1 ; j++)
 							printf(" ");
-						printf("\\");
-						for (i32 j = 0; j < L + 2 * (i_mod_m_1_st1 - 1); j++)
+						printf("/");
+						for (i32 j = 0; j < L + 2 * (i_mod_L_1_st1 - 2); j++)
 							printf(" ");
 						for (i32 j = 0; j < N - 1; j++)
 						{
+							printf("\\");
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
 							printf("/");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
+								printf(" ");
+						}
+						printf("\\");
+					}
+					else // (\)
+					{
+						for (i32 j = 0; j < i_mod_L_1_st1 - 1; j++)
+							printf(" ");
+						printf("\\");
+						for (i32 j = 0; j < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); j++)
+								printf(" ");
+						for (i32 j = 0; j < N - 1; j++)
+						{
+							printf("/");
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 							printf("\\");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 						}
 						printf("/");
@@ -401,63 +402,64 @@ int main()
 				else // negitive
 				{
 					if (negavite_i % (L - 1) == 0)
-						i_mod_m_1_st1 = L - 1;
+						i_mod_L_1_st1 = L - 1;
 					else
-						i_mod_m_1_st1 = negavite_i % (L - 1);
-					if (negavite_i / (L - 1) < N) // _/_+\_/_*n +
+						i_mod_L_1_st1 = negavite_i % (L - 1);
+					if ((negavite_i - 1) / (L - 1) < N) // _/_+\_/_*n +
 					{
 
-						for (i32 j = 0; j < (L - 1) * ((2 * N - 1) - 2 * (negavite_i / (L - 1))) - (i_mod_m_1_st1 - 1); j++)
+						for (i32 	j = 0; j < (L - 1) * ((2 * N - 1) - 2 * ((negavite_i-1) / (L - 1))) - (i_mod_L_1_st1 - 1); j++)
 							printf(" ");
 						printf("\\");
-						for (i32 j = 0; j < L + 2 * (i_mod_m_1_st1 - 1); j++)
+						for (i32 j = 0; j < L + 2 * (i_mod_L_1_st1 - 2); j++)
 							printf(" ");
-						for (i32 j = 0; j < negavite_i / (L - 1); j++)
+						for (i32 j = 0; j < (negavite_i-1)	 / (L - 1); j++)
 						{
 							printf("/");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 							printf("\\");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 						}
 						printf("/");
 					}
-					else if ((negavite_i / (L - 1)) % 2) // odd(/)
+					else if (((negavite_i - 1) / (L - 1)) % 2) // (\)
 					{
-						for (i32 j = 0; j < L - (i_mod_m_1_st1 - 1); j++)
+						for (i32 j = 0; j < L - i_mod_L_1_st1; j++)
 							printf(" ");
 						printf("\\");
-						for (i32 j = 0; j < L - 2 * (i_mod_m_1_st1 - 1); j++)
+						for (i32 j = 0; j < L + 2 * (i_mod_L_1_st1 - 2); j++)
 							printf(" ");
 						for (i32 j = 0; j < N - 1; j++)
 						{
 							printf("/");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 							printf("\\");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 						}
 						printf("/");
 					}
-					else // even(/)
+					else // (/)
 					{
-						for (i32 j = 0; j < i_mod_m_1_st1 - 1; j++)
+						for (i32 j = 0; j < i_mod_L_1_st1 - 1; j++)
 							printf(" ");
 						printf("/");
-						for (i32 j = 0; j < L + 2 * (i_mod_m_1_st1 - 1); j++)
-							printf(" ");
+						for (i32 j = 0; j < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); j++)
+								printf(" ");
 						for (i32 j = 0; j < N - 1; j++)
 						{
 							printf("\\");
-							for (i32 k = 0; k < L + 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < L + 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 							printf("/");
-							for (i32 k = 0; k < L - 2 * (i_mod_m_1_st1 - 1); k++)
+							for (i32 k = 0; k < 3*L-6 - 2 * (i_mod_L_1_st1 - 2); k++)
 								printf(" ");
 						}
 						printf("\\");
+						
 					}
 				}
 			}
