@@ -7,7 +7,7 @@ int main()
     int32_t start_year = 0, start_month = 0, end_years = 0, end_months = 0;
     int32_t rate_inp = 0;
     double return_rate = 0;
-    int32_t money_input = 0;
+    int64_t money_input = 0;
     double money_now = 0, money_get = 0, ROI = 0;
     printf("Initial Investment: ");
     scanf("%d", &init_inv);
@@ -53,7 +53,7 @@ int main()
     }
     printf("Annual Rate of Return (%%): ");
     scanf("%d", &rate_inp);
-    if (return_rate < 1 || return_rate > 100)
+    if (rate_inp < 1 || rate_inp > 100)
     {
         printf("Invalid Annual Rate of Return.\n");
         return 1;
@@ -68,20 +68,51 @@ int main()
         {
             if (i == end_years && j == end_months)
             {
-                printf("%d.%d) %d/%.2f/%.2f/%.2f%%\n", i, j, money_input, money_now, money_get, ROI); // how many float
+                // printf("%d.%d) %d/%.2f/%.2f/%.2f%%\n", i, j, money_input, money_now, money_get, ROI); // how many float
                 break;
             }
             else
             {
-                printf("%d.%d) %d/%.2f/%.2f/%.2f%%\n", i, j, money_input, money_now, money_get, ROI); // how many float
+
+                printf("%d.%d) ", i, j);
+                if (money_input >= 0)
+                    printf("%ld/", money_input);
+                else
+                    printf("*/");
+                if (money_now >= 0)
+                    printf("%ld/", (int64_t)(money_now + 1E-9));
+                else
+                    printf("*/");
+                if (money_get >= 0)
+                    printf("%ld/", (int64_t)(money_get + 1E-9));
+                else
+                    printf("*/");
+                if (ROI >= 0)
+                    printf("%.0f%%\n", ROI);
+                else
+                    printf("*%%\n");
             }
-            money_input += month_inv;
-            money_now = money_now * (1 + return_rate) + month_inv;
-            money_get = money_now - (double)money_input;
+
             // if (money_input)
-            ROI = money_get / (double)money_input * 100;
+
             // else
             //     ROI = 0;
+            if (money_input >= (int64_t)1E15 || money_input < 0)
+                money_input = -1;
+            else
+                money_input += month_inv;
+            if (money_now >= (int64_t)1E15 || money_now < 0)
+                money_now = -1;
+            else
+                money_now = money_now * (1.0 + return_rate) + month_inv;
+            if (money_get >= (int64_t)1E15 || money_get < 0)
+                money_get = -1;
+            else
+                money_get = money_now - (double)money_input;
+            if (ROI >= (int64_t)1E15 || ROI < 0)
+                ROI = -1;
+            else
+                ROI = money_get / (double)money_input * 100;
         }
         start_month = 1;
     }
