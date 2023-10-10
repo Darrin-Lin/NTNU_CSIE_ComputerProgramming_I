@@ -6,7 +6,7 @@ int main()
 	double real_root_2 = 1.41421356237309504880;
 	double count_root_2 = 0;
 	int32_t n = 0;
-	printf(" Please enter n (16-bits unsigned): ");
+	printf("Please enter n (16-bits unsigned): ");
 	scanf("%d", &n);
 	if (n < 0)
 	{

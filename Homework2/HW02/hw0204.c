@@ -9,7 +9,7 @@ int main()
     double return_rate = 0;
     int64_t money_input = 0;
     double money_now = 0, money_get = 0, ROI = 0;
-    printf("Initial Investment: ");
+    printf("Initial Investment:           ");
     scanf("%d", &init_inv);
     if (init_inv < 1 || init_inv > 10000000)
     {
@@ -23,35 +23,35 @@ int main()
         printf("Invalid Recurring Monthly Investment.\n");
         return 1;
     }
-    printf("Start Month: ");
+    printf("Start Month:                  ");
     scanf("%d", &start_month);
     if (start_month < 1 || start_month > 12)
     {
         printf("Invalid Start Month.\n");
         return 1;
     }
-    printf("Start Year: ");
+    printf("Start Year:                   ");
     scanf("%d", &start_year);
     if (start_year < 0 || start_year > 10000)
     {
         printf("Invalid Start Year.\n");
         return 1;
     }
-    printf("End Month: ");
+    printf("End Month:                    ");
     scanf("%d", &end_months);
     if (end_months < 1 || end_months > 12)
     {
         printf("Invalid End Month.\n");
         return 1;
     }
-    printf("End Year: ");
+    printf("End Year:                     ");
     scanf("%d", &end_years);
     if (end_years < 0 || end_years > 10000 || end_years < start_year || (end_years == start_year && end_months < start_month))
     {
         printf("Invalid End Year.\n");
         return 1;
     }
-    printf("Annual Rate of Return (%%): ");
+    printf("Annual Rate of Return (%%):    ");
     scanf("%d", &rate_inp);
     if (rate_inp < 1 || rate_inp > 100)
     {
@@ -73,8 +73,10 @@ int main()
             }
             else
             {
-
-                printf("%d.%d) ", i, j);
+                if (j < 10)
+                    printf("%d.0%d) ", i, j);
+                else
+                    printf("%d.%d) ", i, j);
                 if (money_input >= 0)
                     printf("%ld/", money_input);
                 else
@@ -88,7 +90,12 @@ int main()
                 else
                     printf("*/");
                 if (ROI >= 0)
-                    printf("%.0f%%\n", ROI);
+                    if ((int)(ROI * 100 + 1E-9) % 10 == 0 && (int)(ROI * 10 + 1E-9) % 10 == 0)
+                        printf("%.0f%%\n", ROI);
+                    else if ((int)(ROI * 100 + 1E-9) % 10 == 0)
+                        printf("%.1f%%\n", ROI);
+                    else
+                        printf("%.2f%%\n", ROI);
                 else
                     printf("*%%\n");
             }
@@ -108,11 +115,11 @@ int main()
             if (money_get >= (int64_t)1E15 || money_get < 0)
                 money_get = -1;
             else
-                money_get = money_now - (double)money_input;
+                money_get += money_now - (double)money_input;
             if (ROI >= (int64_t)1E15 || ROI < 0)
                 ROI = -1;
             else
-                ROI = money_get / (double)money_input * 100;
+                ROI = money_get / money_now * 100;
         }
         start_month = 1;
     }

@@ -8,7 +8,7 @@ int main()
 	uint64_t prec = 3, prem = 2, preprec = 1, preprem = 1; // start from n = 3
 	uint64_t save = 0;
 	int32_t n = 0;
-	printf(" Please enter n (16-bits unsigned): ");
+	printf("Please enter n (16-bits unsigned): ");
 	scanf("%d", &n);
 	if (n < 0)
 	{
