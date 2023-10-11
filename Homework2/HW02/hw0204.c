@@ -115,7 +115,7 @@ int main()
             if (money_get >= (int64_t)1E15 || money_get < 0)
                 money_get = -1;
             else
-                money_get += money_now - (double)money_input;
+                money_get = money_now - (double)money_input;
             if (ROI >= (int64_t)1E15 || ROI < 0)
                 ROI = -1;
             else
