@@ -15,11 +15,11 @@ int main()
 	}
 	if (n == 0)
 	{
-		printf("n = 0: 0.00000000000000000000 (-1.41421356237309504880)\n");
+		printf("n = 0: 0.000000000000000 (-1.414213562373095)\n");
 		return 0;
 	}
 	if (n >= 1)
-		printf("n = 1: 1.00000000000000000000 (-0.41421356237309504880)\n");
+		printf("n = 1: 1.000000000000000 (-0.414213562373095)\n");
 	if (n >= 2)
 	{
 		for (int32_t i = 2; i <= n; i++)
@@ -30,7 +30,7 @@ int main()
 				count_root_2 = 1.0L / (2.0L + count_root_2);
 			}
 			count_root_2+=1.0L;
-			printf("n = %d: %.20Lf (%.20Lf)\n", i, count_root_2, count_root_2 - real_root_2);
+			printf("n = %d: %.15Lf (%.15Lf)\n", i, count_root_2, count_root_2 - real_root_2);
 		}
 	}
 	return 0;
