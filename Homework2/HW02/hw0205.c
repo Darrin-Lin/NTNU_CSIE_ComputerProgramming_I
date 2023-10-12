@@ -26,13 +26,15 @@ int main()
 
 	printf("Please input the length: ");
 	scanf("%d", &L);
+	printf("Please input the number of layer: ");
+	scanf("%d", &N);
 	if (L < 3)
 	{
 		printf("L is less than 3.\n");
+		if(N < 1)
+			printf("N is less than 1.\n");
 		return 1;
 	}
-	printf("Please input the number of layer: ");
-	scanf("%d", &N);
 	if (N < 1)
 	{
 		printf("N is less than 1.\n");
