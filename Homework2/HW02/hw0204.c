@@ -95,7 +95,11 @@ int main()
                     else if ((int)(ROI * 100 + 1E-9) % 10 == 0)
                         printf("%.1f%%\n", ROI);
                     else
+                    {
+                        if((int)(ROI * 1000 + 1E-9) % 10 >=5)
+                            ROI-=5E-3;
                         printf("%.2f%%\n", ROI);
+                    }
                 else
                     printf("*%%\n");
             }
