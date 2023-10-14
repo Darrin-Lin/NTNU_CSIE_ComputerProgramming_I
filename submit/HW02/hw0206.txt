@@ -1,0 +1,14 @@
+r1 猜是因為二補數又 si 是 32 bit 的負數所以二進位值會是 2^32 -1，
+而位元不同，所以應該統一用 int64_t 的格式相加，所以加起來到 int64_t 的 int 是 2^32 -1。
+
+r2 應該同理，但 r2 應該是因為是同位元的相加，所以是 int32_t 相加 = -1，
+再轉到 int64_t 內，不用用到實際儲存的二進位。
+
+
+看了 C11 後結果與我想的差不多
+> For any two integer types with the same signedness and different integer conversion rank
+(see 6.3.1.1), the range of values of the type with smaller integer conversion rank is a
+subrange of the values of the other type.
+
+> The result of the unary + operator is the value of its (promoted) operand. The integer
+promotions are performed on the operand, and the result has the promoted type.
