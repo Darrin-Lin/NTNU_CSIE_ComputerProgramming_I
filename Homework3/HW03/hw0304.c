@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdint.h>
+#include "hw0304.h"
 
 int main()
 {
