@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdint.h>
+#include "mycontrol.h"
 
 int main()
 {
