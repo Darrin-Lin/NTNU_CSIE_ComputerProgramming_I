@@ -54,4 +54,4 @@ Start to write hw0301 hw0302 and finished.
 Use a not good way to write hw0303.
 
 #### 10/22 Update
-Start to write hw0304 and finished.
+Start to write hw0304 hw0306 and finished.
