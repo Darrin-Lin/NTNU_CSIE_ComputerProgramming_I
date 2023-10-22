@@ -53,14 +53,17 @@ Set the position(x,y,radian).
 #### forward(double)
 Move forward length with your given direction.
 If the position not set return -1.
+Else return 0.
 
 #### clock_turn(double)
 Clock turn the given radian.
 If the position not set return -1.
+Else return 0.
 
 #### counterclock_turn(double)
 Counterclock turn the given radian.
 If the position not set return -1.
+Else return 0.
 
 #### print()
 It will print "position : (x,y), angle : a" in stdout.
@@ -71,7 +74,10 @@ Otherwise, return 0;
 
 ### hw0304.h
 
-
+#### the_hanoi_tower(int32_t)
+It will print the step of hanoi tower.
+Please input the number of disk.
+Because no DP so it just for int32_t.
 
 ----
 
@@ -100,12 +106,15 @@ Otherwise, return 0;
 
 ----
 
-### hw0303
-
+### hw0303 暫時解法
+因為不能用 bitwise operator 也不能用 array 跟 loop，而且我也暫時想不到解法，所以先手刻一個位元運算。
 
 ----
 
 ### hw0304
+
+#### 10/22 完成
+因為不能用陣列，所以不能 DP，因此我只開 int32_t，因為還不用到上限計算時間就很久了，而我在執行的 objet file 又寫了一個 static function，我 iterative 是先寫 recursive 再去用它跑出來的值推要怎麼寫 iterative。
 
 ----
 

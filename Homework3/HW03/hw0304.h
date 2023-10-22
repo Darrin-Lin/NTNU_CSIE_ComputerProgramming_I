@@ -5,3 +5,4 @@
 
 #pragma once
 
+void the_hanoi_tower(int32_t disk_number);

@@ -21,6 +21,7 @@ void initialize(double x, double y, double a)
     x_value = x;
     radian = a;
     y_value = y;
+    return;
 }
 int32_t forward(double length)
 {
@@ -28,18 +29,21 @@ int32_t forward(double length)
         return -1;
     x_value += length * cos(radian);
     y_value += length * sin(radian);
+    return 0;
 }
 int32_t clock_turn(double x)
 {
     if (!init)
         return -1;
     radian -= x;
+    return 0;
 }
 int32_t counterclock_turn(double x)
 {
     if (!init)
         return -1;
     radian += x;
+    return 0;
 }
 int32_t print()
 {
