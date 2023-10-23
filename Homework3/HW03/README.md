@@ -98,7 +98,7 @@ Because no DP so it just for int32_t.
 今天把 function 寫完，也修了 Makefile。
 
 #### 10/23 fix tangent
-我發現我 tangent 那邊看錯要的東西，所以先求斜率再簡化點斜式剛好會是 $\frac{2x\times 2y}{2}$
+我發現我 tangent 那邊看錯要的東西，所以先求斜率再求點斜式。
 
 ----
 

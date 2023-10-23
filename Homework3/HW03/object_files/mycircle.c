@@ -52,8 +52,8 @@ double get_tangent_area(double x)
     else
     {
         y = sqrt(radius * radius - x * x);
-        //m=-y/x _y_=m(0-x)+y=2y _x_=(0-y)/m+x=2x
-        return (2*y)*(2*x)/2;
+        //m=-x/y _y_=m(0-x)+y=x*x/y+y _x_=(0-y)/m+x=y*y/x+x
+        return fabs(((x*x/y)+y)*((y*y/x)+x)/2);
     }
 }
 double get_inner_regular_polygon_area(int32_t n)
