@@ -8,7 +8,7 @@ static void ht_recursive(int32_t disk_n, int32_t rod_now, int32_t rod_next, int3
 
 void the_hanoi_tower(int32_t disk_number)
 {
-    if (disk_number < 1)
+    if (disk_number < 2 || disk_number > 20)
     {
         printf("invalid disk number.\n");
         return;

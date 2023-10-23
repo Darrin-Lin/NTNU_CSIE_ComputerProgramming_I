@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <math.h>
 
-#define twoPower32 4294967296 // becauce can't use bitwise operator so cnn't use 1<<32
+#define twoPower31 2147483648 // becauce can't use bitwise operator so cnn't use 1<<32
 #define ptf printf
 
 void BinaryForm(int32_t);
@@ -19,12 +19,12 @@ int main()
         ptf("The input is not a number!\n");
         return 1;
     }
-    if (inp > twoPower32 - 1)
+    if (inp > twoPower31 - 1)
     {
         ptf("The number is too large!\n");
         return 1;
     }
-    if (inp < -twoPower32)
+    if (inp < -twoPower31)
     {
         ptf("The number is too small!\n");
         return 1;

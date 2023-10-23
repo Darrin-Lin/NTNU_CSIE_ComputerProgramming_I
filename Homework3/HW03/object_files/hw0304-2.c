@@ -9,7 +9,7 @@ static void ht_iterative(int32_t disk_n);
 
 void the_hanoi_tower(int32_t disk_number)
 {
-    if (disk_number < 1)
+    if (disk_number < 2 || disk_number > 20)
     {
         printf("invalid disk number.\n");
         return;
