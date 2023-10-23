@@ -94,8 +94,11 @@ Because no DP so it just for int32_t.
 #### 10/20 開始寫
 今天開始寫並創建了需要的檔案，然後把 mycircle.h 的 README 寫完。
 
-### 10/21 完成
+#### 10/21 完成
 今天把 function 寫完，也修了 Makefile。
+
+#### 10/23 fix tangent
+我發現我 tangent 那邊看錯要的東西，所以先求斜率再簡化點斜式剛好會是 $\frac{2x\times 2y}{2}$
 
 ----
 
