@@ -22,7 +22,6 @@ obj: ${objectFiles} ${sourceFiles}
 ##	gcc -shared ./object_files/diceRolls.o -o ./object_files/libdiceRolls.so -lm
 
 main:${objectFiles} ${homwork_c} ${headerFiles} #${sharedlib}
-#	export LD_LIBRARY_PATH="LD_LIBRARY_PATH:`pwd`/object_files"
 	-gcc -o hw0301 hw0301.c ./object_files/mycircle.o -lm #-L./object_files -lmycircle
 	-gcc -o hw0302 hw0302.c ./object_files/mycontrol.o -lm #-L./object_files -lmycontrol
 	-gcc -o hw0303 hw0303.c -lm
