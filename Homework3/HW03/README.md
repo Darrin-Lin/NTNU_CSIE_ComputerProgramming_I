@@ -109,8 +109,12 @@ Because no DP so it just for int32_t.
 
 ----
 
-### hw0303 暫時解法
+### hw0303 
+#### 10/22 暫時解法
 因為不能用 bitwise operator 也不能用 array 跟 loop，而且我也暫時想不到解法，所以先手刻一個位元運算。
+
+#### 10/25 遞迴解
+遞迴好像不算 loop 所以寫了遞迴解法。
 
 ----
 

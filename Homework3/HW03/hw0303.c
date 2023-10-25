@@ -5,7 +5,7 @@
 #define twoPower31 2147483648 // becauce can't use bitwise operator so cnn't use 1<<32
 #define ptf printf
 
-void BinaryForm(int32_t);
+void BinaryForm(uint32_t,int8_t);
 
 int main()
 {
@@ -13,7 +13,7 @@ int main()
     static int32_t wrongInput = 0; // will have bug if input ==1<<33
     ptf("Please enter the number: ");
     scanf("%ld", &inp);
-    scanf("%*[a-z-A-Z]%n", &wrongInput);
+    scanf("%*[a-z-A-Z]%intn", &wrongInput);
     if (wrongInput)
     {
         ptf("The input is not a number!\n");
@@ -29,12 +29,30 @@ int main()
         ptf("The number is too small!\n");
         return 1;
     }
-    // fprintf(stderr, "%d", ~-2);
-    BinaryForm((int)inp);
+    
+    BinaryForm((int)inp,0);
 
     return 0;
 }
 
+void BinaryForm(uint32_t in,int8_t bit)
+{
+    // fprintf(stderr, "%d", bit);
+    if(bit==31)
+    {
+        printf("%d",in%2);
+        return;
+    }
+    BinaryForm(in/2,bit+1);
+    if(bit%8==7 )
+        printf(" ");
+    printf("%d",in%2);
+    if(!bit)
+    printf("\n");
+    return;
+}
+
+/*
 void BinaryForm(int32_t in)
 {
     {
@@ -148,5 +166,6 @@ void BinaryForm(int32_t in)
         i++;
         goto start;
     }
-    */
+    
 }
+*/
