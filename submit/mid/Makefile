@@ -4,7 +4,8 @@ all:
 	-gcc -o mid03 mid03.c -lm
 	-gcc -c parity.c
 	-gcc -o mid04 mid04.c parity.o -lm
-	-gcc -o mid05 mid05.c -lm
+	-gcc -c weight.c
+	-gcc -o mid05 mid05.c weight.o -lm
 
 clean:
 	-rm mid0?
