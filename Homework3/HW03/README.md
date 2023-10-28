@@ -10,7 +10,35 @@ hw03
 
 ---
 
-## hw0305
+## hw0305 - GUI version
+Work in progress.
+
+
+### game name
+Dice Roller
+
+### char using
+
+Because it need `char *argv[]` so I use `char *` in main.
+And I use `char []` to store the output number because it need `char` type.
+
+### Need to prepare
+need install gtk3.0
+
+Ubuntu:
+```
+sudo apt-get install libgtk-3-dev
+```
+
+### How to run
+```
+make
+./hw0305-gui
+```
+
+---
+
+## hw0305 - simple version
 
 ### game name
 Dice Roller
