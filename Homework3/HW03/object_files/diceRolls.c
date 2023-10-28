@@ -1,36 +1,17 @@
-//  #include <gtk/gtk.h>
+#include <stdlib.h>
+#include <math.h>
+#include <stdint.h>
+#include <time.h>
 
-//  void start ()
-//  {
-//     GtkWidget *window;
-//     GtkWidget *label;
+int32_t dice(int32_t);
+// int32_t roll_1 (int32_t A,int32_t X);
+// int32_t roll_2 (int32_t A,int32_t X,int32_t Y,int32_t B);
+// int32_t roll_3 (int32_t A,int32_t X,int32_t H,int32_t L,int32_t C,int32_t B);
 
-//     gtk_init (&argc, &argv);
-
-//     /* create the main, top level, window */
-//     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-
-//     /* give it the title */
-//     gtk_window_set_title (GTK_WINDOW (window), "Hello World");
-
-//     /* Connect the destroy signal of the window to gtk_main_quit
-//      * When the window is about to be destroyed we get a notification and
-//      * stop the main GTK loop
-//      */
-//     g_signal_connect (window, "destroy",
-//                       G_CALLBACK (gtk_main_quit), NULL);
-
-//     /* Create the "Hello, World" label  */
-//     label = gtk_label_new ("Hello, World");
-
-//     /* and insert it into the main window  */
-//     gtk_container_add (GTK_CONTAINER (window), label);
-
-//     /* make sure that everything, window and label, are visible */
-//     gtk_widget_show_all (window);
-
-//     /* start the main loop, and let it rest there until the application is closed */
-//     gtk_main ();
-
-//     return 0;
-//  }
+int32_t dice(int32_t sides)
+{
+    srand(time(NULL));
+    int32_t result;
+    result = rand() % sides + 1;
+    return result;
+}

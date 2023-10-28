@@ -110,6 +110,7 @@ Because no DP so it just for int32_t.
 ----
 
 ### hw0303 
+
 #### 10/22 暫時解法
 因為不能用 bitwise operator 也不能用 array 跟 loop，而且我也暫時想不到解法，所以先手刻一個位元運算。
 
@@ -126,8 +127,17 @@ Because no DP so it just for int32_t.
 ----
 
 ### hw0305
-<!--要不要寫 hw0305 主程式-->
 
+#### 10/27 開始
+詢問助教需不需要寫主程式，因為如果不寫在用 GTK 有點麻煩，助教回了說全部由我這邊寫。  
+再用 GTK 的時候如果不寫在 all 下
+```
+`pkg-config --cflags gtk+-3.0`
+`pkg-config --libs gtk+-3.0`
+```
+這兩個好像就沒效果，所以我就寫在 all 下了。  
+然後我 GUI 程式 拿維基百科的範例程式去改的。
+不知道能不能用 char array，不然處理很麻煩。
 ----
 
 ### hw0306
