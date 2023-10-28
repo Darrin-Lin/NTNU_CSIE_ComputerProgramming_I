@@ -55,3 +55,10 @@ Use a not good way to write hw0303.
 
 #### 10/22 Update
 Start to write hw0304 hw0306 and finished.
+
+#### 10/27 Update
+Start to write hw0305.
+
+#### 10/28 Update
+Midterm exam. Finished mid01 mid04 mid05 and bonus.
+Finished hw0305(Simple version).

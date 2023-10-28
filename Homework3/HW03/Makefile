@@ -46,11 +46,11 @@ all: #obj main
 clean: clean_executable_file clean_object_file 
 
 clean_executable_file:
-	rm hw0${hw_number}0?
-	rm hw0${hw_number}04-?
+	-rm hw0${hw_number}0?
+	-rm hw0${hw_number}04-?
 
 clean_object_file:
-	rm ./object_files/*.o
+	-rm ./object_files/*.o
 #	rm ./object_files/*.so
 
 # gcc -c ./object_files/mycircle.c -o ./object_files/mycircle.o

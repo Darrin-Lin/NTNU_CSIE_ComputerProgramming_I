@@ -10,6 +10,37 @@ hw03
 
 ---
 
+## hw0305
+
+### game name
+Dice Roller
+
+----
+
+### How to play
+
+#### actions
+input number to do action.
+Input 0 to quit.  
+Input 1 to roll a dice with **6** side.  
+Input 2 to roll **A** dice with **X** sides each.  
+Input 3 to roll **A** dice with **X** sides each, and choose **Y** dice and add **B** for the bonus.  
+Input 4 to roll **A** dice with **X** sides each, keeping the **H** highest, the **L** lowest, and **C** of the player’s choice and add **B** for the bonus.  
+Input -1 number to see help.  
+
+----
+
+#### Range of input
+**A** : 1 ~ 10  
+**X** : 2 ~ 100  
+**B** : -10 ~ 10  
+**Y** : 1 ~ **A**  
+**H** : 1 ~ **A**  
+**L** : 1 ~ **A** ( **H**+**L** $\le$ **A** )  
+**C** : 0 ~ **A** - (**H**+**L**)  
+
+---
+
 ## header files
 
 ----
@@ -83,6 +114,21 @@ Because no DP so it just for int32_t.
 
 ### diceRolls.h
 
+#### int32_t dice(int32_t)
+It will return the dice with input sides.
+
+#### void Id6()
+It will print the result of roll a dice with 6 side.
+
+#### void AdX()
+It will print the result of roll number of A's dice with X side and add them.
+
+#### void AdXkY_add_B()
+It will print the result of roll number of A's dice with X side and you can choose Y of them and it will print the result of add dices you choose and add B.
+
+#### void AdXkhHklLkcC_add_B()
+It will print the result of roll number of A's dice with X side, print H highest and L lowest, then, you can choose C of others and it will print the result of add dices H highest, L lowest and you choose then add B.
+
 ---
 
 ## log
@@ -138,6 +184,10 @@ Because no DP so it just for int32_t.
 這兩個好像就沒效果，所以我就寫在 all 下了。  
 然後我 GUI 程式 拿維基百科的範例程式去改的。
 不知道能不能用 char array，不然處理很麻煩。
+
+#### 10/28 簡易版
+在等待助教回信時先把簡易版用好了。  
+
 ----
 
 ### hw0306
