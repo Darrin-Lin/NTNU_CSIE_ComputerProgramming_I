@@ -1,0 +1,7 @@
+使用 diff 指令生成 patch file 再用 patch 指令套用 patch file 來更新檔案內容
+寫成 shell script 如下
+```
+#!/bin/sh
+diff 原始檔案 更新檔案 > patch_file
+patch 原始檔案 < patch_file
+```
