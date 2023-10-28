@@ -10,3 +10,5 @@ mid
 
 ---
 
+# [mid06](./bonus.txt) 
+mid06 寫在 bonus.txt 裡面。
