@@ -13,6 +13,12 @@ hw03
 ## hw0305 - GUI version
 Work in progress.
 
+### reference
+[GTK+ 3 Reference Manual](https://developer.gnome.org/gtk3/stable/)
+
+### include files
+> GTK3.0
+
 
 ### game name
 Dice Roller

@@ -56,7 +56,10 @@ int main()
 }
 void rule()
 {
-	ptf("Welcom to DiceRoller!\n");
+	ptf("Welcome to Dice Roller!\n");
+	ptf("There are also some information in README.\n");
+	ptf("You can input the number to choose the action.\n");
+	ptf("The actions are:\n");
 	ptf("Input \033[94m0\033[0m to quit.\n");
 	ptf("Input \033[94m1\033[0m to roll a dice with \033[33m6\033[0m side.\n");
 	ptf("Input \033[94m2\033[0m to roll \033[33mA\033[0m dice with \033[33mX\033[0m sides each.\n");
