@@ -10,7 +10,7 @@ GtkWidget *window;
 GtkWidget *button[11];
 GtkWidget *fix;
 
-static void clear_all_button(GtkApplication *app, gpointer data);
+static void clear_all_button(/*GtkApplication *app, gpointer data*/);
 static void start_game(GtkApplication *app, gpointer data);
 static void choose_game(GtkApplication *app, gpointer data);
 static void Id6(GtkApplication *app, gpointer data);
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 	GtkApplication *app;
 	int status;
 
-	app = gtk_application_new("darrin.s.Game", G_APPLICATION_FLAGS_NONE);
+	app = gtk_application_new("darrin.s.Game", G_APPLICATION_DEFAULT_FLAGS);//G_APPLICATION_FLAGS_NONE
 	g_signal_connect(app, "activate", G_CALLBACK(start_game), NULL);
 	status = g_application_run(G_APPLICATION(app), argc, argv);
 	g_object_unref(app);
@@ -32,14 +32,14 @@ int main(int argc, char **argv)
 }
 
 static void
-clear_all_button(GtkApplication *app, gpointer data)
+clear_all_button(/*GtkApplication *app, gpointer data*/)
 {
-
-	for (int32_t i = 0; i < 11; i++)
-	{
-		if (button[i] != NULL)
-			gtk_widget_destroy(button[i]);
-	}
+	// for (int32_t i = 0; i < 11; i++)
+	// {
+	// 	if (button[i] != NULL)
+	// 		gtk_widget_destroy(button[i]);
+	// }
+	gtk_widget_destroy(fix);
 }
 
 static void
@@ -52,7 +52,7 @@ start_game(GtkApplication *app,
 	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	fix = gtk_fixed_new();
 	button[0] = gtk_button_new_with_label("Press here to start.");
-	g_signal_connect(button[0], "clicked", G_CALLBACK(clear_all_button), NULL);
+	// g_signal_connect(button[0], "clicked", G_CALLBACK(clear_all_button), NULL);
 	g_signal_connect_after(button[0], "clicked", G_CALLBACK(choose_game), NULL);
 	button[1] = gtk_button_new_with_label("Press here to quit.");
 	g_signal_connect(button[1], "clicked", G_CALLBACK(gtk_widget_destroy), window);
@@ -64,6 +64,7 @@ start_game(GtkApplication *app,
 
 static void choose_game(GtkApplication *app, gpointer data)
 {
+	clear_all_button();
 	fix = gtk_fixed_new();
 	button[0] = gtk_button_new_with_label("1d6");
 	g_signal_connect(button[0], "clicked", G_CALLBACK(Id6), NULL);
@@ -86,49 +87,26 @@ static void choose_game(GtkApplication *app, gpointer data)
 
 static void Id6(GtkApplication *app, gpointer data)
 {
+	clear_all_button();
 	fix = gtk_fixed_new();
-	button[0] = gtk_button_new_with_label("Press here to start.");
-	g_signal_connect(button[0], "clicked", G_CALLBACK(clear_all_button), NULL);
-	button[1] = gtk_button_new_with_label("Press here to quit.");
-	g_signal_connect(button[1], "clicked", G_CALLBACK(gtk_widget_destroy), window);
-	gtk_fixed_put(GTK_FIXED(fix), button[0], Width / 2, 300);
-	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2, 400);
-	gtk_container_add(GTK_CONTAINER(window), fix);
+	
 	gtk_widget_show_all(window);
 }
 static void AdX(GtkApplication *app, gpointer data)
 {
+	clear_all_button();
 	fix = gtk_fixed_new();
-	button[0] = gtk_button_new_with_label("Press here to start.");
-	g_signal_connect(button[0], "clicked", G_CALLBACK(clear_all_button), NULL);
-	button[1] = gtk_button_new_with_label("Press here to quit.");
-	g_signal_connect(button[1], "clicked", G_CALLBACK(gtk_widget_destroy), window);
-	gtk_fixed_put(GTK_FIXED(fix), button[0], Width / 2, 300);
-	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2, 400);
-	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
 }
 static void AdXkY_add_B(GtkApplication *app, gpointer data)
 {
+	clear_all_button();
 	fix = gtk_fixed_new();
-	button[0] = gtk_button_new_with_label("Press here to start.");
-	g_signal_connect(button[0], "clicked", G_CALLBACK(clear_all_button), NULL);
-	button[1] = gtk_button_new_with_label("Press here to quit.");
-	g_signal_connect(button[1], "clicked", G_CALLBACK(gtk_widget_destroy), window);
-	gtk_fixed_put(GTK_FIXED(fix), button[0], Width / 2, 300);
-	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2, 400);
-	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
 }
 static void AdXkhHklLkcC_add_B(GtkApplication *app, gpointer data)
 {
+	clear_all_button();
 	fix = gtk_fixed_new();
-	button[0] = gtk_button_new_with_label("Press here to start.");
-	g_signal_connect(button[0], "clicked", G_CALLBACK(clear_all_button), NULL);
-	button[1] = gtk_button_new_with_label("Press here to quit.");
-	g_signal_connect(button[1], "clicked", G_CALLBACK(gtk_widget_destroy), window);
-	gtk_fixed_put(GTK_FIXED(fix), button[0], Width / 2, 300);
-	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2, 400);
-	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
 }
