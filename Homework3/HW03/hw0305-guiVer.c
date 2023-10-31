@@ -56,8 +56,8 @@ start_game(GtkApplication *app,
 	g_signal_connect_after(button[0], "clicked", G_CALLBACK(choose_game), NULL);
 	button[1] = gtk_button_new_with_label("Press here to quit.");
 	g_signal_connect(button[1], "clicked", G_CALLBACK(gtk_widget_destroy), window);
-	gtk_fixed_put(GTK_FIXED(fix), button[0], Width / 2-100, 300);
-	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2-100, 400);
+	gtk_fixed_put(GTK_FIXED(fix), button[0], Width / 2-100, Height/2);
+	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2-100, Height*2/3);
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
 }
@@ -76,11 +76,11 @@ static void choose_game(GtkApplication *app, gpointer data)
 	g_signal_connect(button[3], "clicked", G_CALLBACK(AdXkhHklLkcC_add_B), NULL);
 	button[4] = gtk_button_new_with_label("Press here to quit.");
 	g_signal_connect(button[4], "clicked", G_CALLBACK(gtk_widget_destroy), window);
-	gtk_fixed_put(GTK_FIXED(fix), button[0], Width / 2-400,200);
-	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2-200, 200);
-	gtk_fixed_put(GTK_FIXED(fix), button[2], Width / 2, 200);
-	gtk_fixed_put(GTK_FIXED(fix), button[3], Width / 2+200, 200);
-	gtk_fixed_put(GTK_FIXED(fix), button[4], Width / 2-100, 400);
+	gtk_fixed_put(GTK_FIXED(fix), button[0], Width / 2-400,Height*2/3);
+	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2-200, Height*2/3);
+	gtk_fixed_put(GTK_FIXED(fix), button[2], Width / 2, Height*2/3);
+	gtk_fixed_put(GTK_FIXED(fix), button[3], Width / 2+200, Height*2/3);
+	gtk_fixed_put(GTK_FIXED(fix), button[4], Width / 2-100, Height*2/3+100);
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
 }
