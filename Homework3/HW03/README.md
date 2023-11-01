@@ -11,6 +11,8 @@ hw03
 ---
 
 ## hw0305 - GUI version
+**TA try two version please.**  
+
 Work in progress.
 
 ### reference
@@ -21,7 +23,7 @@ Work in progress.
 
 
 ### game name
-Dice Roller
+Super Dice Bros. - Brawl
 
 ### char using
 
@@ -45,9 +47,10 @@ make
 ---
 
 ## hw0305 - simple version
+**TA try two version please.**
 
 ### game name
-Dice Roller
+Super Dice Bros. - Brawl
 
 ----
 

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#define TITLE "DICE ROLLS"
+#define TITLE "Super Dice Bros. - Brawl"
 #define ptf printf
 #define scf scanf
 
@@ -56,7 +56,7 @@ int main()
 }
 void rule()
 {
-	ptf("Welcome to Dice Roller!\n");
+	ptf("Welcome to \033[94m%s\033[0m!\n",TITLE);
 	ptf("There are also some information in README.\n");
 	ptf("You can input the number to choose the action.\n");
 	ptf("The actions are:\n");
