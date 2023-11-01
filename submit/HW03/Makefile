@@ -21,7 +21,7 @@ all: #obj main
 	-gcc -o hw0304-1 hw0304.c ./object_files/hw0304-1.o -lm
 	-gcc -o hw0304-2 hw0304.c ./object_files/hw0304-2.o -lm
 	-gcc `pkg-config --cflags gtk+-3.0` -o hw0305 hw0305.c ./object_files/diceRolls.o -lm `pkg-config --libs gtk+-3.0`
-#	-gcc `pkg-config --cflags gtk+-3.0` -o hw0305-gui hw0305-guiVer.c ./object_files/diceRolls.o -lm `pkg-config --libs gtk+-3.0`
+	-gcc `pkg-config --cflags gtk+-3.0` -o hw0305-gui hw0305-guiVer.c ./object_files/diceRolls.o -lm `pkg-config --libs gtk+-3.0`
 
 
 # obj: ${objectFiles} ${sourceFiles}
@@ -50,6 +50,7 @@ clean: clean_executable_file clean_object_file
 clean_executable_file:
 	-rm hw0${hw_number}0?
 	-rm hw0${hw_number}04-?
+	-rm hw0305-gui
 
 clean_object_file:
 	-rm ./object_files/*.o

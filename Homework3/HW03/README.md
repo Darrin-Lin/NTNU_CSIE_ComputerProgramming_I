@@ -11,7 +11,7 @@ hw03
 ---
 
 ## hw0305 - GUI version
-**TA try two version please.**  
+<!-- **TA try two version please.**   -->
 
 Work in progress.
 
@@ -47,7 +47,7 @@ make
 ---
 
 ## hw0305 - simple version
-**TA try two version please.**
+<!-- **TA try two version please.** -->
 
 ### game name
 Super Dice Bros. - Brawl

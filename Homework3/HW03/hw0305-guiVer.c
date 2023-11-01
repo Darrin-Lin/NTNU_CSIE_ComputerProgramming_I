@@ -14,11 +14,11 @@ static GtkWidget *fix;
 static GtkWidget *label;
 static GtkWidget *dices[20];
 static GtkWidget *fix_key;
-static GtkWidget *entry
+static GtkWidget *entry;
 
-	static void clear_all_button(/*GtkApplication *app, gpointer data*/);
-static void key();
-static void destroy_key();
+static void clear_all_button(/*GtkApplication *app, gpointer data*/);
+// static void key();
+// static void destroy_key();
 static void clear_string();
 static void start_game(GtkApplication *app, gpointer data);
 static void choose_game(GtkApplication *app, gpointer data);
@@ -34,8 +34,8 @@ int main(int argc, char **argv)
 	GtkApplication *app;
 	int status;
 
-	// app = gtk_application_new("darrin.s.Game", G_APPLICATION_FLAGS_NONE);// WSL(Ubuntu) //G_APPLICATION_FLAGS_NONE //EndeavourOS //G_APPLICATION_DEFAULT_FLAGS
-	app = gtk_application_new("darrin.s.Game", G_APPLICATION_DEFAULT_FLAGS); // WSL(Ubuntu) //G_APPLICATION_FLAGS_NONE //EndeavourOS //G_APPLICATION_DEFAULT_FLAGS
+	app = gtk_application_new("darrin.s.Game", G_APPLICATION_FLAGS_NONE);// WSL(Ubuntu) //G_APPLICATION_FLAGS_NONE //EndeavourOS //G_APPLICATION_DEFAULT_FLAGS
+	// app = gtk_application_new("darrin.s.Game", G_APPLICATION_DEFAULT_FLAGS); // WSL(Ubuntu) //G_APPLICATION_FLAGS_NONE //EndeavourOS //G_APPLICATION_DEFAULT_FLAGS
 
 	g_signal_connect(app, "activate", G_CALLBACK(start_game), NULL);
 	status = g_application_run(G_APPLICATION(app), argc, argv);

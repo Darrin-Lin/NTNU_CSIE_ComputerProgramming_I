@@ -20,6 +20,7 @@ int32_t dice(int32_t sides)
 
     int32_t res = 0;
     res = rand() % sides + 1;
+    // printf("\07");
     return res;
 }
 
