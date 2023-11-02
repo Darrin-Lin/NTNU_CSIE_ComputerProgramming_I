@@ -33,6 +33,11 @@ And I use `char []` to store the output number because it need `char` type.
 ### Need to prepare
 need install gtk3.0
 
+check version >=3.24.20 if you have gtk3.0
+```
+pkg-config --modversion gtk+-3.0
+```
+
 Ubuntu:
 ```
 sudo apt-get install libgtk-3-dev
