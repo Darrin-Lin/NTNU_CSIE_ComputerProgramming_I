@@ -7,14 +7,17 @@
 #define Width 800
 #define Height 600
 #define rule "Welcome to Super Dice Bros. - Brawl!\nThere are also some information in README.\nYou can click the button to choose the action.\nThe actions are:\nClick 1d6 to roll a dice with 6 side.\nClick Adx to roll A dice with X sides each.\nClick AdXkY+B to roll A dice with X sides each, and choose Y dice and add B for the bonus.\nClick AdXkhHklLkcC+B to roll A dice with X sides each, keeping the H highest, the L lowest, and C of the player’s choice and add B for the bonus.\n\nrange:\nA: 0~10\nX: 2~100\nB: -10~10\nY: 0~A\nH: 0~A\nL: 0~A\nC: 0~A-(L+H)"
+#define key_position (Height/2)
 // this program is edit ver of https://docs.gtk.org/gtk3/getting_started.html
 static GtkWidget *window;
 static GtkWidget *button[12];
 static GtkWidget *fix;
 static GtkWidget *label;
 static GtkWidget *dices[20];
+static GtkWidget *key_button[10];
+static GtkWidget *key_show;
 static GtkWidget *fix_key;
-static GtkWidget *entry;
+
 
 static void clear_all_button(/*GtkApplication *app, gpointer data*/);
 // static void key();
@@ -28,6 +31,7 @@ static void AdXkY_add_B_window(GtkApplication *app, gpointer data);
 static void AdXkhHklLkcC_add_B_window(GtkApplication *app, gpointer data);
 
 static char dice_num[10];
+static int32_t inp_num=0;
 
 int main(int argc, char **argv)
 {
@@ -52,18 +56,30 @@ static void clear_string()
 	}
 }
 
-// static void key()
-// {
+static void key()
+{
+	fix_key = gtk_fixed_new();
+	num=0;
+	key_show = gtk_label_new("0");
+	button[0] = gtk_button_new_with_label("0");
+	g_signal_connect(button[0], "clicked", num*10+1, NULL);
+	g_signal_connect_swapped(button[4], "clicked", G_CALLBACK(gtk_widget_destroy), window);
+	gtk_fixed_put(GTK_FIXED(fix_key), button[0], Width / 2 - 400, Height * 2 / 3);
+	// gtk_fixed_put(GTK_FIXED(fix), label, 0, 0);
+	gtk_container_add(GTK_CONTAINER(window), fix_key);
+	gtk_widget_show_all(window);
+}
 
-// }
+static void destroy_key()
+{
 
-// static void destroy_key()
-// {
+}
+static void key_update()
+{
+	
+}
 
-// }
-
-static void
-	clear_all_button(/*GtkApplication *app, gpointer data*/)
+static void	clear_all_button(/*GtkApplication *app, gpointer data*/)
 {
 	// for (int32_t i = 0; i < 11; i++)
 	// {
@@ -147,9 +163,6 @@ static void AdX_window(GtkApplication *app, gpointer data)
 {
 	clear_all_button();
 	fix = gtk_fixed_new();
-	entry = gtk_entry_new();
-	gtk_table_attach_defaults(GTK_TABLE(table), entry, 1, 2, 2, 3);
-	text = gtk_entry_get_text(entry);
 	// quit and again
 	button[10] = gtk_button_new_with_label("Press here to quit.");
 	button[11] = gtk_button_new_with_label("Play again.");
