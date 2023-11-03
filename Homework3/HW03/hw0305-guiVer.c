@@ -163,7 +163,7 @@ static void enterB()
 	int neg = 1;
 	for (size_t i = 0; numB[i] != '\0'; i++)
 	{
-		if (numB[i] == '-')
+		if (i == 0 && numB[0] == '-')
 			neg = -1;
 		else
 			inp_num[3] = 10 * inp_num[3] + (numB[i] - '0');
@@ -180,8 +180,8 @@ static void enterB()
 	}
 	else
 		set[3] = 1;
-	return;
 	// fprintf(stderr, "%d\n", inp_num[3]);
+	return;
 }
 static void enterC()
 {
@@ -192,7 +192,7 @@ static void enterC()
 	{
 		inp_num[2] = 10 * inp_num[2] + (numY[i] - '0');
 	}
-	if (inp_num[2] > inp_num[0]-inp_num[4]-inp_num[5		] || inp_num[2] < 0)
+	if (inp_num[2] > inp_num[0] - inp_num[4] - inp_num[5] || inp_num[2] < 0)
 	{
 		input_label[2] = gtk_label_new("Please enter C in range 0~(A-H-L).");
 		gtk_fixed_put(GTK_FIXED(fix), input_label[2], Width * 1 / 3 - 50, 375);
@@ -472,7 +472,7 @@ static void AdXkY_add_B_roll(GtkApplication *app, gpointer data)
 	label = gtk_label_new(choose);
 	if (inp_num[2] == inp_num[0])
 	{
-		int32_t zero = 0;
+		static int32_t zero = 0;
 		dices[0] = gtk_button_new_with_label("OK");
 		g_signal_connect(dices[0], "clicked", G_CALLBACK(AdXkY_add_B_count), &zero);
 		g_signal_connect_swapped(dices[0], "clicked", G_CALLBACK(gtk_widget_destroy), dices[0]);
@@ -593,6 +593,7 @@ static void AdXkhHklLkcC_add_B_roll(GtkApplication *app, gpointer data)
 	enterL();
 	enterC();
 	enterB();
+	discard=0;
 	if (set[0] == 0 || set[1] == 0 || set[2] == 0 || set[3] == 0 || set[4] == 0 || set[5] == 0)
 	{
 		input_label[9] = gtk_label_new("Please enter A, X, C, B, H and L.");
@@ -704,7 +705,7 @@ static void AdXkhHklLkcC_add_B_roll(GtkApplication *app, gpointer data)
 	}
 	if (inp_num[0] - inp_num[4] - inp_num[5] - inp_num[2] == 0)
 	{
-		int32_t zero = 0;
+		static int32_t zero = 0;
 		dices[0] = gtk_button_new_with_label("OK");
 		g_signal_connect(dices[0], "clicked", G_CALLBACK(AdXkhHklLkcC_add_B_count), &zero);
 		g_signal_connect_swapped(dices[0], "clicked", G_CALLBACK(gtk_widget_destroy), dices[0]);
@@ -724,20 +725,29 @@ static void AdXkhHklLkcC_add_B_count(GtkApplication *app, gpointer data)
 	{
 		num_choose++;
 		discard += *inp_data;
+			fprintf(stderr, "d%d\n", discard);
+
 		return;
 	}
 	else
 	{
+			fprintf(stderr, "d%d\n", *inp_data);
+		
 		discard += *inp_data;
 		int32_t sum = 0;
 		for (int32_t i = 0; i < inp_num[0]; i++)
 		{
+			fprintf(stderr, "%d\n", sum);
 			// if (dices[i] != NULL)
 			sum += result[i];
 		}
 		sum -= discard;
+			fprintf(stderr, "%d\n", sum);
 		discard = 0;
-		sprintf(final, "%d d %d k %d h %d l %d c %d + %d result: %d", inp_num[0], inp_num[1], inp_num[2], inp_num[4], inp_num[5], inp_num[3], inp_num[3], sum + inp_num[3]);
+		sum -= inp_num[3];
+			fprintf(stderr, "%d\n", sum);
+
+		sprintf(final, "%d d %d kh %d kl %d kc %d + %d result: %d", inp_num[0], inp_num[1], inp_num[4], inp_num[5], inp_num[2], inp_num[3], sum);
 		final_label = gtk_label_new(final);
 		gtk_fixed_put(GTK_FIXED(fix), final_label, Width * 1 / 3 - 50, Height * 2 / 3 + 50);
 		gtk_widget_show_all(window);

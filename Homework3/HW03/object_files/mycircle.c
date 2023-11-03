@@ -64,7 +64,7 @@ double get_inner_regular_polygon_area(int32_t n)
         return -2;
     else
     {   
-        return get_circle_area()/(((double)n/(2.0*pi))*sin(2.0*pi/(double)n));;
+        return (((double)n/(2.0*pi))*sin(2.0*pi/(double)n))*get_circle_area();
     }
 }
 double get_outer_regular_polygon_area(int32_t n)
