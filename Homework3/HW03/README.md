@@ -11,9 +11,8 @@ hw03
 ---
 
 ## hw0305 - GUI version
-<!-- **TA try two version please.**   -->
+**TA try two version please.**  
 
-Work in progress.
 
 ### reference
 [GTK+ 3 Reference Manual](https://developer.gnome.org/gtk3/stable/)
@@ -49,10 +48,14 @@ make
 ./hw0305-gui
 ```
 
+### How to play
+Besides need keyboard to input number, it also need mouse to click the button.
+
+
 ---
 
 ## hw0305 - simple version
-<!-- **TA try two version please.** -->
+**TA try two version please.**
 
 ### game name
 Super Dice Bros. - Brawl
@@ -228,7 +231,10 @@ It will print the result of roll number of A's dice with X side, print H highest
 不知道能不能用 char array，不然處理很麻煩。
 
 #### 10/28 簡易版
-在等待助教回信時先把簡易版用好了。  
+在等待助教回信時先把簡易版用好了。 
+
+#### 11/3 GUI 完成
+今天把 GUI 版寫完了，`char` 助教說可以用，只要註明就好，然後我還特別查到先創 `gtk_entry_new()` `gtk_entry_get_text(GTK_ENTRY(創的 entry))` 來取得輸入的字串，而且它被視為字串，所以就用這來處理輸入了。
 
 ----
 
