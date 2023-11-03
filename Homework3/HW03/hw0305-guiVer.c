@@ -6,7 +6,7 @@
 #define TITLE "Super Dice Bros. - Brawl"
 #define Width 1000
 #define Height 600
-#define rule "Welcome to Super Dice Bros. - Brawl!\nThere are also some information in README.\nYou can click the button to choose the action.\nThe actions are:\nClick 1d6 to roll a dice with 6 side.\nClick Adx to roll A dice with X sides each.\nClick AdXkY+B to roll A dice with X sides each, and choose Y dice and add B for the bonus.\nClick AdXkhHklLkcC+B to roll A dice with X sides each, keeping the H highest, the L lowest, \nand C of the player’s choice and add B for the bonus.\n\nrange:\nA: 0~10\nX: 2~100\nB: -10~10\nY: 0~A\nH: 0~A\nL: 0~A\nC: 0~A-(L+H)"
+#define rule "Welcome to Super Dice Bros. - Brawl!\nThere are also some information in README.\nYou can click the button to choose the action.\nThe actions are:\nClick 1d6 to roll a dice with 6 side.\nClick Adx to roll A dice with X sides each.\nClick AdXkY+B to roll A dice with X sides each, and choose Y dice and add B for the bonus.\nClick AdXkhHklLkcC+B to roll A dice with X sides each, keeping the H highest, the L lowest, \nand C of the player’s choice and add B for the bonus.\n\nrange:\nA: 0~10\nX: 2~100\nB: -10~10\nY: 0~A\nH: 0~A\nL: 0~A-H\nC: 0~A-(L+H)"
 #define key_position (Height / 2)
 // this program is edit ver of https://docs.gtk.org/gtk3/getting_started.html
 static GtkWidget *window;
@@ -725,28 +725,20 @@ static void AdXkhHklLkcC_add_B_count(GtkApplication *app, gpointer data)
 	{
 		num_choose++;
 		discard += *inp_data;
-			fprintf(stderr, "d%d\n", discard);
-
 		return;
 	}
 	else
 	{
-			fprintf(stderr, "d%d\n", *inp_data);
-		
 		discard += *inp_data;
 		int32_t sum = 0;
 		for (int32_t i = 0; i < inp_num[0]; i++)
 		{
-			fprintf(stderr, "%d\n", sum);
 			// if (dices[i] != NULL)
 			sum += result[i];
 		}
 		sum -= discard;
-			fprintf(stderr, "%d\n", sum);
 		discard = 0;
 		sum -= inp_num[3];
-			fprintf(stderr, "%d\n", sum);
-
 		sprintf(final, "%d d %d kh %d kl %d kc %d + %d result: %d", inp_num[0], inp_num[1], inp_num[4], inp_num[5], inp_num[2], inp_num[3], sum);
 		final_label = gtk_label_new(final);
 		gtk_fixed_put(GTK_FIXED(fix), final_label, Width * 1 / 3 - 50, Height * 2 / 3 + 50);

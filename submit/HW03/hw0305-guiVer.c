@@ -6,7 +6,7 @@
 #define TITLE "Super Dice Bros. - Brawl"
 #define Width 1000
 #define Height 600
-#define rule "Welcome to Super Dice Bros. - Brawl!\nThere are also some information in README.\nYou can click the button to choose the action.\nThe actions are:\nClick 1d6 to roll a dice with 6 side.\nClick Adx to roll A dice with X sides each.\nClick AdXkY+B to roll A dice with X sides each, and choose Y dice and add B for the bonus.\nClick AdXkhHklLkcC+B to roll A dice with X sides each, keeping the H highest, the L lowest, \nand C of the player’s choice and add B for the bonus.\n\nrange:\nA: 0~10\nX: 2~100\nB: -10~10\nY: 0~A\nH: 0~A\nL: 0~A\nC: 0~A-(L+H)"
+#define rule "Welcome to Super Dice Bros. - Brawl!\nThere are also some information in README.\nYou can click the button to choose the action.\nThe actions are:\nClick 1d6 to roll a dice with 6 side.\nClick Adx to roll A dice with X sides each.\nClick AdXkY+B to roll A dice with X sides each, and choose Y dice and add B for the bonus.\nClick AdXkhHklLkcC+B to roll A dice with X sides each, keeping the H highest, the L lowest, \nand C of the player’s choice and add B for the bonus.\n\nrange:\nA: 0~10\nX: 2~100\nB: -10~10\nY: 0~A\nH: 0~A\nL: 0~A-H\nC: 0~A-(L+H)"
 #define key_position (Height / 2)
 // this program is edit ver of https://docs.gtk.org/gtk3/getting_started.html
 static GtkWidget *window;
@@ -23,6 +23,7 @@ static GtkWidget *final_label;
 static void clear_all_button(/*GtkApplication *app, gpointer data*/);
 static void clear_string();
 static void result_init();
+static void set_init();
 static void start_game(GtkApplication *app, gpointer data);
 static void choose_game(GtkApplication *app, gpointer data);
 static void quit_again();
@@ -49,6 +50,7 @@ static int32_t num_choose = 0;
 static int32_t result[10] = {0};
 static int32_t discard = 0;
 static int32_t remain[10] = {0};
+static int8_t set[10] = {0};
 
 int main(int argc, char **argv)
 {
@@ -99,8 +101,12 @@ static void enterA()
 		gtk_fixed_put(GTK_FIXED(fix), input_label[0], Width * 1 / 3 - 50, 75);
 		gtk_widget_show_all(window);
 		inp_num[0] = 0;
+		set[0] = 0;
 		return;
 	}
+	else
+		set[0] = 1;
+	return;
 	// fprintf(stderr, "%d\n", inp_num[0]);
 }
 static void enterX()
@@ -118,8 +124,12 @@ static void enterX()
 		gtk_fixed_put(GTK_FIXED(fix), input_label[1], Width * 1 / 3 - 50, 225);
 		gtk_widget_show_all(window);
 		inp_num[1] = 0;
+		set[1] = 0;
 		return;
 	}
+	else
+		set[1] = 1;
+	return;
 	// fprintf(stderr, "%d\n", inp_num[1]);
 }
 static void enterY()
@@ -137,8 +147,12 @@ static void enterY()
 		gtk_fixed_put(GTK_FIXED(fix), input_label[2], Width * 1 / 3 - 50, 375);
 		gtk_widget_show_all(window);
 		inp_num[2] = 0;
+		set[2] = 0;
 		return;
 	}
+	else
+		set[2] = 1;
+	return;
 	// fprintf(stderr, "%d\n", inp_num[2]);
 }
 static void enterB()
@@ -149,7 +163,7 @@ static void enterB()
 	int neg = 1;
 	for (size_t i = 0; numB[i] != '\0'; i++)
 	{
-		if (numB[i] == '-')
+		if (i == 0 && numB[0] == '-')
 			neg = -1;
 		else
 			inp_num[3] = 10 * inp_num[3] + (numB[i] - '0');
@@ -161,9 +175,13 @@ static void enterB()
 		gtk_fixed_put(GTK_FIXED(fix), input_label[3], Width * 2 / 3 - 50, 375);
 		gtk_widget_show_all(window);
 		inp_num[3] = 0;
+		set[3] = 0;
 		return;
 	}
+	else
+		set[3] = 1;
 	// fprintf(stderr, "%d\n", inp_num[3]);
+	return;
 }
 static void enterC()
 {
@@ -174,14 +192,18 @@ static void enterC()
 	{
 		inp_num[2] = 10 * inp_num[2] + (numY[i] - '0');
 	}
-	if (inp_num[2] > inp_num[0] || inp_num[2] < 0)
+	if (inp_num[2] > inp_num[0] - inp_num[4] - inp_num[5] || inp_num[2] < 0)
 	{
 		input_label[2] = gtk_label_new("Please enter C in range 0~(A-H-L).");
 		gtk_fixed_put(GTK_FIXED(fix), input_label[2], Width * 1 / 3 - 50, 375);
 		gtk_widget_show_all(window);
 		inp_num[2] = 0;
+		set[2] = 0;
 		return;
 	}
+	else
+		set[2] = 1;
+	return;
 	// fprintf(stderr, "%d\n", inp_num[2]);
 }
 static void enterH()
@@ -199,8 +221,12 @@ static void enterH()
 		gtk_fixed_put(GTK_FIXED(fix), input_label[4], Width * 2 / 3 - 50, 75);
 		gtk_widget_show_all(window);
 		inp_num[4] = 0;
+		set[4] = 0;
 		return;
 	}
+	else
+		set[4] = 1;
+	return;
 	// fprintf(stderr, "%d\n", inp_num[4]);
 }
 static void enterL()
@@ -212,14 +238,18 @@ static void enterL()
 	{
 		inp_num[5] = 10 * inp_num[5] + (numL[i] - '0');
 	}
-	if (inp_num[5] > inp_num[0] || inp_num[5] < 0)
+	if (inp_num[5] > inp_num[0] - inp_num[4] || inp_num[5] < 0)
 	{
-		input_label[5] = gtk_label_new("Please enter L in range 0~A.");
+		input_label[5] = gtk_label_new("Please enter L in range 0~A-H.");
 		gtk_fixed_put(GTK_FIXED(fix), input_label[5], Width * 2 / 3 - 50, 225);
 		gtk_widget_show_all(window);
 		inp_num[5] = 0;
+		set[5] = 0;
 		return;
 	}
+	else
+		set[5] = 1;
+	return;
 	// fprintf(stderr, "%d\n", inp_num[5]);
 }
 static void clear_all_button(/*GtkApplication *app, gpointer data*/)
@@ -230,14 +260,21 @@ static void clear_all_button(/*GtkApplication *app, gpointer data*/)
 	// 		gtk_widget_destroy(button[i]);
 	// }
 	gtk_widget_destroy(fix);
+	return;
 }
-
+static void set_init()
+{
+	for (int32_t i = 0; i < 10; i++)
+		set[i] = 0;
+	return;
+}
 static void result_init()
 {
 	for (int32_t i = 0; i < 10; i++)
 	{
 		result[i] = 0;
 	}
+	return;
 }
 
 static void start_game(GtkApplication *app, gpointer data)
@@ -256,6 +293,7 @@ static void start_game(GtkApplication *app, gpointer data)
 	gtk_fixed_put(GTK_FIXED(fix), button[1], Width / 2 - 50 - 100, Height * 2 / 3);
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
+	return;
 }
 
 static void choose_game(GtkApplication *app, gpointer data)
@@ -281,6 +319,7 @@ static void choose_game(GtkApplication *app, gpointer data)
 	gtk_fixed_put(GTK_FIXED(fix), label, 0, 0);
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
+	return;
 }
 
 static void Id6_window(GtkApplication *app, gpointer data)
@@ -300,10 +339,12 @@ static void Id6_window(GtkApplication *app, gpointer data)
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
 	quit_again();
+	return;
 }
 static void AdX_window(GtkApplication *app, gpointer data)
 {
 	clear_all_button();
+	set_init();
 	fix = gtk_fixed_new();
 	input_label[0] = gtk_label_new("Enter A:");
 	input[0] = gtk_entry_new();
@@ -327,10 +368,13 @@ static void AdX_window(GtkApplication *app, gpointer data)
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
 	// quit_again();
+	return;
 }
 static void AdX_roll(GtkApplication *app, gpointer data)
 {
-	if (inp_num[0] == 0 || inp_num[1] == 0)
+	enterA();
+	enterX();
+	if (set[0] == 0 || set[1] == 0)
 	{
 		input_label[9] = gtk_label_new("Please enter A and X.");
 		gtk_fixed_put(GTK_FIXED(fix), input_label[9], Width * 1 / 3 - 50, Height - 100);
@@ -361,10 +405,12 @@ static void AdX_roll(GtkApplication *app, gpointer data)
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
 	quit_again();
+	return;
 }
 static void AdXkY_add_B_window(GtkApplication *app, gpointer data)
 {
 	clear_all_button();
+	set_init();
 	fix = gtk_fixed_new();
 	input_label[0] = gtk_label_new("Enter A:");
 	input[0] = gtk_entry_new();
@@ -402,11 +448,16 @@ static void AdXkY_add_B_window(GtkApplication *app, gpointer data)
 
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
+	return;
 }
 static void AdXkY_add_B_roll(GtkApplication *app, gpointer data)
 {
 	num_choose = 0;
-	if (inp_num[0] == 0 || inp_num[1] == 0 || inp_num[2] == 0 || inp_num[3] == 0)
+	enterA();
+	enterX();
+	enterY();
+	enterB();
+	if (set[0] == 0 || set[1] == 0 || set[2] == 0 || set[3] == 0)
 	{
 		input_label[9] = gtk_label_new("Please enter A, X, Y and B.");
 		gtk_fixed_put(GTK_FIXED(fix), input_label[9], Width / 2 - 50, Height - 100);
@@ -419,18 +470,32 @@ static void AdXkY_add_B_roll(GtkApplication *app, gpointer data)
 	char choose[100];
 	sprintf(choose, "Click to discard %d dice:", inp_num[0] - inp_num[2]);
 	label = gtk_label_new(choose);
+	if (inp_num[2] == inp_num[0])
+	{
+		static int32_t zero = 0;
+		dices[0] = gtk_button_new_with_label("OK");
+		g_signal_connect(dices[0], "clicked", G_CALLBACK(AdXkY_add_B_count), &zero);
+		g_signal_connect_swapped(dices[0], "clicked", G_CALLBACK(gtk_widget_destroy), dices[0]);
+		gtk_fixed_put(GTK_FIXED(fix), dices[0], Width / 2 - 50, Height * 2 / 3);
+	}
+
 	for (int32_t i = 0; i < inp_num[0]; i++)
 	{
 		result[i] = dice(inp_num[1]);
 		sprintf(dice_num, "%d", result[i]);
 		dices[i] = gtk_button_new_with_label(dice_num);
 		gtk_fixed_put(GTK_FIXED(fix), dices[i], 75 * i + 100, Height / 3);
-		g_signal_connect(dices[i], "clicked", G_CALLBACK(AdXkY_add_B_count), &result[i]);
-		g_signal_connect_swapped(dices[i], "clicked", G_CALLBACK(gtk_widget_destroy), dices[i]);
+		if (inp_num[2] != inp_num[0])
+		{
+			g_signal_connect(dices[i], "clicked", G_CALLBACK(AdXkY_add_B_count), &result[i]);
+			g_signal_connect_swapped(dices[i], "clicked", G_CALLBACK(gtk_widget_destroy), dices[i]);
+		}
 	}
+
 	gtk_fixed_put(GTK_FIXED(fix), label, Width / 2 - 50, Height * 1 / 3 - 100);
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
+	return;
 }
 static void AdXkY_add_B_count(GtkApplication *app, gpointer data)
 {
@@ -459,10 +524,12 @@ static void AdXkY_add_B_count(GtkApplication *app, gpointer data)
 		gtk_widget_show_all(window);
 		quit_again();
 	}
+	return;
 }
 static void AdXkhHklLkcC_add_B_window(GtkApplication *app, gpointer data)
 {
 	clear_all_button();
+	set_init();
 	fix = gtk_fixed_new();
 	input_label[0] = gtk_label_new("Enter A:");
 	input[0] = gtk_entry_new();
@@ -515,11 +582,19 @@ static void AdXkhHklLkcC_add_B_window(GtkApplication *app, gpointer data)
 
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
+	return;
 }
 
 static void AdXkhHklLkcC_add_B_roll(GtkApplication *app, gpointer data)
 {
-	if (inp_num[0] == 0 || inp_num[1] == 0 || inp_num[2] == 0 || inp_num[3] == 0 || inp_num[4] == 0 || inp_num[5] == 0)
+	enterA();
+	enterX();
+	enterH();
+	enterL();
+	enterC();
+	enterB();
+	discard=0;
+	if (set[0] == 0 || set[1] == 0 || set[2] == 0 || set[3] == 0 || set[4] == 0 || set[5] == 0)
 	{
 		input_label[9] = gtk_label_new("Please enter A, X, C, B, H and L.");
 		gtk_fixed_put(GTK_FIXED(fix), input_label[9], Width / 2 - 50, Height - 100);
@@ -605,19 +680,19 @@ static void AdXkhHklLkcC_add_B_roll(GtkApplication *app, gpointer data)
 	}
 	int32_t rm = 0;
 	for (int32_t i = 0; i < inp_num[0]; i++)
-    {
-        if (remain[i] == 0 && rm < inp_num[4] + inp_num[5])
-        {
+	{
+		if (remain[i] == 0 && rm < inp_num[4] + inp_num[5])
+		{
 
-            rm++;
-            for (int32_t j = i; j < inp_num[0] - 1; j++)
-            {
-                remain[j] = remain[j + 1];
-            }
-            remain[inp_num[0] - rm] = 0;
-            i--;
-        }
-    }
+			rm++;
+			for (int32_t j = i; j < inp_num[0] - 1; j++)
+			{
+				remain[j] = remain[j + 1];
+			}
+			remain[inp_num[0] - rm] = 0;
+			i--;
+		}
+	}
 	sprintf(choose, "Please choose %d dices to discard:", inp_num[0] - inp_num[4] - inp_num[5] - inp_num[2]);
 	show_label[3] = gtk_label_new(choose);
 	for (int32_t i = 0; i < inp_num[0] - inp_num[4] - inp_num[5]; i++)
@@ -628,10 +703,19 @@ static void AdXkhHklLkcC_add_B_roll(GtkApplication *app, gpointer data)
 		g_signal_connect_swapped(dices[i], "clicked", G_CALLBACK(gtk_widget_destroy), dices[i]);
 		gtk_fixed_put(GTK_FIXED(fix), dices[i], 75 * i + 100, Height * 2 / 3);
 	}
+	if (inp_num[0] - inp_num[4] - inp_num[5] - inp_num[2] == 0)
+	{
+		static int32_t zero = 0;
+		dices[0] = gtk_button_new_with_label("OK");
+		g_signal_connect(dices[0], "clicked", G_CALLBACK(AdXkhHklLkcC_add_B_count), &zero);
+		g_signal_connect_swapped(dices[0], "clicked", G_CALLBACK(gtk_widget_destroy), dices[0]);
+		gtk_fixed_put(GTK_FIXED(fix), dices[0], Width / 2 - 50, Height * 2 / 3);
+	}
 	gtk_fixed_put(GTK_FIXED(fix), show_label[3], Width / 2 - 50, Height * 2 / 3 - 50);
 
 	gtk_container_add(GTK_CONTAINER(window), fix);
 	gtk_widget_show_all(window);
+	return;
 }
 static void AdXkhHklLkcC_add_B_count(GtkApplication *app, gpointer data)
 {
@@ -654,10 +738,12 @@ static void AdXkhHklLkcC_add_B_count(GtkApplication *app, gpointer data)
 		}
 		sum -= discard;
 		discard = 0;
-		sprintf(final, "%d d %d k %d h %d l %d c %d + %d result: %d", inp_num[0], inp_num[1], inp_num[2], inp_num[4], inp_num[5], inp_num[3], inp_num[3], sum + inp_num[3]);
+		sum -= inp_num[3];
+		sprintf(final, "%d d %d kh %d kl %d kc %d + %d result: %d", inp_num[0], inp_num[1], inp_num[4], inp_num[5], inp_num[2], inp_num[3], sum);
 		final_label = gtk_label_new(final);
-		gtk_fixed_put(GTK_FIXED(fix), final_label, Width * 1 / 3 - 50, Height * 2 / 3+50);
+		gtk_fixed_put(GTK_FIXED(fix), final_label, Width * 1 / 3 - 50, Height * 2 / 3 + 50);
 		gtk_widget_show_all(window);
 		quit_again();
 	}
+	return;
 }

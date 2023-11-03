@@ -30,7 +30,9 @@ Because it need `char *argv[]` so I use `char *` in main.
 And I use `char []` to store the output number because it need `char` type.
 
 ### Need to prepare
+**need in ubuntu**
 need install gtk3.0
+
 
 check version >=3.24.20 if you have gtk3.0
 ```
