@@ -5,7 +5,6 @@ int main()
     int64_t inp = 0;
     int32_t wrongInput = 0; // will have bug if input ==1<<33
     printf("Please enter the disk number (2-20): ");
-    printf("Please enter the number: ");
     scanf("%ld", &inp);
     scanf("%*[a-z-A-Z]%n", &wrongInput);
     if (wrongInput)
