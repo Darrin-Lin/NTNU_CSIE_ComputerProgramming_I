@@ -53,6 +53,6 @@ int32_t print()
         radian = fmod(radian, 2 * pi);
     else if (radian < 0)
         radian = fmod(radian, 2 * pi)+2*pi;
-            printf("position : (%.2f,%.2f), angle : %.2f\n", x_value, y_value, radian / pi);
+            printf("position: (%.2f,%.2f), angle: %.2f\n", x_value, y_value, radian / pi);
     return 0;
 }
