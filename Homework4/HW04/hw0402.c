@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
-
+#include <string.h>
 #define ptf printf
 
 int main()
@@ -51,22 +51,71 @@ int main()
     }
     printf("%d\n", f[f_degree]);
     printf("g(x): ");
-    for (int32_t i = 0; i < g_degree-1; i++)
+    for (int32_t i = 0; i < g_degree - 1; i++)
     {
         if (g[i] != 0)
-            printf("%dx^%d + ", g[i], g_degree - i-1);
+            printf("%dx^%d + ", g[i], g_degree - i - 1);
     }
     printf("%d\n", g[g_degree]);
     printf("(f(x)g(x))': ");
-    for (int32_t i = 0; i < f_degree + g_degree-1; i++)
+    for (int32_t i = 0; i < f_degree + g_degree - 1; i++)
     {
-        if (f_times_g_prime[i] +f_prime_times_g[i]!= 0)
-            printf("%dx^%d + ", f_times_g_prime[i] +f_prime_times_g[i], f_degree + g_degree - i-1);
+        if (f_times_g_prime[i] + f_prime_times_g[i] != 0)
+            printf("%dx^%d + ", f_times_g_prime[i] + f_prime_times_g[i], f_degree + g_degree - i - 1);
     }
     printf("%d\n", f_times_g_prime[f_degree + g_degree]);
+
     printf(" f(x)    ");
-    printf("(----)': ");
+    uint64_t ch = 0, m = 0;
+    for (int32_t i = 0; i < f_degree + g_degree - 2; i++)
+    {
+        int64_t ch_n = f_prime_times_g[i] - f_times_g_prime[i];
+        if (ch_n)
+        {
+            ch++;
+        }
+        while (ch_n)
+        {
+            ch++;
+            ch_n /= 10;
+        }
+    }
+    int64_t end_ch = f_prime_times_g[f_degree + g_degree - 2] - f_times_g_prime[f_degree + g_degree - 2];
+    if (end_ch < 0)
+    {
+        ch++;
+    }
+    while (end_ch)
+    {
+        ch++;
+        end_ch /= 10;
+    }
+    for (int32_t i = 0; i < f_degree + g_degree - 2; i++)
+    {
+        int64_t m_n = g_sqare[i];
+        if (m_n)
+        {
+            m++;
+        }
+        while (m_n)
+        {
+            m++;
+            m_n /= 10;
+        }
+    }
+    int64_t end_m = g_sqare[f_degree*2];
+    if (end_m < 0)
+    {
+        m++;
+    }
+    while (end_m)
+    {
+        m++;
+        end_m /= 10;
+    }
     
+    printf("(----)': ");
+
     printf(" g(x)    ");
     return 0;
 }
