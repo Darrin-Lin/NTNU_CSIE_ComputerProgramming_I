@@ -42,6 +42,7 @@ int main()
     i64 g_prime[g_degree];
     for (u64 i = 0; i < g_degree; i++)
         g_prime[i] = g[i + 1] * (i + 1);
+
     i64 g_sqare[g_degree * 2 + 1];
     for (u64 i = 0; i <= g_degree * 2; i++)
         g_sqare[i] = 0;
@@ -52,14 +53,20 @@ int main()
     for (u64 i = 0; i <= f_degree + g_degree; i++)
         f_times_g_prime[i] = 0;
     for (u64 i = 0; i <= f_degree; i++)
-        for (u64 j = 0; j <= g_degree; j++)
+        for (u64 j = 0; j < g_degree; j++)
             f_times_g_prime[i + j] += f[i] * g_prime[j];
+    for (int64_t i = 0; i < f_degree + g_degree; i++)
+        fprintf(stderr, "%ld ", f_times_g_prime[i]);
+    fprintf(stderr, "\n");
     i64 f_prime_times_g[f_degree + g_degree];
     for (u64 i = 0; i <= f_degree + g_degree; i++)
         f_prime_times_g[i] = 0;
-    for (u64 i = 0; i <= f_degree; i++)
+    for (u64 i = 0; i < f_degree; i++)
         for (u64 j = 0; j <= g_degree; j++)
             f_prime_times_g[i + j] += f_prime[i] * g[j];
+    for (int64_t i = 0; i < f_degree + g_degree; i++)
+        fprintf(stderr, "%ld ", f_prime_times_g[i]);
+    fprintf(stderr, "\n");
     /// print
     ptf("f(x): ");
     if (f[f_degree] == 1)
@@ -108,7 +115,7 @@ int main()
         ptf("-x^%lu", f_degree + g_degree - 1);
     else
         ptf("%ldx^%lu", f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1], f_degree + g_degree - 1);
-    for (i64 i = f_degree + g_degree - 2; i > 0; i--)
+    for (i64 i = f_degree + g_degree - 2; i > 1; i--)
     {
         if (f_times_g_prime[i] + f_prime_times_g[i] != 0)
             if (f_times_g_prime[i] + f_prime_times_g[i] == 1)
@@ -118,6 +125,7 @@ int main()
             else
                 ptf("+%ldx^%lu", f_times_g_prime[f_degree + g_degree - i] + f_prime_times_g[f_degree + g_degree - i], f_degree + g_degree - i - 1);
     }
+    //// x^1
     if (f_times_g_prime[0] + f_prime_times_g[0])
         ptf("+%ld", f_times_g_prime[0] + f_prime_times_g[0]);
     ptf("\n");
@@ -231,13 +239,13 @@ int main()
     }
     // 1/1
     ptf(" f(x)    ");
-    if (f_prime_times_g[f_degree + g_degree -1] - f_times_g_prime[f_degree + g_degree -1] == 1)
-                ptf("x^%lu", f_degree + g_degree -1);
-            else if (f_prime_times_g[f_degree + g_degree -1] - f_times_g_prime[f_degree + g_degree -1] == -1)
-                ptf("+-x^%lu", f_degree + g_degree -1);
-            else
-                ptf("%ldx^%lu", f_prime_times_g[f_degree + g_degree -1] - f_times_g_prime[f_degree + g_degree -1], f_degree + g_degree -1);
-    for (i64 i = f_degree + g_degree - 2; i >f_degree + g_degree -1- ch_degree; i--)
+    if (f_prime_times_g[f_degree + g_degree - 1] - f_times_g_prime[f_degree + g_degree - 1] == 1)
+        ptf("x^%lu", f_degree + g_degree - 1);
+    else if (f_prime_times_g[f_degree + g_degree - 1] - f_times_g_prime[f_degree + g_degree - 1] == -1)
+        ptf("+-x^%lu", f_degree + g_degree - 1);
+    else
+        ptf("%ldx^%lu", f_prime_times_g[f_degree + g_degree - 1] - f_times_g_prime[f_degree + g_degree - 1], f_degree + g_degree - 1);
+    for (i64 i = f_degree + g_degree - 2; i > f_degree + g_degree - 1 - ch_degree; i--)
         if (f_prime_times_g[i] - f_times_g_prime[i])
             if (f_prime_times_g[i] - f_times_g_prime[i] == 1)
                 ptf("+x^%lu", i);
@@ -247,20 +255,20 @@ int main()
                 ptf("+%ldx^%lu", f_prime_times_g[i] - f_times_g_prime[i], i);
     if (f_prime_times_g[ch_degree] - f_times_g_prime[ch_degree])
         ptf("+%ld", f_prime_times_g[ch_degree] - f_times_g_prime[ch_degree]);
-        ptf("\n");
+    ptf("\n");
     ptf("(----)': ");
     for (i64 i = 0; i < (m > ch ? m : ch); i++)
         ptf("-");
     ptf("\n");
     ptf(" g(x)    ");
-    if (g_sqare[m_degree*2])
-            if (g_sqare[m_degree*2] == 1)
-                ptf("x^%lu", m_degree*2);
-            else if (g_sqare[m_degree*2] == -1)
-                ptf("-x^%lu", m_degree*2);
-            else
-                ptf("%ldx^%lu", g_sqare[m_degree*2], m_degree*2);
-    for (i64 i = m_degree*2-1; i > 2*g_degree-m_degree; i--)
+    if (g_sqare[m_degree * 2])
+        if (g_sqare[m_degree * 2] == 1)
+            ptf("x^%lu", m_degree * 2);
+        else if (g_sqare[m_degree * 2] == -1)
+            ptf("-x^%lu", m_degree * 2);
+        else
+            ptf("%ldx^%lu", g_sqare[m_degree * 2], m_degree * 2);
+    for (i64 i = m_degree * 2 - 1; i > 2 * g_degree - m_degree; i--)
         if (g_sqare[i])
             if (g_sqare[i] == 1)
                 ptf("+x^%lu", i);
@@ -268,8 +276,8 @@ int main()
                 ptf("+-x^%lu", i);
             else
                 ptf("+%ldx^%lu", g_sqare[i], i);
-    if(g_sqare[m_degree])
-    ptf("%ld", g_sqare[m_degree]);
+    if (g_sqare[m_degree])
+        ptf("%ld", g_sqare[m_degree]);
     ptf("\n");
     return 0;
 }
