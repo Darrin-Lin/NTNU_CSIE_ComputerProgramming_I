@@ -2,10 +2,19 @@
 
 int main()
 {
-
-    int32_t a[10]={0,1,2,3,4,5,6,7,8,9};
-    myprint(a,10);
-    mysort(a,10);
-    myprint(a,10);
+    int32_t n;
+    printf("Please input the number of integers: ");
+    scanf("%d",&n);
+    int32_t a[n];
+    printf("Please input %d integers: ",n);
+    for(int32_t i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    printf("Before sorting:\n");
+    myprint(a,n);
+    mysort(a,n);
+    printf("After sorting:\n");
+    myprint(a,n);
     return 0;
 }
