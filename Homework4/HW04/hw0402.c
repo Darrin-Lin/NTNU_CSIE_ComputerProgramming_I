@@ -89,21 +89,23 @@ int main()
     for (u64 i = 0; i <= f_degree; i++)
         for (u64 j = 0; j < g_degree; j++)
             f_times_g_prime[i + j] += f[i] * g_prime[j];
-    // for (int64_t i = 0; i < f_degree + g_degree; i++)
-    //     fprintf(stderr, "%ld ", f_times_g_prime[i]);
-    // fprintf(stderr, "\n");
+    fprintf(stderr, "\n");
+    for (int64_t i = 0; i < f_degree + g_degree; i++)
+        fprintf(stderr, "%ld ", f_times_g_prime[i]);
+    fprintf(stderr, "\n");
     i64 f_prime_times_g[f_degree + g_degree];
     for (u64 i = 0; i <= f_degree + g_degree; i++)
         f_prime_times_g[i] = 0;
     for (u64 i = 0; i < f_degree; i++)
         for (u64 j = 0; j <= g_degree; j++)
             f_prime_times_g[i + j] += f_prime[i] * g[j];
-    // for (int64_t i = 0; i < f_degree + g_degree; i++)
-    //     fprintf(stderr, "%ld ", f_prime_times_g[i]);
-    // fprintf(stderr, "\n");
+    for (int64_t i = 0; i < f_degree + g_degree; i++)
+        fprintf(stderr, "%ld ", f_prime_times_g[i]);
+    fprintf(stderr, "\n");
+    fprintf(stderr, "\n");
     /// print
     ptf("f(x): ");
-    if (f_degree > 0)
+    if (f_degree > 1)
         if (f[f_degree] == 1)
             ptf("x^%lu", f_degree);
         else if (f[f_degree] == -1)
@@ -124,14 +126,28 @@ int main()
     }
     if (f_degree > 0)
         if (f[1])
-            if (f[1] == 1)
-                ptf(" + x");
-            else if (f[1] == -1)
-                ptf(" - x");
-            else if (f[1] > 0)
-                ptf(" + %ldx", f[1]);
+            if (f_degree != 1)
+            {
+                if (f[1] == 1)
+                    ptf(" + x");
+                else if (f[1] == -1)
+                    ptf(" - x");
+                else if (f[1] > 0)
+                    ptf(" + %ldx", f[1]);
+                else
+                    ptf(" - %ldx", -f[1]);
+            }
             else
-                ptf(" - %ldx", -f[1]);
+            {
+                if (f[1] == 1)
+                    ptf("x");
+                else if (f[1] == -1)
+                    ptf("-x");
+                else if (f[1] > 0)
+                    ptf("%ldx", f[1]);
+                else
+                    ptf("-%ldx", -f[1]);
+            }
     if (f_degree > 0)
     {
         if (f[0])
@@ -144,7 +160,7 @@ int main()
         ptf("%ld", f[0]);
     ptf("\n");
     ptf("g(x): ");
-    if (g_degree > 0)
+    if (g_degree > 1)
         if (g[g_degree] == 1)
             ptf("x^%lu", g_degree);
         else if (g[g_degree] == -1)
@@ -155,6 +171,7 @@ int main()
     for (i64 i = g_degree - 1; i > 1; i--)
     {
         if (g[i] != 0)
+
             if (g[i] == 1)
                 ptf(" + x^%lu", i);
             else if (g[i] == -1)
@@ -166,14 +183,28 @@ int main()
     }
     if (g_degree > 0)
         if (g[1])
-            if (g[1] == 1)
-                ptf(" + x");
-            else if (g[1] == -1)
-                ptf(" - x");
-            else if (g[1] > 0)
-                ptf(" + %ldx", g[1]);
+            if (g_degree != 1)
+            {
+                if (g[1] == 1)
+                    ptf(" + x");
+                else if (g[1] == -1)
+                    ptf(" - x");
+                else if (g[1] > 0)
+                    ptf(" + %ldx", g[1]);
+                else
+                    ptf(" - %ldx", -g[1]);
+            }
             else
-                ptf(" - %ldx", -g[1]);
+            {
+                if (g[1] == 1)
+                    ptf("x");
+                else if (g[1] == -1)
+                    ptf("-x");
+                else if (g[1] > 0)
+                    ptf("%ldx", g[1]);
+                else
+                    ptf("-%ldx", -g[1]);
+            }
     if (g_degree > 0)
     {
         if (g[0])
@@ -208,14 +239,28 @@ int main()
     //// x^1
     if (f_degree + g_degree - 1 > 0)
         if (f_times_g_prime[1] + f_prime_times_g[1])
-            if (f_times_g_prime[1] + f_prime_times_g[1] == 1)
-                ptf(" + x");
-            else if (f_times_g_prime[1] + f_prime_times_g[1] == -1)
-                ptf(" - x");
-            else if (f_times_g_prime[1] + f_prime_times_g[1] > 0)
-                ptf(" + %ldx", f_times_g_prime[1] + f_prime_times_g[1]);
+            if (f_degree + g_degree - 1 > 1)
+            {
+                if (f_times_g_prime[1] + f_prime_times_g[1] == 1)
+                    ptf(" + x");
+                else if (f_times_g_prime[1] + f_prime_times_g[1] == -1)
+                    ptf(" - x");
+                else if (f_times_g_prime[1] + f_prime_times_g[1] > 0)
+                    ptf(" + %ldx", f_times_g_prime[1] + f_prime_times_g[1]);
+                else
+                    ptf(" - %ldx", -f_times_g_prime[1] - f_prime_times_g[1]);
+            }
             else
-                ptf(" - %ldx", -f_times_g_prime[1] - f_prime_times_g[1]);
+            {
+                if (f_times_g_prime[1] + f_prime_times_g[1] == 1)
+                    ptf("x");
+                else if (f_times_g_prime[1] + f_prime_times_g[1] == -1)
+                    ptf("-x");
+                else if (f_times_g_prime[1] + f_prime_times_g[1] > 0)
+                    ptf("%ldx", f_times_g_prime[1] + f_prime_times_g[1]);
+                else
+                    ptf("-%ldx", -f_times_g_prime[1] - f_prime_times_g[1]);
+            }
     if (f_degree + g_degree - 1 > 0)
     {
         if (f_times_g_prime[0] + f_prime_times_g[0])
@@ -223,6 +268,7 @@ int main()
                 ptf(" + %ld", f_times_g_prime[0] + f_prime_times_g[0]);
             else
                 ptf(" - %ld", -(f_times_g_prime[0] + f_prime_times_g[0]));
+        fprintf(stderr, "%ld %ld\n", f_times_g_prime[0], f_prime_times_g[0]);
     }
     else
         ptf("%ld", f_times_g_prime[0] + f_prime_times_g[0]);
@@ -286,12 +332,15 @@ int main()
                 {
                     ch++;
                 }
-                while (ch_d)
+                if (ch_d != 1)
                 {
-                    ch++;
-                    ch_d /= 10;
+                    while (ch_d)
+                    {
+                        ch++;
+                        ch_d /= 10;
+                    }
+                    ch += 2; // x^
                 }
-                ch += 2; // x^
                 ch += 3; // _+_
                 fir = 1;
             }
@@ -335,12 +384,16 @@ int main()
                     fir = 1;
                     m++;
                 }
-                while (m_d)
+                if (m_d != 1)
                 {
                     m++;
-                    m_d /= 10;
+                    while (m_d)
+                    {
+                        m++;
+                        m_d /= 10;
+                    }
+                    m += 2; // x^
                 }
-                m += 2; // x^
                 m += 3; // _+_
                 fir = 1;
             }
@@ -359,7 +412,8 @@ int main()
             end_m /= 10;
         }
     }
-    // fprintf(stderr, "%lu %lu\n", ch, m);
+
+    fprintf(stderr, "\n%lu %lu\n\n", ch, m);
 
     // 1/1
     // may be have some bug about first coefficient
@@ -400,7 +454,18 @@ int main()
                     ptf(" + %ldx", ch_coefficient[1]);
                 else
                     ptf(" - %ldx", ch_coefficient[1]);
-    
+            else
+            {
+                if (ch_coefficient[1] == 1)
+                    ptf("x");
+                else if (ch_coefficient[1] == -1)
+                    ptf("-x");
+                else if (ch_coefficient[1] > 0)
+                    ptf("%ldx", ch_coefficient[1]);
+                else
+                    ptf("-%ldx", ch_coefficient[1]);
+                first_appeared = 1;
+            }
     if (ch_coefficient[0])
         if (ch_coefficient[0] > 0)
             if (first_appeared)
@@ -439,14 +504,26 @@ int main()
             else
                 ptf(" - %ldx^%lu", -m_coefficient[i], i);
     if (m_coefficient[1])
-        if (m_coefficient[1] == 1)
-            ptf(" + x");
-        else if (m_coefficient[1] == -1)
-            ptf(" - x");
-        else if (m_coefficient[1] > 0)
-            ptf(" + %ldx", m_coefficient[1]);
+        if (m_degree != 1)
+            if (m_coefficient[1] == 1)
+                ptf(" + x");
+            else if (m_coefficient[1] == -1)
+                ptf(" - x");
+            else if (m_coefficient[1] > 0)
+                ptf(" + %ldx", m_coefficient[1]);
+            else
+                ptf(" - %ldx", -m_coefficient[1]);
         else
-            ptf(" - %ldx", -m_coefficient[1]);
+        {
+            if (m_coefficient[1] == 1)
+                ptf("x");
+            else if (m_coefficient[1] == -1)
+                ptf("-x");
+            else if (m_coefficient[1] > 0)
+                ptf("%ldx", m_coefficient[1]);
+            else
+                ptf("-%ldx", -m_coefficient[1]);
+        }
     if (m_coefficient[0])
         if (m_coefficient[0] > 0)
             ptf(" + %ld", m_coefficient[0]);
