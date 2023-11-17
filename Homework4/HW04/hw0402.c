@@ -64,8 +64,8 @@ int main()
         ptf(" g(x)    0\n");
         return 0;
     }
-    int64_t f[f_degree + 1];
-    int64_t g[g_degree + 1];
+    i64 f[f_degree + 1];
+    i64 g[g_degree + 1];
     for (u64 i = 0; i <= f_degree; i++)
         f[i] = f_inp[f_degree - i];
     for (u64 i = 0; i <= g_degree; i++)
@@ -90,7 +90,7 @@ int main()
         for (u64 j = 0; j < g_degree; j++)
             f_times_g_prime[i + j] += f[i] * g_prime[j];
     // fprintf(stderr, "\n");
-    // for (int64_t i = 0; i < f_degree + g_degree; i++)
+    // for (i64 i = 0; i < f_degree + g_degree; i++)
     //     fprintf(stderr, "%ld ", f_times_g_prime[i]);
     // fprintf(stderr, "\n");
     i64 f_prime_times_g[f_degree + g_degree];
@@ -99,7 +99,7 @@ int main()
     for (u64 i = 0; i < f_degree; i++)
         for (u64 j = 0; j <= g_degree; j++)
             f_prime_times_g[i + j] += f_prime[i] * g[j];
-    // for (int64_t i = 0; i < f_degree + g_degree; i++)
+    // for (i64 i = 0; i < f_degree + g_degree; i++)
     //     fprintf(stderr, "%ld ", f_prime_times_g[i]);
     // fprintf(stderr, "\n\n");
     /// print
@@ -301,7 +301,7 @@ int main()
         ptf(" g(x)    0\n");
         return 0;
     }
-    uint64_t ch = 0, m = 0;
+    u64 ch = 0, m = 0;
     {
         int32_t first_appeared = 0;
         char ch_str[100];
@@ -442,111 +442,6 @@ int main()
                 sprintf(m_str, " - %ld", -m_coefficient[0]);
             m += strlen(m_str);
         }
-        //     int64_t ch_n = ch_coefficient[i];
-        //     if (ch_n)
-        //     {
-        //         if (ch_n < 0 && fir == 0)
-        //         {
-        //             ch++;
-        //             fir = 1;
-        //         }
-        //         if (ch_n == 1)
-        //         {
-        //             ch--;
-        //         }
-        //         else
-        //         {
-        //             if (ch_n != -1 && ch_n != 1)
-        //                 while (ch_n)
-        //                 {
-        //                     ch++;
-        //                     ch_n /= 10;
-        //                 }
-        //         }
-        //         u64 ch_d = ch_degree - i;
-        //         if (ch_d < 0)
-        //         {
-        //             ch++;
-        //         }
-        //         if (ch_d != 1)
-        //         {
-        //             while (ch_d)
-        //             {
-        //                 ch++;
-        //                 ch_d /= 10;
-        //             }
-        //             ch += 2; // x^
-        //         }
-        //         ch += 3; // _+_
-        //         fir = 1;
-        //     }
-        // }
-        // if (fir)
-        //     ch -= 2; // _+_ first
-        // int64_t end_ch = ch_coefficient[0];
-        // if (end_ch < 0 && fir == 0)
-        // {
-        //     ch++;
-        //     fir = 1;
-        // }
-        // while (end_ch)
-        // {
-        //     ch++;
-        //     end_ch /= 10;
-        // }
-        // fir = 0;
-        // for (i64 i = m_degree; i > 0; i--)
-        // {
-        //     int64_t m_n = m_coefficient[i];
-        //     if (m_n)
-        //     {
-        //         if (m_n < 0 && fir == 0)
-        //         {
-        //             m++;
-        //             fir = 1;
-        //         }
-        //         else
-        //         {
-        //             if (m_n != -1 && m_n != 1)
-        //                 while (m_n)
-        //                 {
-        //                     m++;
-        //                     m_n /= 10;
-        //                 }
-        //         }
-        //         u64 m_d = m_degree - i;
-        //         if (m_d < 0 && fir == 0)
-        //         {
-        //             fir = 1;
-        //             m++;
-        //         }
-        //         if (m_d != 1)
-        //         {
-        //             m++;
-        //             while (m_d)
-        //             {
-        //                 m++;
-        //                 m_d /= 10;
-        //             }
-        //             m += 2; // x^
-        //         }
-        //         m += 3; // _+_
-        //         fir = 1;
-        //     }
-        // }
-        // if (fir)
-        //     m -= 2; // _+_ first
-        // int64_t end_m = m_coefficient[0];
-        // if (end_m < 0 && fir == 0)
-        // {
-        //     m++;
-        //     fir = 1;
-        // }
-        // while (end_m)
-        // {
-        //     m++;
-        //     end_m /= 10;
-        // }
     }
 
     // fprintf(stderr, "\n%lu %lu\n\n", ch, m);

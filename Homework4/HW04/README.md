@@ -38,6 +38,10 @@ f_times_g_prime[0] 被歸零因為後面的 f_prime_times_g 多歸零一個把�
 
 ### hw0403
 
+#### 11/17 完成
+今天把基本的完成了，但不確定排版，而且不知道怎麼報錯，所以就這樣。
+然後我也寫了 `bubble sort` 跟 `merge sort`(edit from wiki)，然後在開頭 `#define` 了一個需不需要考量空間的項目，避免資料量太大的情況，我是預設是關的，所以預設是 `merge sort`。
+
 ----
 
 ### hw0404
