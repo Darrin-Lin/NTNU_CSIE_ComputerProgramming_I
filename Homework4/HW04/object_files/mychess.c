@@ -22,9 +22,13 @@
 // Note the print should follow the piece order.
 int32_t checkmate(int32_t board[10][9]);
 static int32_t check_board(int32_t board[10][9]);
+static void move_general(int32_t board[10][9], int32_t y, int32_t x);
+static void move_horse(int32_t board[10][9], int32_t y, int32_t x);
+static void move_chariot(int32_t board[10][9], int32_t y, int32_t x);
+static void move_cannon(int32_t board[10][9], int32_t y, int32_t x);
+static void move_soldier(int32_t board[10][9], int32_t y, int32_t x);
 
-static int32_t red_chess[7] = {0};
-static int32_t black_chess[7] = {0};
+static uint64_t num_print = 0;
 
 int32_t checkmate(int32_t board[10][9])
 {
@@ -32,10 +36,64 @@ int32_t checkmate(int32_t board[10][9])
     {
         return -1;
     }
+    for (int32_t i = 0; i < 10; i++)
+    {
+        for (int32_t j = 0; j < 9; j++)
+        {
+            if (board[i][j] == RED_GENERAL)
+            {
+                move_general(board, i, j);
+                break;
+            }
+        }
+    }
+    for (int32_t i = 0; i < 10; i++)
+    {
+        for (int32_t j = 0; j < 9; j++)
+        {
+            if (board[i][j] == RED_HORSE)
+            {
+                move_horse(board, i, j);
+            }
+        }
+    }
+    for (int32_t i = 0; i < 10; i++)
+    {
+        for (int32_t j = 0; j < 9; j++)
+        {
+            if (board[i][j] == RED_CHARIOT)
+            {
+                move_chariot(board, i, j);
+            }
+        }
+    }
+    for (int32_t i = 0; i < 10; i++)
+    {
+        for (int32_t j = 0; j < 9; j++)
+        {
+            if (board[i][j] == RED_CANNON)
+            {
+                move_cannon(board, i, j);
+            }
+        }
+    }
+    for (int32_t i = 0; i < 10; i++)
+    {
+        for (int32_t j = 0; j < 9; j++)
+        {
+            if (board[i][j] == RED_SOLDIER)
+            {
+                move_soldier(board, i, j);
+            }
+        }
+    }
+    return 0;
 }
 
 static int32_t check_board(int32_t board[10][9])
 {
+    int32_t red_chess[7] = {0};
+    int32_t black_chess[7] = {0};
     for (int32_t i = 0; i < 10; i++)
     {
         for (int32_t j = 0; j < 9; j++)
@@ -71,9 +129,9 @@ static int32_t check_board(int32_t board[10][9])
                             return -1;
                         }
                     }
-                    if(board[i][j]==RED_SOLDIER)
+                    if (board[i][j] == RED_SOLDIER)
                     {
-                        if((i<=4&&i%2)||i<3)
+                        if ((i <= 4 && i % 2) || i < 3)
                         {
                             return -1;
                         }
@@ -107,13 +165,13 @@ static int32_t check_board(int32_t board[10][9])
                             return -1;
                         }
                     }
-                    if(board[i][j]==BLACK_SOLDIER)
+                    if (board[i][j] == BLACK_SOLDIER)
                     {
-                        if((i>=5&&i%2)||i>6)
+                        if ((i >= 5 && i % 2) || i > 6)
                         {
                             return -1;
                         }
-                    }   
+                    }
                 }
             }
         }
@@ -150,4 +208,62 @@ static int32_t check_board(int32_t board[10][9])
         }
     }
     return 0;
+}
+
+static void move_general(int32_t board[10][9], int32_t y, int32_t x)
+{
+    int32_t next_x = 0, next_y = 0;
+
+    for (int32_t i = 0; i < 10; i++)
+    {
+        for (int32_t j = 0; j < 9; j++)
+        {
+            if (board[i][j] == BLACK_GENERAL)
+            {
+                if (x == 3 || x == 4)
+                {
+                    next_x = x + 1;
+                    if (j == next_x)
+                    {
+                        int32_t flag = 0;
+                        for (int32_t k = next_y + 1; k < i; k++)
+                        {
+                            if (board[k][j] != EMPTY)
+                            {
+                                flag = 1;
+                                break;
+                            }
+                        }
+                        if (flag == 0)
+                        {
+                            num_print++;
+                            printf("%lu) Move General from (%d,%d) to (%d,%d)\n", num_print, x, y, next_x, next_y);
+                        }
+                    }
+                }
+                if (x == 4 || x == 5)
+                {
+                    next_x = x - 1;
+                    if (j == next_x)
+                    {
+                        int32_t flag = 0;
+                        for (int32_t k = next_y + 1; k < i; k++)
+                        {
+                            if (board[k][j] != EMPTY)
+                            {
+                                flag = 1;
+                                break;
+                            }
+                        }
+                        if (flag == 0)
+                        {
+                            num_print++;
+                            printf("%lu) Move General from (%d,%d) to (%d,%d)\n", num_print, x, y, next_x, next_y);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return;
 }

@@ -5,7 +5,8 @@ all:
 	-gcc -o hw0401 hw0401.c ./object_files/mysort.o -lm
 	-gcc -o hw0402 hw0402.c -lm
 	-gcc -o hw0403 hw0403.c -lm
-	-gcc -o hw0404 hw0404.c -lm
+	-gcc -c ./object_files/mychess.c -o ./object_files/mychess
+	-gcc -o hw0404 hw0404.c ./object_files/mychess -lm
 	-gcc -o hw0405 hw0405.c -lm
 	
 
