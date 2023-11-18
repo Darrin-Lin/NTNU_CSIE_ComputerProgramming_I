@@ -220,7 +220,7 @@ static void move_general(int32_t board[10][9], int32_t y, int32_t x)
         {
             if (board[i][j] == BLACK_GENERAL)
             {
-                if (x == 3 || x == 4)
+                if ((x == 3 || x == 4) && (board[y][x + 1] / 10 || board[y][x + 1] == EMPTY))
                 {
                     next_x = x + 1;
                     if (j == next_x)
@@ -241,7 +241,7 @@ static void move_general(int32_t board[10][9], int32_t y, int32_t x)
                         }
                     }
                 }
-                if (x == 4 || x == 5)
+                if ((x == 4 || x == 5) && (board[y][x - 1] / 10 || board[y][x - 1] == EMPTY))
                 {
                     next_x = x - 1;
                     if (j == next_x)
@@ -265,5 +265,11 @@ static void move_general(int32_t board[10][9], int32_t y, int32_t x)
             }
         }
     }
+    return;
+}
+
+static void move_horse(int32_t board[10][9], int32_t y, int32_t x)
+{
+    
     return;
 }
