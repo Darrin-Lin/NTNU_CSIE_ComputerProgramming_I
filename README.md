@@ -71,4 +71,7 @@ Finished hw0305(Simple version).
 Finish hw0401 and start hw0402.
 
 #### 11/17 Update
-Finish hw0403 and almost finish hw0402.
+Finish hw0403, hw0406 and almost finish hw0402.
+
+#### 11/18 Update
+Start to write hw0404.

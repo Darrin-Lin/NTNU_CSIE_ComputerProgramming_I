@@ -55,6 +55,7 @@ int main()
     persentage[2] = (uint64_t)(STUDENT_NUMBER * 0.5 + 0.99999);
     persentage[3] = (uint64_t)(STUDENT_NUMBER * 0.25 + 0.99999);
     persentage[4] = (uint64_t)(STUDENT_NUMBER * 0.12 + 0.99999);
+    // fprintf(stderr, "persentage: %ld %ld %ld %ld %ld\n", persentage[0], persentage[1], persentage[2], persentage[3], persentage[4]);
     printf("         CHINESE | ENGLISH | MATH_A  | MATH_B  | SOCIAL  | SCIENCE\n");
     printf("TOP 12%%     %2d        %2d        %2d        %2d        %2d        %2d\n", score_sort[CHINESE][persentage[0] - 1], score_sort[ENGLISH][persentage[0] - 1], score_sort[MATH_A][persentage[0] - 1], score_sort[MATH_B][persentage[0] - 1], score_sort[SOCIAL][persentage[0] - 1], score_sort[SCIENCE][persentage[0] - 1]);
     printf("TOP 25%%     %2d        %2d        %2d        %2d        %2d        %2d\n", score_sort[CHINESE][persentage[1] - 1], score_sort[ENGLISH][persentage[1] - 1], score_sort[MATH_A][persentage[1] - 1], score_sort[MATH_B][persentage[1] - 1], score_sort[SOCIAL][persentage[1] - 1], score_sort[SCIENCE][persentage[1] - 1]);
