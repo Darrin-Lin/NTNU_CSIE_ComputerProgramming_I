@@ -34,6 +34,9 @@ f_times_g_prime[0] 被歸零因為後面的 f_prime_times_g 多歸零一個把�
 分數橫線我是決定用 `spritf` 跟 `<string.h>` `strlen()` 來計算
 要去抓 enter 因為要處理 degree 比 coefficient 少的情況
 
+#### 11/19 完成？
+因為助教發公告說只要如題目說的做 x 的約分，所以就不用再想怎麼化簡了。
+
 ----
 
 ### hw0403

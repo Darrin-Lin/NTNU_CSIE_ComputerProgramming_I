@@ -217,12 +217,15 @@ int main()
     ptf("\n");
     ptf("(f(x)g(x))': ");
     if (f_degree + g_degree - 1 > 0)
-        if (f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1] == 1)
-            ptf("x^%lu", f_degree + g_degree - 1);
-        else if (f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1] == -1)
-            ptf("-x^%lu", f_degree + g_degree - 1);
+        if (f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1])
+            if (f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1] == 1)
+                ptf("x^%lu", f_degree + g_degree - 1);
+            else if (f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1] == -1)
+                ptf("-x^%lu", f_degree + g_degree - 1);
+            else
+                ptf("%ldx^%lu", f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1], f_degree + g_degree - 1);
         else
-            ptf("%ldx^%lu", f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1], f_degree + g_degree - 1);
+            ptf("0");
     for (i64 i = f_degree + g_degree - 2; i > 1; i--)
     {
         if (f_times_g_prime[i] + f_prime_times_g[i] != 0)

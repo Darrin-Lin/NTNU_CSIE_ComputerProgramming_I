@@ -75,3 +75,6 @@ Finish hw0403, hw0406 and almost finish hw0402.
 
 #### 11/18 Update
 Start to write hw0404.
+
+#### 11/19 Update
+Finish hw0402.
