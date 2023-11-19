@@ -53,6 +53,9 @@ f_times_g_prime[0] 被歸零因為後面的 f_prime_times_g 多歸零一個把�
 我先寫一個 `static` 的 check function 讓 `checkmate()` call
 然後現在剩下車跟炮的移動，但也還沒測其他的棋子。
 
+#### 11/19 完成
+我把車跟炮的移動寫完了，但是我不確定我有沒有寫錯，因為我還沒有測試過。
+
 ----
 
 ### hw0405
