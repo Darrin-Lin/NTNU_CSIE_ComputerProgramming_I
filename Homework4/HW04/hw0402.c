@@ -8,8 +8,14 @@
 int main()
 {
     i64 f_degree = 0, g_degree = 0;
+    int32_t c=0;
     ptf("Please enter f(x) degree: ");
     scanf("%lu", &f_degree);
+    scanf("%*[^\n]%n", &c);
+    if(c>1){
+        ptf("f(x) degree is too many.\n");
+        return 0;
+    }
     if (f_degree > ((i64)1 << 32))
     {
         ptf("f(x) degree is too large.\n");
@@ -31,8 +37,20 @@ int main()
             return 0;
         }
     }
+    c=0;
+    scanf("%*[^\n]%n", &c);
+    if(c>1){
+        ptf("f(x) coefficient is too many.\n");
+        return 0;
+    }
     ptf("Please enter g(x) degree: ");
     scanf("%lu", &g_degree);
+    c=0;
+    scanf("%*[^\n]%n", &c);
+    if(c>1){
+        ptf("g(x) degree is too many.\n");
+        return 0;
+    }
     if (g_degree > ((i64)1 << 32))
     {
         ptf("g(x) degree is too large.\n");
@@ -53,6 +71,12 @@ int main()
             ptf("g(x) coefficient is too small.\n");
             return 0;
         }
+    }
+    c=0;
+    scanf("%*[^\n]%n", &c);
+    if(c>1){
+        ptf("g(x) coefficient is too many.\n");
+        return 0;
     }
     if (f_degree == 0 && g_degree == 0)
     {

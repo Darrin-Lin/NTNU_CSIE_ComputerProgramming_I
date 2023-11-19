@@ -57,7 +57,7 @@ for i in range(5,6):
         f.write('0')
         
         f.write('\n')
-for i in range(6,8):
+for i in range(6,7):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         n=r.randint(1,10)
         f.write(str(n))
@@ -65,6 +65,26 @@ for i in range(6,8):
         f.write(str(r.randint(1,100)))
         f.write(' ')
         for j in range(n):
+            f.write(str(r.randint(0,99)))
+            f.write(' ')
+        f.write('\n')
+        n=r.randint(1,10)
+        f.write(str(n))
+        f.write('\n')
+        f.write(str(r.randint(1,100)))
+        f.write(' ')
+        for j in range(n):
+            f.write(str(r.randint(0,99)))
+            f.write(' ')
+        f.write('\n')
+for i in range(7,8):
+    with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
+        n=r.randint(1,10)
+        f.write(str(n))
+        f.write('\n')
+        f.write(str(r.randint(1,100)))
+        f.write(' ')
+        for j in range(n+1):
             f.write(str(r.randint(0,99)))
             f.write(' ')
         f.write('\n')
