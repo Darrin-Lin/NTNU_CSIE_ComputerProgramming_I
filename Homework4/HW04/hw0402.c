@@ -377,17 +377,15 @@ int main()
                     else if (ch_coefficient[1] > 0)
                         sprintf(ch_str, " + %ldx", ch_coefficient[1]);
                     else
-                        sprintf(ch_str, " - %ldx", ch_coefficient[1]);
+                        sprintf(ch_str, " - %ldx", -ch_coefficient[1]);
                 else
                 {
                     if (ch_coefficient[1] == 1)
                         sprintf(ch_str, "x");
                     else if (ch_coefficient[1] == -1)
                         sprintf(ch_str, "-x");
-                    else if (ch_coefficient[1] > 0)
-                        sprintf(ch_str, "%ldx", ch_coefficient[1]);
                     else
-                        sprintf(ch_str, "-%ldx", ch_coefficient[1]);
+                        sprintf(ch_str, "%ldx", ch_coefficient[1]);
                     first_appeared = 1;
                 }
                 ch += strlen(ch_str);
@@ -515,17 +513,15 @@ int main()
                 else if (ch_coefficient[1] > 0)
                     ptf(" + %ldx", ch_coefficient[1]);
                 else
-                    ptf(" - %ldx", ch_coefficient[1]);
+                    ptf(" - %ldx", -ch_coefficient[1]);
             else
             {
                 if (ch_coefficient[1] == 1)
                     ptf("x");
                 else if (ch_coefficient[1] == -1)
                     ptf("-x");
-                else if (ch_coefficient[1] > 0)
-                    ptf("%ldx", ch_coefficient[1]);
                 else
-                    ptf("-%ldx", ch_coefficient[1]);
+                    ptf("%ldx", ch_coefficient[1]);
                 first_appeared = 1;
             }
     if (ch_coefficient[0])

@@ -36,7 +36,8 @@ static uint64_t num_print = 0;
 
 int32_t checkmate(int32_t board[10][9])
 {
-    if (check_board(board))
+    // fprintf(stderr, "%d\n", check_board(board));
+    if (check_board(board) == -1)
     {
         return -1;
     }
@@ -102,6 +103,7 @@ static int32_t check_board(int32_t board[10][9])
     {
         for (int32_t j = 0; j < 9; j++)
         {
+            // fprintf(stderr, "%d ", board[i][j]);
             if (board[i][j] != EMPTY)
             {
                 if (board[i][j] < 10)
@@ -111,10 +113,12 @@ static int32_t check_board(int32_t board[10][9])
                     {
                         if (!(i == 0 || i == 1 || i == 2))
                         {
+                            // fprintf(stderr, "RG\n");
                             return -1;
                         }
                         else if (!(j == 3 || j == 4 || j == 5))
                         {
+                            // fprintf(stderr, "RG\n");
                             return -1;
                         }
                     }
@@ -122,7 +126,7 @@ static int32_t check_board(int32_t board[10][9])
                     {
                         if (!(((i == 0 || i == 2) && (j == 3 || j == 5)) || ((i == 1) && (j == 4))))
                         {
-
+                            // fprintf(stderr, "RA\n");
                             return -1;
                         }
                     }
@@ -130,6 +134,7 @@ static int32_t check_board(int32_t board[10][9])
                     {
                         if (!(((i == 0 || i == 4) && (j == 2 || j == 6)) || ((i == 2) && (j == 0 || j == 4 || j == 8))))
                         {
+                            // fprintf(stderr, "RE\n");
                             return -1;
                         }
                     }
@@ -137,6 +142,7 @@ static int32_t check_board(int32_t board[10][9])
                     {
                         if ((i <= 4 && i % 2) || i < 3)
                         {
+                            // fprintf(stderr, "RS\n");
                             return -1;
                         }
                     }
@@ -148,10 +154,12 @@ static int32_t check_board(int32_t board[10][9])
                     {
                         if (!(i == 7 || i == 8 || i == 9))
                         {
+                            // fprintf(stderr, "BG\n");
                             return -1;
                         }
                         else if (!(j == 3 || j == 4 || j == 5))
                         {
+                            // fprintf(stderr, "BG\n");
                             return -1;
                         }
                     }
@@ -159,6 +167,7 @@ static int32_t check_board(int32_t board[10][9])
                     {
                         if (!(((i == 7 || i == 9) && (j == 3 || j == 5)) || ((i == 8) && (j == 4))))
                         {
+                            // fprintf(stderr, "BA\n");
                             return -1;
                         }
                     }
@@ -166,6 +175,7 @@ static int32_t check_board(int32_t board[10][9])
                     {
                         if (!(((i == 5 || i == 9) && (j == 2 || j == 6)) || ((i == 7) && (j == 0 || j == 4 || j == 8))))
                         {
+                            // fprintf(stderr, "BE\n");
                             return -1;
                         }
                     }
@@ -173,44 +183,54 @@ static int32_t check_board(int32_t board[10][9])
                     {
                         if ((i >= 5 && i % 2) || i > 6)
                         {
+                            // fprintf(stderr, "BS\n");
                             return -1;
                         }
                     }
                 }
             }
         }
-        // check number of chess
+        // fprintf(stderr, "\n");
+    }
+    // check number of chess
+    {
+        if (red_chess[0] != 1 || black_chess[0] != 1)
         {
-            if (red_chess[0] != 1 || black_chess[0] != 1)
-            {
-                return -1;
-            }
-            if (red_chess[1] > 2 || black_chess[1] > 2)
-            {
-                return -1;
-            }
-            if (red_chess[2] > 2 || black_chess[2] > 2)
-            {
-                return -1;
-            }
-            if (red_chess[3] > 2 || black_chess[3] > 2)
-            {
-                return -1;
-            }
-            if (red_chess[4] > 2 || black_chess[4] > 2)
-            {
-                return -1;
-            }
-            if (red_chess[5] > 2 || black_chess[5] > 2)
-            {
-                return -1;
-            }
-            if (red_chess[6] > 5 || black_chess[6] > 5)
-            {
-                return -1;
-            }
+            // fprintf(stderr, "RG||BG\n");
+            return -1;
+        }
+        if (red_chess[1] > 2 || black_chess[1] > 2)
+        {
+            // fprintf(stderr, "RA||BA\n");
+            return -1;
+        }
+        if (red_chess[2] > 2 || black_chess[2] > 2)
+        {
+            // fprintf(stderr, "RE||BE\n");
+            return -1;
+        }
+        if (red_chess[3] > 2 || black_chess[3] > 2)
+        {
+            // fprintf(stderr, "RH||BH\n");
+            return -1;
+        }
+        if (red_chess[4] > 2 || black_chess[4] > 2)
+        {
+            // fprintf(stderr, "RC||BC\n");
+            return -1;
+        }
+        if (red_chess[5] > 2 || black_chess[5] > 2)
+        {
+            // fprintf(stderr, "RCa||BCa\n");
+            return -1;
+        }
+        if (red_chess[6] > 5 || black_chess[6] > 5)
+        {
+            // fprintf(stderr, "RS||BS\n");
+            return -1;
         }
     }
+
     return 0;
 }
 
@@ -274,43 +294,42 @@ static void move_general(int32_t board[10][9], int32_t y, int32_t x)
 
 static void horse_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y, int32_t x, int32_t y)
 {
-    if (next_x - 1 < 9 && next_y - 2 < 10 && board[next_y - 2][next_x - 1] == BLACK_GENERAL && board[y][x - 1] == EMPTY)
+    if (next_x - 1 >= 0 && next_y - 2 >= 0 && board[next_y - 2][next_x - 1] == BLACK_GENERAL && board[next_y-1][next_x]==EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x + 1 < 9 && next_y - 2 < 10 && board[next_y - 2][next_x + 1] == BLACK_GENERAL && board[y][x - 1] == EMPTY)
+    else if (next_x + 1 < 9 && next_y - 2 >= 0 && board[next_y - 2][next_x + 1] == BLACK_GENERAL && board[next_y-1][next_x]==EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x - 2 < 9 && next_y - 1 < 10 && board[next_y - 1][next_x - 2] == BLACK_GENERAL && board[y][x - 1] == EMPTY)
+    else if (next_x - 2 >= 0 && next_y - 1 >= 0 && board[next_y - 1][next_x - 2] == BLACK_GENERAL && board[next_y][next_x-1]==EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x + 2 < 9 && next_y - 1 < 10 && board[next_y - 1][next_x + 2] == BLACK_GENERAL && board[y][x - 1] == EMPTY)
+    else if (next_x + 2 < 9 && next_y - 1 >= 0 && board[next_y - 1][next_x + 2] == BLACK_GENERAL && board[next_y][next_x+1]==EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x - 2 < 9 && next_y + 1 < 10 && board[next_y + 1][next_x - 2] == BLACK_GENERAL && board[y][x - 1] == EMPTY)
+    else if (next_x - 2 >= 0 && next_y + 1 < 10 && board[next_y + 1][next_x - 2] == BLACK_GENERAL && board[next_y][next_x-1]==EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x + 2 < 9 && next_y + 1 < 10 && board[next_y + 1][next_x + 2] == BLACK_GENERAL && board[y][x - 1] == EMPTY)
+    else if (next_x + 2 < 9 && next_y + 1 < 10 && board[next_y + 1][next_x + 2] == BLACK_GENERAL && board[next_y][next_x+1]==EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x - 1 < 9 && next_y + 2 < 10 && board[next_y + 2][next_x - 1] == BLACK_GENERAL && board[y][x - 1] == EMPTY)
+    else if (next_x - 1 >= 0 && next_y + 2 < 10 && board[next_y + 2][next_x - 1] == BLACK_GENERAL && board[next_y+1][next_x]==EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-
-    else if (next_x + 1 < 9 && next_y + 2 < 10 && board[next_y + 2][next_x + 1] == BLACK_GENERAL && board[y][x - 1] == EMPTY)
+    else if (next_x + 1 < 9 && next_y + 2 < 10 && board[next_y + 2][next_x + 1] == BLACK_GENERAL && board[next_y+1][next_x]==EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
@@ -318,57 +337,64 @@ static void horse_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y
 
     return;
 }
-
 static void move_horse(int32_t board[10][9], int32_t y, int32_t x)
 {
     int32_t next_x = 0, next_y = 0;
-    if (x - 1 >= 0 && y - 2 >= 0 && board[y - 2][x - 1] / 10 != 1 && board[y][x - 1] == EMPTY)
+    if (x - 1 >= 0 && y - 2 >= 0 && (board[y - 2][x - 1] / 10 == 1 || board[y - 2][x - 1] == EMPTY) && board[y - 1][x] == EMPTY)
     {
         next_x = x - 1;
         next_y = y - 2;
+        // fprintf(stderr, "a");
         horse_checkmate(board, next_x, next_y, x, y);
     }
-    if (x + 1 < 9 && y - 2 >= 0 && board[y - 2][x + 1] / 10 != 1 && board[y][x - 1] == EMPTY)
+    if (x + 1 < 9 && y - 2 >= 0 && (board[y - 2][x + 1] / 10 == 1 || board[y - 2][x + 1] == EMPTY) && board[y - 1][x] == EMPTY)
     {
         next_x = x + 1;
         next_y = y - 2;
+        // fprintf(stderr, "b");
         horse_checkmate(board, next_x, next_y, x, y);
     }
-    if (x - 2 < 9 && y - 1 < 10 && board[y - 1][x - 2] / 10 != 1 && board[y][x - 1] == EMPTY)
+    if (x - 2 >= 0 && y - 1 >= 0 && (board[y - 1][x - 2] / 10 == 1 || board[y - 1][x - 2] == EMPTY) && board[y][x - 1] == EMPTY)
     {
         next_x = x - 2;
         next_y = y - 1;
+        // fprintf(stderr, "c");
         horse_checkmate(board, next_x, next_y, x, y);
     }
-    if (x + 2 < 9 && y - 1 >= 0 && board[y - 1][x + 2] / 10 != 1 && board[y][x - 1] == EMPTY)
+    if (x + 2 < 9 && y - 1 >= 0 && (board[y - 1][x + 2] / 10 == 1 || board[y - 1][x + 2] == EMPTY) && board[y][x + 1] == EMPTY)
     {
         next_x = x + 2;
         next_y = y - 1;
+        // fprintf(stderr, "d");
         horse_checkmate(board, next_x, next_y, x, y);
     }
-    if (x - 2 >= 0 && y + 1 < 10 && board[y + 1][x - 2] / 10 != 1 && board[y][x - 1] == EMPTY)
+    if (x - 2 >= 0 && y + 1 < 10 && (board[y + 1][x - 2] / 10 == 1 || board[y + 1][x - 2] == EMPTY) && board[y][x - 1] == EMPTY)
     {
         next_x = x - 2;
         next_y = y + 1;
+        // fprintf(stderr, "e");
         horse_checkmate(board, next_x, next_y, x, y);
     }
-    if (x + 2 < 9 && y + 1 < 10 && board[y + 1][x + 2] / 10 != 1 && board[y][x - 1] == EMPTY)
+    if (x + 2 < 9 && y + 1 < 10 && (board[y + 1][x + 2] / 10 == 1 || board[y + 1][x + 2] == EMPTY) && board[y][x + 1] == EMPTY)
     {
         next_x = x + 2;
         next_y = y + 1;
+        // fprintf(stderr, "f");
         horse_checkmate(board, next_x, next_y, x, y);
     }
-    if (x - 1 >= 0 && y + 2 < 10 && board[y + 2][x - 1] / 10 != 1 && board[y][x - 1] == EMPTY)
+    if (x - 1 >= 0 && y + 2 < 10 && (board[y + 2][x - 1] / 10 == 1 || board[y + 2][x - 1] == EMPTY) && board[y + 1][x] == EMPTY)
     {
         next_x = x - 1;
         next_y = y + 2;
+        // fprintf(stderr, "g");
         horse_checkmate(board, next_x, next_y, x, y);
     }
 
-    if (x + 1 < 9 && y + 2 < 10 && board[y + 2][x + 1] / 10 != 1 && board[y][x - 1] == EMPTY)
+    if (x + 1 < 9 && y + 2 < 10 && (board[y + 2][x + 1] / 10 == 1 || board[y + 2][x + 1] == EMPTY) && board[y + 1][x] == EMPTY)
     {
         next_x = x + 1;
         next_y = y + 2;
+        // fprintf(stderr, "h");
         horse_checkmate(board, next_x, next_y, x, y);
     }
 
@@ -829,9 +855,10 @@ static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
         return;
     }
 }
+
 static void soldier_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y, int32_t x, int32_t y)
 {
-    if (next_x - 1 > 0 && board[next_y][next_x - 1] == BLACK_GENERAL)
+    if (next_x - 1 >= 0 && board[next_y][next_x - 1] == BLACK_GENERAL)
     {
         num_print++;
         printf("%lu) Move Soldier from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
@@ -859,7 +886,7 @@ static void move_soldier(int32_t board[10][9], int32_t y, int32_t x)
     if (y == 5 && (x <= 2 || x >= 6))
         return;
     int32_t next_x = 0, next_y = 0;
-    if (x - 1 > 0 && (board[y][x - 1] / 10 || board[y][x - 1] == EMPTY))
+    if (x - 1 >= 0 && (board[y][x - 1] / 10 || board[y][x - 1] == EMPTY))
     {
         next_x = x - 1;
         next_y = y;
@@ -871,7 +898,7 @@ static void move_soldier(int32_t board[10][9], int32_t y, int32_t x)
         next_y = y;
         soldier_checkmate(board, next_x, next_y, x, y);
     }
-    if (y + 1 < 0 && (board[y + 1][x] / 10 || board[y + 1][x] == EMPTY))
+    if (y + 1 < 10 && (board[y + 1][x] / 10 || board[y + 1][x] == EMPTY))
     {
         next_x = x;
         next_y = y + 1;
