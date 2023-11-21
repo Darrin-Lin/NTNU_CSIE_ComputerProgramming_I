@@ -26,6 +26,10 @@ int main()
     for (u64 i = 0; i <= f_degree; i++)
     {
         scanf("%ld", &f_inp[i]);
+        if(i==0&&f_inp[i]==0){
+            ptf("f(x) first coefficient cannot be zero.\n");
+            return 0;
+        }
         if (f_inp[i] > ((i64)1 << 31) - 1)
         {
             ptf("f(x) coefficient is too large.\n");
@@ -61,6 +65,10 @@ int main()
     for (u64 i = 0; i <= g_degree; i++)
     {
         scanf("%ld", &g_inp[i]);
+        if(i==0&&g_inp[i]==0){
+            ptf("g(x) first coefficient cannot be zero.\n");
+            return 0;
+        }
         if (g_inp[i] > ((i64)1 << 31) - 1)
         {
             ptf("g(x) coefficient is too large.\n");
