@@ -21,7 +21,7 @@ int main()
         }
     }
     // bubble sort
-    if(need_space)
+    if (need_space)
     {
         bubble_sort((int32_t *)score_sort, 0, STUDENT_NUMBER);
         bubble_sort((int32_t *)score_sort, 1, STUDENT_NUMBER);
@@ -66,6 +66,10 @@ int main()
 }
 void bubble_sort(int32_t *array, uint64_t n, uint64_t each_size)
 {
+    if (array == NULL)
+    {
+        return;
+    }
     for (uint64_t i = 0; i < each_size; i++)
     {
         for (uint64_t j = 0; j < each_size - i - 1; j++)
@@ -83,6 +87,10 @@ void bubble_sort(int32_t *array, uint64_t n, uint64_t each_size)
 // from wikipedia
 void mergeSort_conquer(int *array, int left, int mid, int right, int *temp)
 {
+    if (array == NULL)
+    {
+        return;
+    }
     int i = left;
     int j = mid + 1;
     int index = 0;
@@ -114,6 +122,10 @@ void mergeSort_conquer(int *array, int left, int mid, int right, int *temp)
 
 void mergeSort_divide(int *array, int left, int right, int *temp)
 {
+    if (array == NULL)
+    {
+        return;
+    }
     if (left < right)
     {
         int mid = left + (right - left) / 2;
@@ -125,6 +137,10 @@ void mergeSort_divide(int *array, int left, int right, int *temp)
 
 void mergeSort(int32_t *array, uint64_t n, uint64_t each_size)
 {
+    if (array == NULL)
+    {
+        return;
+    }
     int *temp = (int *)malloc(sizeof(int) * each_size);
     mergeSort_divide(array + n * each_size, 0, each_size - 1, temp);
 }

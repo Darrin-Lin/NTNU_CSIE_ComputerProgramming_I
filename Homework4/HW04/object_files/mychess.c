@@ -36,6 +36,10 @@ static uint64_t num_print = 0;
 
 int32_t checkmate(int32_t board[10][9])
 {
+    if (board == NULL)
+    {
+        return -1;
+    }
     // fprintf(stderr, "%d\n", check_board(board));
     if (check_board(board) == -1)
     {
@@ -97,6 +101,10 @@ int32_t checkmate(int32_t board[10][9])
 
 static int32_t check_board(int32_t board[10][9])
 {
+    if (board == NULL)
+    {
+        return -1;
+    }
     int32_t red_chess[7] = {0};
     int32_t black_chess[7] = {0};
     for (int32_t i = 0; i < 10; i++)
@@ -236,6 +244,10 @@ static int32_t check_board(int32_t board[10][9])
 
 static void move_general(int32_t board[10][9], int32_t y, int32_t x)
 {
+    if (board == NULL)
+    {
+        return;
+    }
     int32_t next_x = 0, next_y = 0;
 
     for (int32_t i = 0; i < 10; i++)
@@ -294,42 +306,46 @@ static void move_general(int32_t board[10][9], int32_t y, int32_t x)
 
 static void horse_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y, int32_t x, int32_t y)
 {
-    if (next_x - 1 >= 0 && next_y - 2 >= 0 && board[next_y - 2][next_x - 1] == BLACK_GENERAL && board[next_y-1][next_x]==EMPTY)
+    if (board == NULL)
+    {
+        return;
+    }
+    if (next_x - 1 >= 0 && next_y - 2 >= 0 && board[next_y - 2][next_x - 1] == BLACK_GENERAL && board[next_y - 1][next_x] == EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x + 1 < 9 && next_y - 2 >= 0 && board[next_y - 2][next_x + 1] == BLACK_GENERAL && board[next_y-1][next_x]==EMPTY)
+    else if (next_x + 1 < 9 && next_y - 2 >= 0 && board[next_y - 2][next_x + 1] == BLACK_GENERAL && board[next_y - 1][next_x] == EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x - 2 >= 0 && next_y - 1 >= 0 && board[next_y - 1][next_x - 2] == BLACK_GENERAL && board[next_y][next_x-1]==EMPTY)
+    else if (next_x - 2 >= 0 && next_y - 1 >= 0 && board[next_y - 1][next_x - 2] == BLACK_GENERAL && board[next_y][next_x - 1] == EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x + 2 < 9 && next_y - 1 >= 0 && board[next_y - 1][next_x + 2] == BLACK_GENERAL && board[next_y][next_x+1]==EMPTY)
+    else if (next_x + 2 < 9 && next_y - 1 >= 0 && board[next_y - 1][next_x + 2] == BLACK_GENERAL && board[next_y][next_x + 1] == EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x - 2 >= 0 && next_y + 1 < 10 && board[next_y + 1][next_x - 2] == BLACK_GENERAL && board[next_y][next_x-1]==EMPTY)
+    else if (next_x - 2 >= 0 && next_y + 1 < 10 && board[next_y + 1][next_x - 2] == BLACK_GENERAL && board[next_y][next_x - 1] == EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x + 2 < 9 && next_y + 1 < 10 && board[next_y + 1][next_x + 2] == BLACK_GENERAL && board[next_y][next_x+1]==EMPTY)
+    else if (next_x + 2 < 9 && next_y + 1 < 10 && board[next_y + 1][next_x + 2] == BLACK_GENERAL && board[next_y][next_x + 1] == EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x - 1 >= 0 && next_y + 2 < 10 && board[next_y + 2][next_x - 1] == BLACK_GENERAL && board[next_y+1][next_x]==EMPTY)
+    else if (next_x - 1 >= 0 && next_y + 2 < 10 && board[next_y + 2][next_x - 1] == BLACK_GENERAL && board[next_y + 1][next_x] == EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
     }
-    else if (next_x + 1 < 9 && next_y + 2 < 10 && board[next_y + 2][next_x + 1] == BLACK_GENERAL && board[next_y+1][next_x]==EMPTY)
+    else if (next_x + 1 < 9 && next_y + 2 < 10 && board[next_y + 2][next_x + 1] == BLACK_GENERAL && board[next_y + 1][next_x] == EMPTY)
     {
         num_print++;
         printf("%lu) Move Horse from (%d,%d) to (%d,%d)\n", num_print, y, x, next_y, next_x);
@@ -339,6 +355,10 @@ static void horse_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y
 }
 static void move_horse(int32_t board[10][9], int32_t y, int32_t x)
 {
+    if (board == NULL)
+    {
+        return;
+    }
     int32_t next_x = 0, next_y = 0;
     if (x - 1 >= 0 && y - 2 >= 0 && (board[y - 2][x - 1] / 10 == 1 || board[y - 2][x - 1] == EMPTY) && board[y - 1][x] == EMPTY)
     {
@@ -403,6 +423,10 @@ static void move_horse(int32_t board[10][9], int32_t y, int32_t x)
 
 static void chariot_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y, int32_t x, int32_t y, int32_t general_x, int32_t general_y)
 {
+    if (board == NULL)
+    {
+        return;
+    }
     if (next_x == general_x)
     {
         int32_t flag = 0;
@@ -479,6 +503,10 @@ static void chariot_checkmate(int32_t board[10][9], int32_t next_x, int32_t next
 }
 static void move_chariot(int32_t board[10][9], int32_t y, int32_t x)
 {
+    if (board == NULL)
+    {
+        return;
+    }
     int32_t next_x = 0, next_y = 0;
     for (int32_t i = 0; i < 10; i++)
     {
@@ -625,6 +653,10 @@ static void move_chariot(int32_t board[10][9], int32_t y, int32_t x)
 
 static void cannon_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y, int32_t x, int32_t y, int32_t general_x, int32_t general_y)
 {
+    if (board == NULL)
+    {
+        return;
+    }
     if (next_x == general_x)
     {
         int32_t flag = 0;
@@ -697,6 +729,10 @@ static void cannon_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_
 }
 static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
 {
+    if (board == NULL)
+    {
+        return;
+    }
     int32_t next_x = 0, next_y = 0;
     int32_t flag = 0;
     for (int32_t i = 0; i < 10; i++)
@@ -858,6 +894,10 @@ static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
 
 static void soldier_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y, int32_t x, int32_t y)
 {
+    if (board == NULL)
+    {
+        return;
+    }
     if (next_x - 1 >= 0 && board[next_y][next_x - 1] == BLACK_GENERAL)
     {
         num_print++;
@@ -877,6 +917,10 @@ static void soldier_checkmate(int32_t board[10][9], int32_t next_x, int32_t next
 }
 static void move_soldier(int32_t board[10][9], int32_t y, int32_t x)
 {
+    if (board == NULL)
+    {
+        return;
+    }
     if (y < 5)
         return;
     if (y >= 7 && (x == 0 || x == 8))

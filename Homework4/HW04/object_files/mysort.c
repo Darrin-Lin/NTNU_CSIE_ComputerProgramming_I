@@ -7,10 +7,11 @@ void myprint(int32_t array[], int32_t size);
 
 void mysort(int32_t array[], int32_t size)
 {
-	if (size <= 0)
-	{
-		return;
-	}
+	if (array == NULL)
+		if (size <= 0)
+		{
+			return;
+		}
 	int32_t even = 0; // odd=size-even
 	// fprintf(stderr,"%d",*(arr+1));
 	for (int32_t i = 0; i < size; i++) // sort even odd
@@ -54,6 +55,10 @@ void mysort(int32_t array[], int32_t size)
 }
 void myprint(int32_t array[], int32_t size)
 {
+	if (array == NULL)
+	{
+		return;
+	}
 	if (size <= 0)
 	{
 		return;
