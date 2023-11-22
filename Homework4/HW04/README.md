@@ -66,6 +66,10 @@ f_times_g_prime[0] 被歸零因為後面的 f_prime_times_g 多歸零一個把�
 #### 11/21 開始
 今天先了解了日本麻將的基本規則並先處理好 input
 
+#### 11/22 繼續
+今天寫了 special case 跟前置的一些作業，但我還沒寫其他要計算役滿跟番數的部分，因為我還沒完全搞懂規則。
+open hand 跟 open group 差別是？ (ex:straight)
+
 ----
 
 ### hw0406
