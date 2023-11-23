@@ -3,7 +3,7 @@ hw=4
 make_clean=0
 
 for n in $(
-	seq 1 4	
+	seq 1 5	
 ); do
 	if (! [ ${n} -eq 3 ]); then
 		if ! [ -d "0${n}" ]; then

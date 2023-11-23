@@ -70,6 +70,12 @@ f_times_g_prime[0] 被歸零因為後面的 f_prime_times_g 多歸零一個把�
 今天寫了 special case 跟前置的一些作業，但我還沒寫其他要計算役滿跟番數的部分，因為我還沒完全搞懂規則。
 open hand 跟 open group 差別是？ (ex:straight)
 
+#### 11/23 完成
+winning tile 可以是複數？ 平和因為這樣所以不確定寫好了嗎？
+Honor 也不確定槓子算不算，還有白發中要怎麼算。
+不過都大概寫好了。
+在 input pair 出現輸入問題
+
 ----
 
 ### hw0406
