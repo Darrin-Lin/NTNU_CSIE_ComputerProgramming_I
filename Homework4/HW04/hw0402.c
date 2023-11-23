@@ -19,7 +19,7 @@ int main()
         ptf("f(x) degree is too many.\n");
         return 0;
     }
-    if (f_degree > ((i64)1 << 32))
+    if (f_degree > ((i64)1 << 8))
     {
         ptf("f(x) degree is too large.\n");
         return 0;
@@ -61,7 +61,7 @@ int main()
         ptf("g(x) degree is too many.\n");
         return 0;
     }
-    if (g_degree > ((i64)1 << 32))
+    if (g_degree > ((i64)1 << 8))
     {
         ptf("g(x) degree is too large.\n");
         return 0;
