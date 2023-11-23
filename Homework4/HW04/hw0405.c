@@ -11,7 +11,8 @@
 static int32_t melds[4][4] = {0};
 static int32_t cards_count[33] = {0};
 static int32_t pair[2] = {0};
-static int32_t winning_tile = 0, self_drawn_win = 0, plqyer_wind = 0, prevailing_wind = 0, special_case = 0, open_hand = 0;
+static int32_t winning_tile = 0, self_drawn_win = 0, plqyer_wind = 0, prevailing_wind = 0, special_case = 0, closed_hand = 1;
+static int8_t open_hand_meld[4] = {0};
 static int32_t triplets = 0, kans = 0, sequences = 0; // 刻子 槓子 順子 3 4 3
 static int32_t han = 0, yakuman = 0;
 // static int32_t yaku_flag[33] = {0};
@@ -60,7 +61,8 @@ int main()
 			}
 			if (inp_hand)
 			{
-				open_hand++;
+				open_hand_meld[0] = 1;
+				closed_hand = 0;
 			}
 			if (inp_count < 3 || inp_count > 4)
 			{
@@ -130,6 +132,14 @@ int main()
 				{
 					cards_count[meld_inp[j] - 1]++;
 					melds[i][j] = meld_inp[j];
+					if ((j > 0 && (meld_inp[j] != meld_inp[j - 1] + 1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9)) || meld_inp[i] > 27)
+					{
+						is_straight = 0;
+					}
+					if (j > 0 && meld_inp[j] != meld_inp[j - 1])
+					{
+						is_same = 0;
+					}
 				}
 				ptf("Is open/closed group(1: open 0: closed):");
 				scanf("%d", &inp_hand);
@@ -139,20 +149,8 @@ int main()
 				}
 				if (inp_hand)
 				{
-					open_hand++;
-				}
-				for (int32_t i = 0; i < inp_count; i++)
-				{
-					cards_count[meld_inp[i] - 1]++;
-					melds[0][i] = meld_inp[i];
-					if ((i > 0 && (meld_inp[i] != meld_inp[i - 1] + 1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9)) || meld_inp[i] > 27)
-					{
-						is_straight = 0;
-					}
-					if (i > 0 && meld_inp[i] != meld_inp[i - 1])
-					{
-						is_same = 0;
-					}
+					closed_hand = 0;
+					open_hand_meld[i] = 1;
 				}
 				if (!(is_same || is_straight))
 				{
@@ -266,11 +264,7 @@ static void count_yaku()
 {
 	if (special_case)
 	{
-		int32_t closed_hand = 1;
-		if (open_hand)
-		{
-			closed_hand = 0;
-		}
+
 
 		int32_t thirteen_orphans = 0, thirteen_orphans_flag = 0;
 		for (int32_t i = 0; i < 3; i++)

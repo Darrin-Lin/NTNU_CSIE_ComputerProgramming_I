@@ -5,6 +5,8 @@
 #define i64 int64_t
 #define u64 uint64_t
 
+static i64 gcd(i64, i64);
+
 int main()
 {
     i64 f_degree = 0, g_degree = 0;
@@ -264,7 +266,7 @@ int main()
                 ptf("%ldx^%ld", f_times_g_prime[f_degree + g_degree - 1] + f_prime_times_g[f_degree + g_degree - 1], f_degree + g_degree - 1);
         else
             ptf("0");
-    
+
     for (i64 i = f_degree + g_degree - 2; i > 1; i--)
     {
         if (f_times_g_prime[i] + f_prime_times_g[i] != 0)
@@ -336,7 +338,6 @@ int main()
         m_coefficient[i] = 0;
     for (u64 i = 0; i <= m_degree; i++)
         m_coefficient[i] = g_sqare[i + g_degree * 2 - m_degree];
-
     if (m_coefficient[0] == 0 && m_degree == 0) // 如遇到 division by zero 情況，除法部分請當作0/0做輸出
     {
         ptf(" f(x)    0\n");
@@ -353,15 +354,37 @@ int main()
             break;
         }
     }
-    // if (is_zero||(ch_coefficient[0] == 0 && ch_degree == 0))
-    // {
-    //     ptf(" f(x)    0\n");
-    //     ptf("(----)': -\n");
-    //     ptf(" g(x)    0\n");
-    //     return 0;
-    // }
 
-    
+    if (!is_zero)
+    {
+        i64 ch_gcd = 0, m_gcd = 0;
+        ch_gcd = ch_coefficient[ch_degree];
+        m_gcd = m_coefficient[m_degree];
+        for (size_t i = ch_degree ; i > 0&&ch_gcd!=1; i--)
+        {
+            if (ch_coefficient[i - 1])
+            {
+                ch_gcd = gcd(ch_gcd, ch_coefficient[i - 1]);
+            }
+        }
+        for (size_t i = m_degree ; i > 0&&m_gcd!=1; i--)
+        {
+            if (m_coefficient[i - 1])
+            {
+                m_gcd = gcd(m_gcd, m_coefficient[i - 1]);
+            }
+        }
+        i64 all_gcd = 0;
+        all_gcd = gcd(m_gcd, ch_gcd);
+        for (size_t i = 0; i <= ch_degree; i++)
+        {
+            ch_coefficient[i] /= all_gcd;
+        }
+        for (size_t i = 0; i <= m_degree; i++)
+        {
+            m_coefficient[i] /= all_gcd;
+        }
+    }
     u64 ch = 0, m = 0;
     {
         int32_t first_appeared = 0;
@@ -637,4 +660,14 @@ int main()
             ptf(" - %ld", -m_coefficient[0]);
     ptf("\n");
     return 0;
+}
+
+static i64 gcd(i64 a, i64 b)
+{
+    if (b)
+        while ((a %= b) && (b %= a))
+        {
+        }
+    // fprintf(stderr,"a")
+    return a + b;
 }

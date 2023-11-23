@@ -1,7 +1,7 @@
 import random as r
 hw=4
 hw_part=2
-for i in range(0,3):
+for i in range(0,2):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         n=r.randint(1,5)
         f.write(str(n))
@@ -19,6 +19,25 @@ for i in range(0,3):
         f.write(' ')
         for j in range(n):
             f.write(str(r.randint(0,9)))
+            f.write(' ')
+        f.write('\n')
+for i in range(2,3):
+    with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
+        n=r.randint(1,5)
+        m=r.randint(2,5)
+        f.write(str(n))
+        f.write('\n')
+        for j in range(n):
+            f.write(str(m*(r.randint(0,99))))
+            f.write(' ')
+        f.write('\n')
+        n=r.randint(1,10)
+        f.write(str(n))
+        f.write('\n')
+        f.write(str(r.randint(1,100)))
+        f.write(' ')
+        for j in range(n):
+            f.write(str(m*(r.randint(0,99))))
             f.write(' ')
         f.write('\n')
 for i in range(3,4):
