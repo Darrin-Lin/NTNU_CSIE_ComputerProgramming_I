@@ -24,7 +24,10 @@ for i in range(0,3):
 for i in range(3,4):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         f.write("0\n2\n2\n1 0 0\n")
-for i in range(4,6):
+for i in range(4,5):
+    with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
+        f.write("1\n1 2\n1\n1 2\n")
+for i in range(5,6):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         n=0
         f.write(str(n))
