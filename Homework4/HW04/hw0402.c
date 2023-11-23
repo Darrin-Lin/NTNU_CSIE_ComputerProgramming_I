@@ -129,19 +129,19 @@ int main()
     for (u64 i = 0; i <= f_degree; i++)
         for (u64 j = 0; j < g_degree; j++)
             f_times_g_prime[i + j] += f[i] * g_prime[j];
-    // fprintf(stderr, "\n");
-    // for (i64 i = 0; i < f_degree + g_degree; i++)
-    //     fprintf(stderr, "%ld ", f_times_g_prime[i]);
-    // fprintf(stderr, "\n");
+    // fprintf(stderr, "\n");//
+    // for (i64 i = 0; i < f_degree + g_degree; i++)//
+    //     fprintf(stderr, "%ld ", f_times_g_prime[i]);//
+    // fprintf(stderr, "\n");//
     i64 f_prime_times_g[f_degree + g_degree];
     for (u64 i = 0; i < f_degree + g_degree; i++)
         f_prime_times_g[i] = 0;
     for (u64 i = 0; i < f_degree; i++)
         for (u64 j = 0; j <= g_degree; j++)
             f_prime_times_g[i + j] += f_prime[i] * g[j];
-    // for (i64 i = 0; i < f_degree + g_degree; i++)
-    //     fprintf(stderr, "%ld ", f_prime_times_g[i]);
-    // fprintf(stderr, "\n\n");
+    // for (i64 i = 0; i < f_degree + g_degree; i++)//
+    //     fprintf(stderr, "%ld ", f_prime_times_g[i]);//
+    // fprintf(stderr, "\n\n");//
     /// print
     ptf("f(x): ");
     if (f_degree > 1)
@@ -360,14 +360,14 @@ int main()
         i64 ch_gcd = 0, m_gcd = 0;
         ch_gcd = ch_coefficient[ch_degree];
         m_gcd = m_coefficient[m_degree];
-        for (size_t i = ch_degree ; i > 0&&ch_gcd!=1; i--)
+        for (size_t i = ch_degree; i > 0 && ch_gcd != 1; i--)
         {
             if (ch_coefficient[i - 1])
             {
                 ch_gcd = gcd(ch_gcd, ch_coefficient[i - 1]);
             }
         }
-        for (size_t i = m_degree ; i > 0&&m_gcd!=1; i--)
+        for (size_t i = m_degree; i > 0 && m_gcd != 1; i--)
         {
             if (m_coefficient[i - 1])
             {
@@ -425,8 +425,8 @@ int main()
                         else
                             sprintf(ch_str, "-%ldx^%lu", -f_prime_times_g[i] + f_times_g_prime[i], i);
                         ch += strlen(ch_str);
+                        first_appeared = 1;
                     }
-                    first_appeared = 1;
                 }
             }
             if (ch_degree > 0)
@@ -563,6 +563,7 @@ int main()
             else
             {
                 if (ch_coefficient[i])
+                {
                     if (ch_coefficient[i] == 1)
                         ptf("x^%lu", i);
                     else if (ch_coefficient[i] == -1)
@@ -571,7 +572,8 @@ int main()
                         ptf("%ldx^%lu", ch_coefficient[i], i);
                     else
                         ptf("-%ldx^%lu", -f_prime_times_g[i] + f_times_g_prime[i], i);
-                first_appeared = 1;
+                    first_appeared = 1;
+                }
             }
         if (ch_degree > 0)
             if (ch_coefficient[1])

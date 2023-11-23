@@ -27,16 +27,14 @@ for i in range(2,3):
         m=r.randint(2,5)
         f.write(str(n))
         f.write('\n')
-        for j in range(n):
+        for j in range(n+1):
             f.write(str(m*(r.randint(0,99))))
             f.write(' ')
         f.write('\n')
         n=r.randint(1,10)
         f.write(str(n))
         f.write('\n')
-        f.write(str(r.randint(1,100)))
-        f.write(' ')
-        for j in range(n):
+        for j in range(n+1):
             f.write(str(m*(r.randint(0,99))))
             f.write(' ')
         f.write('\n')
