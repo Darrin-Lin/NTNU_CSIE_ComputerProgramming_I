@@ -74,11 +74,14 @@ open hand 跟 open group 差別是？ (ex:straight)
 winning tile 可以是複數？ 平和因為這樣所以不確定寫好了嗎？
 Honor 也不確定槓子算不算，還有白發中要怎麼算。
 不過都大概寫好了。
-在 input pair 出現輸入問題
+~~在 input pair 出現輸入問題~~
 
 #### 11/24 debug
 剩下確認役的部分
 白發中順序>>綠一色 honor ？範例二測資
+白發中順序？範例二測資
+自摸達成了哪些：最後一張用摸的，所以不可能在 open group
+winning tile 不能在槓子
 
 ----
 
