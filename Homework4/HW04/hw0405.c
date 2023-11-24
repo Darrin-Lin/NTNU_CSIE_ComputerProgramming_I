@@ -11,7 +11,7 @@
 static int32_t melds[4][4] = {0};
 static int32_t cards_count[33] = {0};
 static int32_t pair[2] = {0};
-static int32_t winning_tile = 0, self_drawn_win = 0, plqyer_wind = 0, prevailing_wind = 0;
+static int32_t winning_tile = 0, self_drawn_win = 0, player_wind = 0, prevailing_wind = 0;
 static int32_t special_case = 0, closed_hand = 1;
 static int8_t open_hand_meld[4] = {0};
 static int32_t triplets = 0, kans = 0, sequences = 0; // 刻子 槓子 順子 3 4 3
@@ -243,10 +243,10 @@ int main()
 		unresonable = 1;
 	}
 	ptf("Player's wind(0:E 1:S 2:W 3:N): "); //
-	scanf("%d", &plqyer_wind);
-	if (plqyer_wind > 3 || plqyer_wind < 0)
+	scanf("%d", &player_wind);
+	if (player_wind > 3 || player_wind < 0)
 	{
-		fprintf(stderr, "plqyer_wind: %d\n", plqyer_wind);
+		fprintf(stderr, "player_wind: %d\n", player_wind);
 		unresonable = 1;
 	}
 	ptf("Prevailing wind(0:E 1:S 2:W 3:N): "); //
@@ -1038,7 +1038,7 @@ static void count_yaku()
 
 		// Player’s wind of East(東風) South(南風) West(西風) North(北風)
 
-		if (cards_count[winning_tile - 1] == 3)
+		if (cards_count[27+player_wind] == 3)
 		{
 			yaku_flag[29] = 1;
 			han++;
@@ -1047,7 +1047,7 @@ static void count_yaku()
 
 		// Prevailing wind of East(東風) South(南風) West(西風) North(北風)
 		{
-			if (cards_count[winning_tile - 1] == 3)
+			if (cards_count[27+prevailing_wind] == 3)
 			{
 				yaku_flag[29] = 1;
 				han++;
