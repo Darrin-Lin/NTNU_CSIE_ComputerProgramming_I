@@ -30,8 +30,8 @@ int main()
 	int32_t errinp = 0;
 
 	scanf("%d", &inp);
-	inp_count++;
-	while (inp_count < 15 && inp)
+	// inp_count++;
+	while (inp_count < 13 && inp)
 	{
 		if (inp > 34 || inp < 0)
 		{
@@ -48,7 +48,7 @@ int main()
 		fprintf(stderr, "errinp: %d\n", errinp);
 		unresonable = 1;
 	}
-	if (inp_count == 15)
+	if (inp_count == 13)
 	{
 		special_case = 1;
 		for (int32_t i = 0; i < 14; i++)
@@ -71,13 +71,13 @@ int main()
 			open_hand_meld[0] = 1;
 			closed_hand = 0;
 		}
-		if (inp_count < 4 || inp_count > 5)
+		if (inp_count < 3 || inp_count > 4)
 		{
 			fprintf(stderr, "inp_count: %d\n", inp_count);
 			unresonable = 1;
 		}
 		int32_t is_same = 1, is_straight = 1;
-		for (int32_t i = 0; i < inp_count - 1; i++)
+		for (int32_t i = 0; i < inp_count; i++)
 		{
 			cards_count[meld_inp[i] - 1]++;
 			melds[0][i] = meld_inp[i];
@@ -96,20 +96,20 @@ int main()
 			fprintf(stderr, "is_same: %d is_straight: %d\n", is_same, is_straight);
 			unresonable = 1;
 		}
-		if (is_straight && inp_count == 5)
+		if (is_straight && inp_count == 4)
 		{
 			fprintf(stderr, "is_straight: %d inp_count: %d\n", is_straight, inp_count);
 			unresonable = 1;
 		}
-		if (is_same && inp_count == 4)
+		if (is_same && inp_count == 3)
 		{
 			triplets++;
 		}
-		if (is_same && inp_count == 5)
+		if (is_same && inp_count == 4)
 		{
 			kans++;
 		}
-		if (is_straight && inp_count == 4)
+		if (is_straight && inp_count == 3)
 		{
 			sequences++;
 		}
@@ -1023,7 +1023,7 @@ static void count_yaku()
 			yaku_flag[29] = 1;
 			han++;
 			if (cards_count[31] == 3)
-			{
+			{	
 				ptf("    Honors: White (1 Han)\n");
 			}
 			else if (cards_count[32] == 3)
