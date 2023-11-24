@@ -28,19 +28,184 @@ int main()
 	int8_t unresonable = 0;
 	static int32_t meld_inp[14] = {0};
 	int32_t errinp = 0;
-	
+
+	scanf("%d", &inp);
+	inp_count++;
+	while (inp_count < 15 && inp)
+	{
+		if (inp > 34 || inp < 0)
+		{
+			fprintf(stderr, "inp: %d\n", inp);
+			unresonable = 1;
+		}
+		meld_inp[inp_count] = inp;
 		scanf("%d", &inp);
 		inp_count++;
-		while (inp_count < 15 && inp)
+	}
+	scanf("%*[^\n]%n", &errinp);
+	if (errinp)
+	{
+		fprintf(stderr, "errinp: %d\n", errinp);
+		unresonable = 1;
+	}
+	if (inp_count == 15)
+	{
+		special_case = 1;
+		for (int32_t i = 0; i < 14; i++)
 		{
-			if (inp > 34 || inp < 0)
+			cards_count[meld_inp[i] - 1]++;
+		}
+	}
+	else
+	{
+		ptf("Is open/closed group(1: open 0: closed): ");
+		int32_t inp_hand = 0;
+		scanf("%d", &inp_hand);
+		if (inp_hand > 1 || inp_hand < 0)
+		{
+			fprintf(stderr, "inp_hand: %d\n", inp_hand);
+			unresonable = 1;
+		}
+		if (inp_hand)
+		{
+			open_hand_meld[0] = 1;
+			closed_hand = 0;
+		}
+		if (inp_count < 4 || inp_count > 5)
+		{
+			fprintf(stderr, "inp_count: %d\n", inp_count);
+			unresonable = 1;
+		}
+		int32_t is_same = 1, is_straight = 1;
+		for (int32_t i = 0; i < inp_count - 1; i++)
+		{
+			cards_count[meld_inp[i] - 1]++;
+			melds[0][i] = meld_inp[i];
+			if ((i > 0 && meld_inp[i] != meld_inp[i - 1] + 1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9) || meld_inp[i] > 27)
 			{
-				fprintf(stderr, "inp: %d\n", inp);
+				is_straight = 0;
+			}
+
+			if (i > 0 && meld_inp[i] != meld_inp[i - 1])
+			{
+				is_same = 0;
+			}
+		}
+		if (!(is_same || is_straight))
+		{
+			fprintf(stderr, "is_same: %d is_straight: %d\n", is_same, is_straight);
+			unresonable = 1;
+		}
+		if (is_straight && inp_count == 5)
+		{
+			fprintf(stderr, "is_straight: %d inp_count: %d\n", is_straight, inp_count);
+			unresonable = 1;
+		}
+		if (is_same && inp_count == 4)
+		{
+			triplets++;
+		}
+		if (is_same && inp_count == 5)
+		{
+			kans++;
+		}
+		if (is_straight && inp_count == 4)
+		{
+			sequences++;
+		}
+		is_same = 1, is_straight = 1;
+		meld_count++;
+		for (int32_t i = 1; i < 4; i++)
+		{
+			inp_count = 0;
+			ptf("Please input meld: ");
+			scanf("%d", &inp);
+			while (inp && inp_count < 4)
+			{
+				if (inp > 34 || inp < 0)
+				{
+					fprintf(stderr, "%d inp: %d\n", i, inp);
+					unresonable = 1;
+				}
+				meld_inp[inp_count] = inp;
+
+				scanf("%d", &inp);
+				inp_count++;
+			}
+			scanf("%*[^\n]%n", &errinp);
+			if (errinp)
+			{
+				fprintf(stderr, "%d errinp: %d\n", i, errinp);
 				unresonable = 1;
 			}
-			meld_inp[inp_count] = inp;
-			scanf("%d", &inp);
-			inp_count++;
+			if (inp_count < 3 || inp_count > 4)
+			{
+				fprintf(stderr, "%d inp_count: %d\n", i, inp_count);
+				unresonable = 1;
+			}
+			for (int32_t j = 0; j < inp_count; j++)
+			{
+				cards_count[meld_inp[j] - 1]++;
+				melds[i][j] = meld_inp[j];
+				if ((j > 0 && meld_inp[j] != meld_inp[j - 1] + 1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9) || meld_inp[i] > 27)
+				{
+					is_straight = 0;
+				}
+				if (j > 0 && meld_inp[j] != meld_inp[j - 1])
+				{
+					is_same = 0;
+				}
+			}
+			ptf("Is open/closed group(1: open 0: closed): ");
+			scanf("%d", &inp_hand);
+			if (inp_hand > 1 || inp_hand < 0)
+			{
+				fprintf(stderr, "%d inp_hand: %d\n", i, inp_hand);
+				unresonable = 1;
+			}
+			if (inp_hand)
+			{
+				closed_hand = 0;
+				open_hand_meld[i] = 1;
+			}
+			if (!(is_same || is_straight))
+			{
+				fprintf(stderr, "%d is_same: %d is_straight: %d\n", i, is_same, is_straight);
+				unresonable = 1;
+			}
+			if (is_straight && inp_count == 4)
+			{
+				fprintf(stderr, "%d is_straight: %d inp_count: %d\n", i, is_straight, inp_count);
+				unresonable = 1;
+			}
+			if (is_same && inp_count == 3)
+			{
+				triplets++;
+			}
+			if (is_same && inp_count == 4)
+			{
+				kans++;
+			}
+			if (is_straight && inp_count == 3)
+			{
+				sequences++;
+			}
+			is_same = 1, is_straight = 1;
+			meld_count++;
+		}
+		ptf("Please input pair: ");
+		for (int32_t i = 0; i < 2; i++)
+		{
+			int32_t inp_pair = 0;
+			scanf("%d", &inp_pair);
+			if (inp_pair > 34 || inp_pair < 1)
+			{
+				fprintf(stderr, "inp_pair: %d\n", inp_pair);
+				unresonable = 1;
+			}
+			cards_count[inp_pair - 1]++;
+			pair[i] = inp_pair;
+			// inp_count++;
 		}
 		scanf("%*[^\n]%n", &errinp);
 		if (errinp)
@@ -48,174 +213,13 @@ int main()
 			fprintf(stderr, "errinp: %d\n", errinp);
 			unresonable = 1;
 		}
-		if (inp_count == 15)
+		if (pair[0] != pair[1])
 		{
-			special_case = 1;
+			fprintf(stderr, "pair[0]: %d pair[1]: %d\n", pair[0], pair[1]);
+			unresonable = 1;
 		}
-		else
-		{
-			ptf("Is open/closed group(1: open 0: closed): ");
-			int32_t inp_hand = 0;
-			scanf("%d", &inp_hand);
-			if (inp_hand > 1 || inp_hand < 0)
-			{
-				fprintf(stderr, "inp_hand: %d\n", inp_hand);
-				unresonable = 1;
-			}
-			if (inp_hand)
-			{
-				open_hand_meld[0] = 1;
-				closed_hand = 0;
-			}
-			if (inp_count < 4 || inp_count > 5)
-			{
-				fprintf(stderr, "inp_count: %d\n", inp_count);
-				unresonable = 1;
-			}
-			int32_t is_same = 1, is_straight = 1;
-			for (int32_t i = 0; i < inp_count-1; i++)
-			{
-				cards_count[meld_inp[i] - 1]++;
-				melds[0][i] = meld_inp[i];
-				if ((i > 0 && meld_inp[i] != meld_inp[i - 1] +1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9) || meld_inp[i] > 27)
-				{
-					is_straight = 0;
-				}
+	}
 
-				if (i > 0 && meld_inp[i] != meld_inp[i - 1])
-				{
-					is_same = 0;
-				}
-			}
-			if (!(is_same || is_straight))
-			{
-				fprintf(stderr, "is_same: %d is_straight: %d\n", is_same, is_straight);
-				unresonable = 1;
-			}
-			if (is_straight && inp_count == 5)
-			{
-				fprintf(stderr, "is_straight: %d inp_count: %d\n", is_straight, inp_count);
-				unresonable = 1;
-			}
-			if (is_same && inp_count == 4)
-			{
-				triplets++;
-			}
-			if (is_same && inp_count == 5)
-			{
-				kans++;
-			}
-			if (is_straight && inp_count == 4)
-			{
-				sequences++;
-			}
-			is_same = 1, is_straight = 1;
-			meld_count++;
-			for (int32_t i = 1; i < 4; i++)
-			{
-				inp_count = 0;	
-				ptf("Please input meld: ");
-				scanf("%d", &inp);
-				while (inp && inp_count < 4)
-				{
-					if (inp > 34 || inp < 0)
-					{
-						fprintf(stderr, "%d inp: %d\n",i, inp);
-						unresonable = 1;
-					}
-					meld_inp[inp_count] = inp;
-					
-					scanf("%d", &inp);
-					inp_count++;
-				}
-				scanf("%*[^\n]%n", &errinp);
-				if (errinp)
-				{
-					fprintf(stderr, "%d errinp: %d\n",i, errinp);
-					unresonable = 1;
-				}
-				if (inp_count < 3 || inp_count > 4)
-				{
-					fprintf(stderr, "%d inp_count: %d\n",i, inp_count);
-					unresonable = 1;
-				}
-				for (int32_t j = 0; j < inp_count; j++)
-				{
-					cards_count[meld_inp[j] - 1]++;
-					melds[i][j] = meld_inp[j];
-					if ((j > 0 && meld_inp[j] != meld_inp[j - 1] +1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9) || meld_inp[i] > 27)
-					{
-						is_straight = 0;
-					}
-					if (j > 0 && meld_inp[j] != meld_inp[j - 1])
-					{
-						is_same = 0;
-					}
-				}
-				ptf("Is open/closed group(1: open 0: closed): ");
-				scanf("%d", &inp_hand);
-				if (inp_hand > 1 || inp_hand < 0)
-				{
-					fprintf(stderr, "%d inp_hand: %d\n",i, inp_hand);
-					unresonable = 1;
-				}
-				if (inp_hand)
-				{
-					closed_hand = 0;
-					open_hand_meld[i] = 1;
-				}
-				if (!(is_same || is_straight))
-				{
-					fprintf(stderr, "%d is_same: %d is_straight: %d\n",i, is_same, is_straight);
-					unresonable = 1;
-				}
-				if (is_straight && inp_count == 4)
-				{
-					fprintf(stderr, "%d is_straight: %d inp_count: %d\n",i, is_straight, inp_count);
-					unresonable = 1;
-				}
-				if (is_same && inp_count == 3)
-				{
-					triplets++;
-				}
-				if (is_same && inp_count == 4)
-				{
-					kans++;
-				}
-				if (is_straight && inp_count == 3)
-				{
-					sequences++;
-				}
-				is_same = 1, is_straight = 1;
-				meld_count++;
-			}
-			ptf("Please input pair: ");
-			for (int32_t i = 0; i < 2; i++)
-			{
-				int32_t inp_pair = 0;
-				scanf("%d", &inp_pair);
-				if (inp_pair > 34 || inp_pair < 1)
-				{
-					fprintf(stderr, "inp_pair: %d\n", inp_pair);
-					unresonable = 1;
-				}
-				cards_count[inp_pair - 1]++;
-				pair[i] = inp_pair;
-				// inp_count++;
-			}
-			scanf("%*[^\n]%n", &errinp);
-			if (errinp)
-			{
-				fprintf(stderr, "errinp: %d\n", errinp);
-				unresonable = 1;
-			}
-			if (pair[0] != pair[1])
-			{
-				fprintf(stderr, "pair[0]: %d pair[1]: %d\n", pair[0], pair[1]);
-				unresonable = 1;
-			}
-		}
-	
 	for (int32_t i = 0; i < 33; i++)
 	{
 		if (cards_count[i] > 4)
@@ -226,6 +230,11 @@ int main()
 	}
 	ptf("Please input winning tile: "); //
 	scanf("%d", &winning_tile);
+	if (cards_count[winning_tile - 1] == 0)
+	{
+		fprintf(stderr, "winning_tile: %d %d\n", winning_tile, cards_count[winning_tile - 1]);
+		unresonable = 1;
+	}
 	ptf("Is Self-drawn win?(1: YES 0: NO): "); //
 	scanf("%d", &self_drawn_win);
 	if (self_drawn_win > 1 || self_drawn_win < 0)
@@ -253,9 +262,9 @@ int main()
 	}
 	// 二盃口比七對子優先
 	// unresonable case
-	ptf("The Score is...\n");
+	ptf("\nThe Score is...\n");
 	count_yaku();
-	if (han == 0)
+	if (yakuman + han == 0)
 	{
 		ptf("    No Yaku\n");
 	}
@@ -767,15 +776,15 @@ static void count_yaku()
 		int8_t straight[3] = {1, 1, 1};
 		for (int32_t i = 0; i < 9; i++)
 		{
-			if (cards_count[i])
+			if (cards_count[i] == 0)
 			{
 				straight[0] = 0;
 			}
-			if (cards_count[i + 9])
+			if (cards_count[i + 9] == 0)
 			{
 				straight[1] = 0;
 			}
-			if (cards_count[i + 18])
+			if (cards_count[i + 18] == 0)
 			{
 				straight[2] = 0;
 			}
@@ -1026,9 +1035,9 @@ static void count_yaku()
 				ptf("    Honors: Red (1 Han)\n");
 			}
 		}
-	}
-	// Player’s wind of East(東風) South(南風) West(西風) North(北風)
-	{
+
+		// Player’s wind of East(東風) South(南風) West(西風) North(北風)
+
 		if (cards_count[winning_tile - 1] == 3)
 		{
 			yaku_flag[29] = 1;
@@ -1045,33 +1054,33 @@ static void count_yaku()
 				ptf("    Honors: Prevailing wind (1 Han)\n");
 			}
 		}
-
-		// Straight 一氣通貫 (2 or 1 Han)
+	}
+	// Straight 一氣通貫 (2 or 1 Han)
+	{
+		if (yaku_flag[20] == 1 && closed_hand == 0)
 		{
-			if (yaku_flag[20] == 1 && closed_hand == 0)
-			{
-				han++;
-				ptf("    Straight (1 Han)\n");
-			}
+			han++;
+			ptf("    Straight (1 Han)\n");
 		}
-		// Terminal or honor in each set 混全帶九 (2 or 1 Han)
+	}
+	// Terminal or honor in each set 混全帶九 (2 or 1 Han)
+	{
+		if (yaku_flag[21] == 1 && closed_hand == 0)
 		{
-			if (yaku_flag[21] == 1 && closed_hand == 0)
-			{
-				han++;
-				ptf("    Terminal or honor in each set (1 Han)\n");
-			}
+			han++;
+			ptf("    Terminal or honor in each set (1 Han)\n");
 		}
-		// Three colour straights 三色同順 (2 or Han)
+	}
+	// Three colour straights 三色同順 (2 or Han)
+	{
+		if (yaku_flag[23] == 1 && closed_hand == 0)
 		{
-			if (yaku_flag[23] == 1 && closed_hand == 0)
-			{
-				han++;
-				ptf("    Three colour straights (1 Han)\n");
-			}
+			han++;
+			ptf("    Three colour straights (1 Han)\n");
 		}
 	}
 }
+
 // Pin: 1~9 (0~8)
 // So: 10~18 (9~17)
 // Wan: 19~27 (18~26)
