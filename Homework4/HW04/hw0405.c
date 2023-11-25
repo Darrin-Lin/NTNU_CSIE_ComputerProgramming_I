@@ -15,6 +15,7 @@ static int32_t winning_tile = 0, self_drawn_win = 0, player_wind = 0, prevailing
 static int32_t special_case = 0, closed_hand = 1;
 static int8_t open_hand_meld[4] = {0};
 static int32_t triplets = 0, kans = 0, sequences = 0; // 刻子 槓子 順子 3 4 3
+static int32_t melds_kind[4] = {0};
 static int32_t han = 0, yakuman = 0;
 static int8_t yaku_flag[31] = {0};
 
@@ -42,7 +43,7 @@ int main()
 		scanf("%d", &inp);
 		inp_count++;
 	}
-	
+
 	if (inp_count == 13)
 	{
 		meld_inp[inp_count] = inp;
@@ -115,14 +116,17 @@ int main()
 		}
 		if (is_same && inp_count == 3)
 		{
+			melds_kind[0] = 1;
 			triplets++;
 		}
 		if (is_same && inp_count == 4)
 		{
+			melds_kind[0] = 2;
 			kans++;
 		}
 		if (is_straight && inp_count == 3)
 		{
+			melds_kind[0] = 3;
 			sequences++;
 		}
 		is_same = 1, is_straight = 1;
@@ -192,14 +196,17 @@ int main()
 			}
 			if (is_same && inp_count == 3)
 			{
+				melds_kind[i] = 1;
 				triplets++;
 			}
 			if (is_same && inp_count == 4)
 			{
+				melds_kind[i] = 2;
 				kans++;
 			}
 			if (is_straight && inp_count == 3)
 			{
+				melds_kind[i] = 3;
 				sequences++;
 			}
 			is_same = 1, is_straight = 1;
@@ -247,12 +254,84 @@ int main()
 		fprintf(stderr, "winning_tile: %d %d\n", winning_tile, cards_count[winning_tile - 1]);
 		unresonable = 1;
 	}
+	if (!special_case)
+	{
+		for (int32_t i = 0; i < 4; i++)
+		{
+			if (melds_kind[i] == 2)
+
+				if (melds[i][0] == winning_tile)
+				{
+					fprintf(stderr, "melds[%d][0],kind: %d %d\n", i, melds[i][0], melds_kind[i]);
+					unresonable = 1;
+					break;
+				}
+		}
+	}
 	ptf("Is Self-drawn win?(1: YES 0: NO): "); //
 	scanf("%d", &self_drawn_win);
 	if (self_drawn_win > 1 || self_drawn_win < 0)
 	{
 		fprintf(stderr, "self_drawn_win: %d\n", self_drawn_win);
 		unresonable = 1;
+	}
+	if (!special_case && unresonable == 0)
+	{
+		if (self_drawn_win)
+		{
+			if (cards_count[winning_tile - 1] == 1)
+			{
+				for (int32_t i = 0; i < 4; i++)
+				{
+					for (int32_t j = 0; j < 3; j++)
+					{
+						if (melds[i][j] == winning_tile && open_hand_meld[i] == 1)
+						{
+							fprintf(stderr, "melds[%d][%d]: %d\n", i, j, melds[i][j]);
+							unresonable = 1;
+						}
+					}
+				}
+			}
+			else
+			{
+				int8_t flag[4] = {0};
+				int8_t flag_count = 0;
+				for (int32_t i = 0; i < 4; i++)
+				{
+					for (int32_t j = 0; j < 3; j++)
+					{
+						if (melds[i][j] == winning_tile)
+						{
+							if (melds_kind[i] == 2)
+							{
+								fprintf(stderr, "melds_kind[%d]: %d\n", i, melds_kind[i]);
+								unresonable = 1;
+								break;
+							}
+							flag[i] = 1;
+							flag_count++;
+							break;
+						}
+					}
+				}
+				if (flag_count == 1)
+				{
+					for (int32_t i = 0; i < 4; i++)
+					{
+						if (flag[i] == 1)
+						{
+							if (open_hand_meld[i] == 1)
+							{
+								fprintf(stderr, "melds %d\n", i);
+								unresonable = 1;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	ptf("Player's wind(0:E 1:S 2:W 3:N): "); //
 	scanf("%d", &player_wind);
@@ -1059,7 +1138,7 @@ static void count_yaku()
 	//  tiles of White(白) or Green(發) or Red(中)
 	{
 
-		if (cards_count[32] == 3)
+		if (cards_count[32] >= 3)
 		{
 			yaku_flag[30] = 1;
 			han++;
@@ -1068,7 +1147,7 @@ static void count_yaku()
 
 		// Player’s wind of East(東風) South(南風) West(西風) North(北風)
 
-		if (cards_count[27 + player_wind] == 3)
+		if (cards_count[27 + player_wind] >= 3)
 		{
 			yaku_flag[30] = 1;
 			han++;
@@ -1077,20 +1156,20 @@ static void count_yaku()
 
 		// Prevailing wind of East(東風) South(南風) West(西風) North(北風)
 		{
-			if (cards_count[27 + prevailing_wind] == 3)
+			if (cards_count[27 + prevailing_wind] >= 3)
 			{
 				yaku_flag[30] = 1;
 				han++;
 				ptf("    Honors: Prevailing wind (1 Han)\n");
 			}
 		}
-		if (cards_count[33] == 3)
+		if (cards_count[33] >= 3)
 		{
 			yaku_flag[30] = 1;
 			han++;
 			ptf("    Honors: Red (1 Han)\n");
 		}
-		if (cards_count[31] == 3)
+		if (cards_count[31] >= 3)
 		{
 			yaku_flag[30] = 1;
 			han++;
@@ -1178,7 +1257,7 @@ static void count_yaku()
 21// Terminal or honor in each set (no open group)
 22// Three colour triplets
 23// Three colour straights (no open group)(Closed hands only)
-Three concealed triplets
+24// Three concealed triplets
 25// Three kans
 26// Two sets of identical sequences (Closed hands only)
 
@@ -1187,7 +1266,7 @@ Three concealed triplets
 27// All simples
 28// No-points hand (Closed hands only)
 29// One set of identical sequences (Closed hands only)
-30//Honor(役牌)
+30// Honor(役牌)
 	tiles of White(白) or Green(發) or Red(中)
 	Player’s wind of East(東風) South(南風) West(西風) North(北風)
 	Prevailing wind of East(東風) South(南風) West(西風) North(北風)
