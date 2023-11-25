@@ -36,7 +36,7 @@ int main()
 	{
 		if (inp > 34 || inp < 0)
 		{
-			fprintf(stderr, "inp: %d\n", inp);
+			//fprintf(stderr, "inp: %d\n", inp);
 			unresonable = 1;
 		}
 		meld_inp[inp_count] = inp;
@@ -51,14 +51,14 @@ int main()
 
 		if (inp)
 		{
-			fprintf(stderr, "inp: %d\n", inp);
+			//fprintf(stderr, "inp: %d\n", inp);
 			unresonable = 1;
 		}
 	}
 	scanf("%*[^\n]%n", &errinp);
 	if (errinp)
 	{
-		fprintf(stderr, "errinp: %d\n", errinp);
+		//fprintf(stderr, "errinp: %d\n", errinp);
 		unresonable = 1;
 	}
 	if (inp_count == 13)
@@ -76,7 +76,7 @@ int main()
 		scanf("%d", &inp_hand);
 		if (inp_hand > 1 || inp_hand < 0)
 		{
-			fprintf(stderr, "inp_hand: %d\n", inp_hand);
+			//fprintf(stderr, "inp_hand: %d\n", inp_hand);
 			unresonable = 1;
 		}
 		if (inp_hand)
@@ -86,7 +86,7 @@ int main()
 		}
 		if (inp_count < 3 || inp_count > 4)
 		{
-			fprintf(stderr, "inp_count: %d\n", inp_count);
+			//fprintf(stderr, "inp_count: %d\n", inp_count);
 			unresonable = 1;
 		}
 		int32_t is_same = 1, is_straight = 1;
@@ -106,12 +106,12 @@ int main()
 		}
 		if (!(is_same || is_straight))
 		{
-			fprintf(stderr, "is_same: %d is_straight: %d\n", is_same, is_straight);
+			//fprintf(stderr, "is_same: %d is_straight: %d\n", is_same, is_straight);
 			unresonable = 1;
 		}
 		if (is_straight && inp_count == 4)
 		{
-			fprintf(stderr, "is_straight: %d inp_count: %d\n", is_straight, inp_count);
+			//fprintf(stderr, "is_straight: %d inp_count: %d\n", is_straight, inp_count);
 			unresonable = 1;
 		}
 		if (is_same && inp_count == 3)
@@ -140,7 +140,7 @@ int main()
 			{
 				if (inp > 34 || inp < 0)
 				{
-					fprintf(stderr, "%d inp: %d\n", i, inp);
+					//fprintf(stderr, "%d inp: %d\n", i, inp);
 					unresonable = 1;
 				}
 				meld_inp[inp_count] = inp;
@@ -151,12 +151,12 @@ int main()
 			scanf("%*[^\n]%n", &errinp);
 			if (errinp)
 			{
-				fprintf(stderr, "%d errinp: %d\n", i, errinp);
+				//fprintf(stderr, "%d errinp: %d\n", i, errinp);
 				unresonable = 1;
 			}
 			if (inp_count < 3 || inp_count > 4)
 			{
-				fprintf(stderr, "%d inp_count: %d\n", i, inp_count);
+				//fprintf(stderr, "%d inp_count: %d\n", i, inp_count);
 				unresonable = 1;
 			}
 			for (int32_t j = 0; j < inp_count; j++)
@@ -176,7 +176,7 @@ int main()
 			scanf("%d", &inp_hand);
 			if (inp_hand > 1 || inp_hand < 0)
 			{
-				fprintf(stderr, "%d inp_hand: %d\n", i, inp_hand);
+				//fprintf(stderr, "%d inp_hand: %d\n", i, inp_hand);
 				unresonable = 1;
 			}
 			if (inp_hand)
@@ -186,12 +186,12 @@ int main()
 			}
 			if (!(is_same || is_straight))
 			{
-				fprintf(stderr, "%d is_same: %d is_straight: %d\n", i, is_same, is_straight);
+				//fprintf(stderr, "%d is_same: %d is_straight: %d\n", i, is_same, is_straight);
 				unresonable = 1;
 			}
 			if (is_straight && inp_count == 4)
 			{
-				fprintf(stderr, "%d is_straight: %d inp_count: %d\n", i, is_straight, inp_count);
+				//fprintf(stderr, "%d is_straight: %d inp_count: %d\n", i, is_straight, inp_count);
 				unresonable = 1;
 			}
 			if (is_same && inp_count == 3)
@@ -219,7 +219,7 @@ int main()
 			scanf("%d", &inp_pair);
 			if (inp_pair > 34 || inp_pair < 1)
 			{
-				fprintf(stderr, "inp_pair: %d\n", inp_pair);
+				//fprintf(stderr, "inp_pair: %d\n", inp_pair);
 				unresonable = 1;
 			}
 			cards_count[inp_pair - 1]++;
@@ -229,12 +229,12 @@ int main()
 		scanf("%*[^\n]%n", &errinp);
 		if (errinp)
 		{
-			fprintf(stderr, "errinp: %d\n", errinp);
+			//fprintf(stderr, "errinp: %d\n", errinp);
 			unresonable = 1;
 		}
 		if (pair[0] != pair[1])
 		{
-			fprintf(stderr, "pair[0]: %d pair[1]: %d\n", pair[0], pair[1]);
+			//fprintf(stderr, "pair[0]: %d pair[1]: %d\n", pair[0], pair[1]);
 			unresonable = 1;
 		}
 	}
@@ -243,7 +243,7 @@ int main()
 	{
 		if (cards_count[i] > 4)
 		{
-			fprintf(stderr, "cards_count[%d]: %d\n", i, cards_count[i]);
+			//fprintf(stderr, "cards_count[%d]: %d\n", i, cards_count[i]);
 			unresonable = 1;
 		}
 	}
@@ -251,7 +251,7 @@ int main()
 	scanf("%d", &winning_tile);
 	if (cards_count[winning_tile - 1] == 0)
 	{
-		fprintf(stderr, "winning_tile: %d %d\n", winning_tile, cards_count[winning_tile - 1]);
+		//fprintf(stderr, "winning_tile: %d %d\n", winning_tile, cards_count[winning_tile - 1]);
 		unresonable = 1;
 	}
 	if (!special_case)
@@ -262,7 +262,7 @@ int main()
 
 				if (melds[i][0] == winning_tile)
 				{
-					fprintf(stderr, "melds[%d][0],kind: %d %d\n", i, melds[i][0], melds_kind[i]);
+					//fprintf(stderr, "melds[%d][0],kind: %d %d\n", i, melds[i][0], melds_kind[i]);
 					unresonable = 1;
 					break;
 				}
@@ -272,7 +272,7 @@ int main()
 	scanf("%d", &self_drawn_win);
 	if (self_drawn_win > 1 || self_drawn_win < 0)
 	{
-		fprintf(stderr, "self_drawn_win: %d\n", self_drawn_win);
+		//fprintf(stderr, "self_drawn_win: %d\n", self_drawn_win);
 		unresonable = 1;
 	}
 	if (!special_case && unresonable == 0)
@@ -287,7 +287,7 @@ int main()
 					{
 						if (melds[i][j] == winning_tile && open_hand_meld[i] == 1)
 						{
-							fprintf(stderr, "melds[%d][%d]: %d\n", i, j, melds[i][j]);
+							//fprintf(stderr, "melds[%d][%d]: %d\n", i, j, melds[i][j]);
 							unresonable = 1;
 						}
 					}
@@ -305,7 +305,7 @@ int main()
 						{
 							if (melds_kind[i] == 2)
 							{
-								fprintf(stderr, "melds_kind[%d]: %d\n", i, melds_kind[i]);
+								//fprintf(stderr, "melds_kind[%d]: %d\n", i, melds_kind[i]);
 								unresonable = 1;
 								break;
 							}
@@ -323,7 +323,7 @@ int main()
 						{
 							if (open_hand_meld[i] == 1)
 							{
-								fprintf(stderr, "melds %d\n", i);
+								//fprintf(stderr, "melds %d\n", i);
 								unresonable = 1;
 								break;
 							}
@@ -337,14 +337,14 @@ int main()
 	scanf("%d", &player_wind);
 	if (player_wind > 3 || player_wind < 0)
 	{
-		fprintf(stderr, "player_wind: %d\n", player_wind);
+		//fprintf(stderr, "player_wind: %d\n", player_wind);
 		unresonable = 1;
 	}
 	ptf("Prevailing wind(0:E 1:S 2:W 3:N): "); //
 	scanf("%d", &prevailing_wind);
 	if (prevailing_wind > 3 || prevailing_wind < 0)
 	{
-		fprintf(stderr, "prevailing_wind: %d\n", prevailing_wind);
+		//fprintf(stderr, "prevailing_wind: %d\n", prevailing_wind);
 		unresonable = 1;
 	}
 	if (unresonable)
