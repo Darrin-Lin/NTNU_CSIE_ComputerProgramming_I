@@ -16,7 +16,7 @@ static int32_t special_case = 0, closed_hand = 1;
 static int8_t open_hand_meld[4] = {0};
 static int32_t triplets = 0, kans = 0, sequences = 0; // 刻子 槓子 順子 3 4 3
 static int32_t han = 0, yakuman = 0;
-static int8_t yaku_flag[30] = {0};
+static int8_t yaku_flag[31] = {0};
 
 static void count_yaku();
 
@@ -41,6 +41,18 @@ int main()
 		meld_inp[inp_count] = inp;
 		scanf("%d", &inp);
 		inp_count++;
+	}
+	
+	if (inp_count == 13)
+	{
+		meld_inp[inp_count] = inp;
+		scanf("%d", &inp);
+
+		if (inp)
+		{
+			fprintf(stderr, "inp: %d\n", inp);
+			unresonable = 1;
+		}
 	}
 	scanf("%*[^\n]%n", &errinp);
 	if (errinp)
@@ -280,7 +292,10 @@ int main()
 		{
 			ptf("%d Han (Kazoe-yakuman)\n", han);
 		}
-		ptf("%d Han\n", han);
+		else
+		{
+			ptf("%d Han\n", han);
+		}
 	}
 	if (0)
 	{
@@ -307,7 +322,7 @@ static void count_yaku()
 				else if (cards_count[i * 9] == 2 && !thirteen_orphans_flag)
 				{
 					thirteen_orphans++;
-					thirteen_orphans_flag == i * 9 + 1;
+					thirteen_orphans_flag = i * 9 + 1;
 				}
 				if (cards_count[(i + 1) * 9 - 1] == 1)
 				{
@@ -316,7 +331,7 @@ static void count_yaku()
 				else if (cards_count[(i + 1) * 9 - 1] == 2 && !thirteen_orphans_flag)
 				{
 					thirteen_orphans++;
-					thirteen_orphans_flag == (i + 1) * 9;
+					thirteen_orphans_flag = (i + 1) * 9;
 				}
 				if (cards_count[27 + i] == 1)
 				{
@@ -325,7 +340,7 @@ static void count_yaku()
 				else if (cards_count[27 + i] == 2 && !thirteen_orphans_flag)
 				{
 					thirteen_orphans++;
-					thirteen_orphans_flag == 27 + i + 1;
+					thirteen_orphans_flag = 27 + i + 1;
 				}
 				if (cards_count[31 + i] == 1)
 				{
@@ -334,7 +349,7 @@ static void count_yaku()
 				else if (cards_count[31 + i] == 2 && !thirteen_orphans_flag)
 				{
 					thirteen_orphans++;
-					thirteen_orphans_flag == 31 + i + 1;
+					thirteen_orphans_flag = 31 + i + 1;
 				}
 			}
 			if (cards_count[30] == 1)
@@ -733,7 +748,7 @@ static void count_yaku()
 		int8_t all_terminals_and_honors = 1;
 		for (int32_t i = 0; i <= 33; i++)
 		{
-			if (!(((i >= 0 && i <= 26) && (i % 9 == 0 || i % 9 == 8)) || (i >= 27 && i <= 33)))
+			if (cards_count[i] && !(((i >= 0 && i <= 26) && (i % 9 == 0 || i % 9 == 8)) || (i >= 27 && i <= 33)))
 			{
 				all_terminals_and_honors = 0;
 				break;
@@ -907,11 +922,36 @@ static void count_yaku()
 			ptf("    Three colour straights (2 Han)\n");
 		}
 	}
+	// Three concealed triplets 三暗刻 (2 Han)
+	{
+		int8_t three_concealed_triplets = 0;
+		if (triplets + kans == 3 && closed_hand)
+		{
+			three_concealed_triplets = 3;
+		}
+		else if (triplets + kans == 4)
+		{
+			for (int32_t i = 0; i < 4; i++)
+			{
+				if (melds[i][0] == melds[i][1] && open_hand_meld[i] == 0)
+				{
+					three_concealed_triplets++;
+				}
+			}
+		}
+		if (three_concealed_triplets == 3 && yaku_flag[4] == 0)
+		{
+			yaku_flag[24] = 1;
+			han += 2;
+			ptf("    Three concealed triplets (2 Han)\n");
+		}
+	}
+
 	// Three kans 三槓子 (2 Han)
 	{
 		if (kans == 3)
 		{
-			yaku_flag[24] = 1;
+			yaku_flag[25] = 1;
 			han += 2;
 			ptf("    Three kans (2 Han)\n");
 		}
@@ -930,7 +970,7 @@ static void count_yaku()
 			}
 			if (two_sets_of_identical_sequences == 7 && closed_hand)
 			{
-				yaku_flag[25] = 1;
+				yaku_flag[26] = 1;
 				han += 2;
 				ptf("    Two sets of identical sequences (2 Han)\n");
 			}
@@ -951,7 +991,7 @@ static void count_yaku()
 		}
 		if (all_simples)
 		{
-			yaku_flag[26] = 1;
+			yaku_flag[27] = 1;
 			han++;
 			ptf("    All simples (1 Han)\n");
 		}
@@ -980,7 +1020,7 @@ static void count_yaku()
 			}
 			if (no_points_hand && closed_hand && winning_tile_flag)
 			{
-				yaku_flag[27] = 1;
+				yaku_flag[28] = 1;
 				han++;
 				ptf("    No-points hand (1 Han)\n");
 			}
@@ -1007,9 +1047,9 @@ static void count_yaku()
 					break;
 				}
 			}
-			if (one_set_of_identical_sequences && yaku_flag[25] == 0)
+			if (one_set_of_identical_sequences && yaku_flag[26] == 0)
 			{
-				yaku_flag[28] = 1;
+				yaku_flag[29] = 1;
 				han++;
 				ptf("    One set of identical sequences (1 Han)\n");
 			}
@@ -1018,41 +1058,43 @@ static void count_yaku()
 	// Honors(役牌)**********
 	//  tiles of White(白) or Green(發) or Red(中)
 	{
-		if (cards_count[31] == 3 || cards_count[32] == 3 || cards_count[33] == 3)
+
+		if (cards_count[32] == 3)
 		{
-			yaku_flag[29] = 1;
+			yaku_flag[30] = 1;
 			han++;
-			if (cards_count[31] == 3)
-			{	
-				ptf("    Honors: White (1 Han)\n");
-			}
-			else if (cards_count[32] == 3)
-			{
-				ptf("    Honors: Green (1 Han)\n");
-			}
-			else if (cards_count[33] == 3)
-			{
-				ptf("    Honors: Red (1 Han)\n");
-			}
+			ptf("    Honors: Green (1 Han)\n");
 		}
 
 		// Player’s wind of East(東風) South(南風) West(西風) North(北風)
 
-		if (cards_count[27+player_wind] == 3)
+		if (cards_count[27 + player_wind] == 3)
 		{
-			yaku_flag[29] = 1;
+			yaku_flag[30] = 1;
 			han++;
 			ptf("    Honors: Player's wind (1 Han)\n");
 		}
 
 		// Prevailing wind of East(東風) South(南風) West(西風) North(北風)
 		{
-			if (cards_count[27+prevailing_wind] == 3)
+			if (cards_count[27 + prevailing_wind] == 3)
 			{
-				yaku_flag[29] = 1;
+				yaku_flag[30] = 1;
 				han++;
 				ptf("    Honors: Prevailing wind (1 Han)\n");
 			}
+		}
+		if (cards_count[33] == 3)
+		{
+			yaku_flag[30] = 1;
+			han++;
+			ptf("    Honors: Red (1 Han)\n");
+		}
+		if (cards_count[31] == 3)
+		{
+			yaku_flag[30] = 1;
+			han++;
+			ptf("    Honors: White (1 Han)\n");
 		}
 	}
 	// Straight 一氣通貫 (2 or 1 Han)
@@ -1136,15 +1178,16 @@ static void count_yaku()
 21// Terminal or honor in each set (no open group)
 22// Three colour triplets
 23// Three colour straights (no open group)(Closed hands only)
-24// Three kans
-25// Two sets of identical sequences (Closed hands only)
+Three concealed triplets
+25// Three kans
+26// Two sets of identical sequences (Closed hands only)
 
 1 Han
 
-26// All simples
-27// No-points hand (Closed hands only)
-28// One set of identical sequences (Closed hands only)
-29//Honor(役牌)
+27// All simples
+28// No-points hand (Closed hands only)
+29// One set of identical sequences (Closed hands only)
+30//Honor(役牌)
 	tiles of White(白) or Green(發) or Red(中)
 	Player’s wind of East(東風) South(南風) West(西風) North(北風)
 	Prevailing wind of East(東風) South(南風) West(西風) North(北風)
