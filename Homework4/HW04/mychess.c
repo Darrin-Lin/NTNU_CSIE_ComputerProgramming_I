@@ -36,11 +36,11 @@ static uint64_t num_print = 0;
 
 int32_t checkmate(int32_t board[10][9])
 {
+    num_print = 0;
     if (board == NULL)
     {
         return -1;
     }
-    // fprintf(stderr, "%d\n", check_board(board));
     if (check_board(board) == -1)
     {
         return -1;
@@ -111,7 +111,7 @@ static int32_t check_board(int32_t board[10][9])
     {
         for (int32_t j = 0; j < 9; j++)
         {
-            // fprintf(stderr, "%d ", board[i][j]);
+            // fprintf(stderr, "%2d ", board[i][j]);
             if (board[i][j] != EMPTY)
             {
                 if (board[i][j] < 10)
@@ -148,7 +148,7 @@ static int32_t check_board(int32_t board[10][9])
                     }
                     if (board[i][j] == RED_SOLDIER)
                     {
-                        if ((i <= 4 && i % 2) || i < 3)
+                        if ((i >= 3 && j % 2) || i < 3)
                         {
                             // fprintf(stderr, "RS\n");
                             return -1;
@@ -189,7 +189,7 @@ static int32_t check_board(int32_t board[10][9])
                     }
                     if (board[i][j] == BLACK_SOLDIER)
                     {
-                        if ((i >= 5 && i % 2) || i > 6)
+                        if ((i <= 6 && j % 2) || i > 6)
                         {
                             // fprintf(stderr, "BS\n");
                             return -1;
@@ -729,6 +729,7 @@ static void cannon_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_
 }
 static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
 {
+
     if (board == NULL)
     {
         return;
@@ -746,7 +747,7 @@ static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
                     if (j > x)
                     {
                         flag = 0;
-                        for (int32_t k = x + 1; k <= j; k++)
+                        for (int32_t k = x + 1; k < j; k++)
                         {
                             if (board[y][k] != EMPTY)
                             {
@@ -770,7 +771,7 @@ static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
                     else
                     {
                         flag = 0;
-                        for (int32_t k = x - 1; k >= j; k--)
+                        for (int32_t k = x - 1; k > j; k--)
                         {
                             if (board[y][k] != EMPTY)
                             {
@@ -797,7 +798,7 @@ static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
                     if (i > y)
                     {
                         flag = 0;
-                        for (int32_t k = y + 1; k <= i; k++)
+                        for (int32_t k = y + 1; k < i; k++)
                         {
                             if (board[k][x] != EMPTY)
                             {
@@ -821,7 +822,7 @@ static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
                     else
                     {
                         flag = 0;
-                        for (int32_t k = y - 1; k >= i; k--)
+                        for (int32_t k = y - 1; k > i; k--)
                         {
                             if (board[k][x] != EMPTY)
                             {
@@ -846,50 +847,100 @@ static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
                 else
                 {
                     flag = 0;
-                    for (int32_t k = x + 1; k < j; k++)
+                    if (j > x)
                     {
-                        if (board[y][k] != EMPTY)
+                        for (int32_t k = x + 1; k < j; k++)
                         {
-                            flag++;
+                            if (board[y][k] != EMPTY)
+                            {
+                                flag++;
+                            }
+                        }
+                        if (flag == 1 && (board[y][j] / 10))
+                        {
+                            next_x = j;
+                            next_y = y;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                        }
+                        if (flag == 0)
+                        {
+                            next_x = j;
+                            next_y = y;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
                         }
                     }
-                    if (flag == 1 && (board[y][j] / 10))
+                    else
                     {
-                        next_x = j;
-                        next_y = y;
-                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                    }
-                    if (flag == 0)
-                    {
-                        next_x = j;
-                        next_y = y;
-                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                        for (int32_t k = x - 1; k > j; k--)
+                        {
+                            if (board[y][k] != EMPTY)
+                            {
+                                flag++;
+                            }
+                        }
+                        if (flag == 1 && (board[y][j] / 10))
+                        {
+                            next_x = j;
+                            next_y = y;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                        }
+                        if (flag == 0)
+                        {
+                            next_x = j;
+                            next_y = y;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                        }
                     }
                     flag = 0;
-                    for (int32_t k = y + 1; k < i; k++)
+                    if (i > y)
                     {
-                        if (board[k][x] != EMPTY)
+                        for (int32_t k = y + 1; k < i; k++)
                         {
-                            flag++;
+                            if (board[k][x] != EMPTY)
+                            {
+                                flag++;
+                            }
+                        }
+                        if (flag == 1 && board[i][x] / 10)
+                        {
+                            next_x = x;
+                            next_y = i;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                        }
+                        if (flag == 0)
+                        {
+                            next_x = x;
+                            next_y = i;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
                         }
                     }
-                    if (flag == 1 && board[i][x] / 10)
+                    else
                     {
-                        next_x = x;
-                        next_y = i;
-                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                    }
-                    if (flag == 0)
-                    {
-                        next_x = x;
-                        next_y = i;
-                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                        for (int32_t k = y - 1; k > i; k--)
+                        {
+                            if (board[k][x] != EMPTY)
+                            {
+                                flag++;
+                            }
+                        }
+                        if (flag == 1 && board[i][x] / 10)
+                        {
+                            next_x = x;
+                            next_y = i;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                        }
+                        if (flag == 0)
+                        {
+                            next_x = x;
+                            next_y = i;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                        }
                     }
                 }
             }
         }
-        return;
     }
+    return;
 }
 
 static void soldier_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_y, int32_t x, int32_t y)
