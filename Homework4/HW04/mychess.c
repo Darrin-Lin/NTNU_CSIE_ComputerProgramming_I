@@ -96,7 +96,7 @@ int32_t checkmate(int32_t board[10][9])
             }
         }
     }
-    return 0;
+    return num_print;
 }
 
 static int32_t check_board(int32_t board[10][9])
@@ -514,105 +514,92 @@ static void move_chariot(int32_t board[10][9], int32_t y, int32_t x)
         {
             if (board[i][j] == BLACK_GENERAL)
             {
-                if (i == y)
+                if (j == x && i < y)
                 {
-                    if (j > x)
+
+                    for (int32_t k = y - 1; k > i; k--)
                     {
-                        for (int32_t k = x + 1; k < j; k++)
+                        if (board[k][x] / 10 == 0)
                         {
-                            if (board[y][k] / 10 == 0)
-                            {
-                                break;
-                            }
-                            else if (board[y][k] / 10)
-                            {
-                                next_x = k;
-                                next_y = y;
-                                chariot_checkmate(board, next_x, next_y, x, y, j, i);
-                                break;
-                            }
-                            // else
-                            // {
-                            //     next_x = k;
-                            //     next_y = y;
-                            //     chariot_checkmate(board, next_x, next_y, x, y, j, i);
-                            // }
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (int32_t k = x - 1; k > j; k--)
+                        else if (board[k][x] / 10)
                         {
-                            if (board[y][k] / 10 == 0)
-                            {
-                                break;
-                            }
-                            else if (board[y][k] / 10)
-                            {
-                                next_x = k;
-                                next_y = y;
-                                chariot_checkmate(board, next_x, next_y, x, y, j, i);
-                                break;
-                            }
-                            // else
-                            // {
-                            //     next_x = k;
-                            //     next_y = y;
-                            //     chariot_checkmate(board, next_x, next_y, x, y, j, i);
-                            // }
+                            next_x = x;
+                            next_y = k;
+                            chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                            break;
                         }
+                        // else
+                        // {
+                        //     next_x = x;
+                        //     next_y = k;
+                        //     chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                        // }
                     }
                 }
-                else if (j == x)
+                if (j != x && i < y)
                 {
-                    if (i > y)
+                    int32_t flag = 0;
+                    flag = 0;
+                    for (int32_t k = y - 1; k > i; k--)
                     {
-                        for (int32_t k = y + 1; k < i; k++)
+                        if (board[k][x] != EMPTY)
                         {
-                            if (board[k][x] / 10 == 0)
-                            {
-                                break;
-                            }
-                            else if (board[k][x] / 10)
-                            {
-                                next_x = x;
-                                next_y = k;
-                                chariot_checkmate(board, next_x, next_y, x, y, j, i);
-                                break;
-                            }
-                            // else
-                            // {
-                            //     next_x = x;
-                            //     next_y = k;
-                            //     chariot_checkmate(board, next_x, next_y, x, y, j, i);
-                            // }
+                            flag = 1;
+                            break;
                         }
                     }
-                    else
+                    if (flag == 0 && (board[i][x] / 10 || board[i][x] == EMPTY))
                     {
-                        for (int32_t k = y - 1; k > i; k--)
-                        {
-                            if (board[k][x] / 10 == 0)
-                            {
-                                break;
-                            }
-                            else if (board[k][x] / 10)
-                            {
-                                next_x = x;
-                                next_y = k;
-                                chariot_checkmate(board, next_x, next_y, x, y, j, i);
-                                break;
-                            }
-                            // else
-                            // {
-                            //     next_x = x;
-                            //     next_y = k;
-                            //     chariot_checkmate(board, next_x, next_y, x, y, j, i);
-                            // }
-                        }
+                        next_x = x;
+                        next_y = i;
+                        chariot_checkmate(board, next_x, next_y, x, y, j, i);
                     }
                 }
-                else
+
+                if (j < x && i != y)
+                {
+                    int32_t flag = 0;
+                    for (int32_t k = x - 1; k > j; k--)
+                    {
+                        if (board[y][k] != EMPTY)
+                        {
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    if (flag == 0 && (board[y][j] / 10 || board[y][j] == EMPTY))
+                    {
+                        next_x = j;
+                        next_y = y;
+                        chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                }
+                if (i == y && j < x)
+                {
+                    for (int32_t k = x - 1; k > j; k--)
+                    {
+                        if (board[y][k] / 10 == 0)
+                        {
+                            break;
+                        }
+                        else if (board[y][k] / 10)
+                        {
+                            next_x = k;
+                            next_y = y;
+                            chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                            break;
+                        }
+                        // else
+                        // {
+                        //     next_x = k;
+                        //     next_y = y;
+                        //     chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                        // }
+                    }
+                }
+                if (j > x && i != y)
                 {
                     int32_t flag = 0;
                     for (int32_t k = x + 1; k < j; k++)
@@ -629,7 +616,33 @@ static void move_chariot(int32_t board[10][9], int32_t y, int32_t x)
                         next_y = y;
                         chariot_checkmate(board, next_x, next_y, x, y, j, i);
                     }
-                    flag = 0;
+                }
+                if (i == y && j > x)
+                {
+                    for (int32_t k = x + 1; k < j; k++)
+                    {
+                        if (board[y][k] / 10 == 0)
+                        {
+                            break;
+                        }
+                        else if (board[y][k] / 10)
+                        {
+                            next_x = k;
+                            next_y = y;
+                            chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                            break;
+                        }
+                        // else
+                        // {
+                        //     next_x = k;
+                        //     next_y = y;
+                        //     chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                        // }
+                    }
+                }
+                if (j != x && i > y)
+                {
+                    int32_t flag = 0;
                     for (int32_t k = y + 1; k < i; k++)
                     {
                         if (board[k][x] != EMPTY)
@@ -643,6 +656,30 @@ static void move_chariot(int32_t board[10][9], int32_t y, int32_t x)
                         next_x = x;
                         next_y = i;
                         chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                }
+
+                if (j == x && i > y)
+                {
+                    for (int32_t k = y + 1; k < i; k++)
+                    {
+                        if (board[k][x] / 10 == 0)
+                        {
+                            break;
+                        }
+                        else if (board[k][x] / 10)
+                        {
+                            next_x = x;
+                            next_y = k;
+                            chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                            break;
+                        }
+                        // else
+                        // {
+                        //     next_x = x;
+                        //     next_y = k;
+                        //     chariot_checkmate(board, next_x, next_y, x, y, j, i);
+                        // }
                     }
                 }
             }
@@ -660,7 +697,7 @@ static void cannon_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_
     if (next_x == general_x)
     {
         int32_t flag = 0;
-        if (general_y > y)
+        if (general_y > next_y)
         {
             for (int32_t k = next_y + 1; k < general_y; k++)
             {
@@ -694,7 +731,8 @@ static void cannon_checkmate(int32_t board[10][9], int32_t next_x, int32_t next_
     else if (next_y == general_y)
     {
         int32_t flag = 0;
-        if (general_x > x)
+
+        if (general_x > next_x)
         {
             for (int32_t k = next_x + 1; k < general_x; k++)
             {
@@ -742,199 +780,193 @@ static void move_cannon(int32_t board[10][9], int32_t y, int32_t x)
         {
             if (board[i][j] == BLACK_GENERAL)
             {
-                if (i == y)
-                {
-                    if (j > x)
-                    {
-                        flag = 0;
-                        for (int32_t k = x + 1; k < j; k++)
-                        {
-                            if (board[y][k] != EMPTY)
-                            {
-                                flag++;
-                            }
-                            if (flag == 2)
-                            {
-                                next_x = k;
-                                next_y = y;
-                                cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                                break;
-                            }
-                        }
-                        if (flag == 0)
-                        {
-                            next_x = j;
-                            next_y = y;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                        }
-                    }
-                    else
-                    {
-                        flag = 0;
-                        for (int32_t k = x - 1; k > j; k--)
-                        {
-                            if (board[y][k] != EMPTY)
-                            {
-                                flag++;
-                            }
-                            if (flag == 2)
-                            {
-                                next_x = k;
-                                next_y = y;
-                                cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                                break;
-                            }
-                        }
-                        if (flag == 0)
-                        {
-                            next_x = j;
-                            next_y = y;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                        }
-                    }
-                }
-                else if (j == x)
-                {
-                    if (i > y)
-                    {
-                        flag = 0;
-                        for (int32_t k = y + 1; k < i; k++)
-                        {
-                            if (board[k][x] != EMPTY)
-                            {
-                                flag++;
-                            }
-                            if (flag == 2)
-                            {
-                                next_x = x;
-                                next_y = k;
-                                cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                                break;
-                            }
-                        }
-                        if (flag == 0)
-                        {
-                            next_x = x;
-                            next_y = i;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                        }
-                    }
-                    else
-                    {
-                        flag = 0;
-                        for (int32_t k = y - 1; k > i; k--)
-                        {
-                            if (board[k][x] != EMPTY)
-                            {
-                                flag++;
-                            }
-                            if (flag == 2)
-                            {
-                                next_x = x;
-                                next_y = k;
-                                cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                                break;
-                            }
-                        }
-                        if (flag == 0)
-                        {
-                            next_x = x;
-                            next_y = i;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                        }
-                    }
-                }
-                else
+                if (j == x && i < y)
                 {
                     flag = 0;
-                    if (j > x)
+                    for (int32_t k = y - 1; k > i; k--)
                     {
-                        for (int32_t k = x + 1; k < j; k++)
+                        if (board[k][x] != EMPTY)
                         {
-                            if (board[y][k] != EMPTY)
-                            {
-                                flag++;
-                            }
+                            flag++;
                         }
-                        if (flag == 1 && (board[y][j] / 10))
+                        if (flag == 2)
                         {
-                            next_x = j;
-                            next_y = y;
+                            next_x = x;
+                            next_y = k;
                             cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                        }
-                        if (flag == 0)
-                        {
-                            next_x = j;
-                            next_y = y;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                            break;
                         }
                     }
-                    else
+                    if (flag == 0 && board[i][x] == EMPTY)
                     {
-                        for (int32_t k = x - 1; k > j; k--)
-                        {
-                            if (board[y][k] != EMPTY)
-                            {
-                                flag++;
-                            }
-                        }
-                        if (flag == 1 && (board[y][j] / 10))
-                        {
-                            next_x = j;
-                            next_y = y;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                        }
-                        if (flag == 0)
-                        {
-                            next_x = j;
-                            next_y = y;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                        }
+                        next_x = x;
+                        next_y = i;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
                     }
+                }
+                if (j != x && i < y)
+                {
                     flag = 0;
-                    if (i > y)
+                    for (int32_t k = y - 1; k > i; k--)
                     {
-                        for (int32_t k = y + 1; k < i; k++)
+                        if (board[k][x] != EMPTY)
                         {
-                            if (board[k][x] != EMPTY)
-                            {
-                                flag++;
-                            }
-                        }
-                        if (flag == 1 && board[i][x] / 10)
-                        {
-                            next_x = x;
-                            next_y = i;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
-                        }
-                        if (flag == 0)
-                        {
-                            next_x = x;
-                            next_y = i;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                            flag++;
                         }
                     }
-                    else
+                    if (flag == 1 && board[i][x] / 10)
                     {
-                        for (int32_t k = y - 1; k > i; k--)
+                        next_x = x;
+                        next_y = i;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                    if (flag == 0 && board[i][x] == EMPTY)
+                    {
+                        next_x = x;
+                        next_y = i;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                }
+                if (i == y && j < x)
+                {
+                    flag = 0;
+                    for (int32_t k = x - 1; k > j; k--)
+                    {
+                        if (board[y][k] != EMPTY)
                         {
-                            if (board[k][x] != EMPTY)
-                            {
-                                flag++;
-                            }
+                            flag++;
                         }
-                        if (flag == 1 && board[i][x] / 10)
+                        if (flag == 2)
+                        {
+                            next_x = k;
+                            next_y = y;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                            break;
+                        }
+                    }
+                    if (flag == 0 && board[y][j] == EMPTY)
+                    {
+                        next_x = j;
+                        next_y = y;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                }
+                if (i != y && j < x)
+                {
+                    flag = 0;
+                    for (int32_t k = x - 1; k > j; k--)
+                    {
+                        if (board[y][k] != EMPTY)
+                        {
+                            flag++;
+                        }
+                    }
+                    if (flag == 1 && (board[y][j] / 10))
+                    {
+                        next_x = j;
+                        next_y = y;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                    if (flag == 0 && board[y][j] == EMPTY)
+                    {
+                        next_x = j;
+                        next_y = y;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                }
+                if (i == y && j > x)
+                {
+                    flag = 0;
+                    for (int32_t k = x + 1; k < j; k++)
+                    {
+                        if (board[y][k] != EMPTY)
+                        {
+                            flag++;
+                        }
+                        if (flag == 2)
+                        {
+                            next_x = k;
+                            next_y = y;
+                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                            break;
+                        }
+                    }
+                    if (flag == 0 && board[y][j] == EMPTY)
+                    {
+                        next_x = j;
+                        next_y = y;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                }
+                if (i != y && j > x)
+                {
+                    flag = 0;
+
+                    for (int32_t k = x + 1; k < j; k++)
+                    {
+                        if (board[y][k] != EMPTY)
+                        {
+                            flag++;
+                        }
+                    }
+                    if (flag == 1 && (board[y][j] / 10))
+                    {
+                        next_x = j;
+                        next_y = y;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                    if (flag == 0 && board[y][j] == EMPTY)
+                    {
+                        next_x = j;
+                        next_y = y;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                }
+                if (j == x && i > y)
+                {
+                    flag = 0;
+                    for (int32_t k = y + 1; k < i; k++)
+                    {
+                        if (board[k][x] != EMPTY)
+                        {
+                            flag++;
+                        }
+                        if (flag == 2)
                         {
                             next_x = x;
-                            next_y = i;
+                            next_y = k;
                             cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                            break;
                         }
-                        if (flag == 0)
+                    }
+                    if (flag == 0 && board[i][x] == EMPTY)
+                    {
+                        next_x = x;
+                        next_y = i;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                }
+                if (j != x && i > y)
+                {
+                    flag = 0;
+                    for (int32_t k = y + 1; k < i; k++)
+                    {
+                        if (board[k][x] != EMPTY)
                         {
-                            next_x = x;
-                            next_y = i;
-                            cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                            flag++;
                         }
+                    }
+                    if (flag == 1 && board[i][x] / 10)
+                    {
+                        next_x = x;
+                        next_y = i;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
+                    }
+                    if (flag == 0 && board[i][x] == EMPTY)
+                    {
+                        next_x = x;
+                        next_y = i;
+                        cannon_checkmate(board, next_x, next_y, x, y, j, i);
                     }
                 }
             }
