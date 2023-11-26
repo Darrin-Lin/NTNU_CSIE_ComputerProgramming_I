@@ -31,7 +31,7 @@ for n in $(
 		for i in $(seq 0 9); do
 			./hw0${hw}0${n} <./0${n}/in/hw0${hw}0${n}_0${i}.in >./0${n}/out/hw0${hw}0${n}_0${i}.out
 		done
-		for i in $(seq 10 19); do
+		for i in $(seq 10 31); do
 			if [ -f "./0${n}/in/hw0${hw}0${n}_${i}.in" ]; then
 				./hw0${hw}0${n} <./0${n}/in/hw0${hw}0${n}_${i}.in >./0${n}/out/hw0${hw}0${n}_${i}.out
 			fi

@@ -11,10 +11,10 @@
 static int32_t melds[4][4] = {0};
 static int32_t cards_count[33] = {0};
 static int32_t pair[2] = {0};
-static int32_t winning_tile = 0, self_drawn_win = 0, player_wind = 0, prevailing_wind = 0;
+static int32_t winning_tile = 0, player_wind = 0, prevailing_wind = 0;
 static int32_t special_case = 0, closed_hand = 1;
 static int8_t open_hand_meld[4] = {0};
-static int32_t triplets = 0, kans = 0, sequences = 0; // 刻子 槓子 順子 3 4 3
+static int32_t triplets = 0, kans = 0, sequences = 0; // 3 4 3
 static int32_t melds_kind[4] = {0};
 static int32_t han = 0, yakuman = 0;
 static int8_t yaku_flag[31] = {0};
@@ -36,7 +36,7 @@ int main()
 	{
 		if (inp > 34 || inp < 0)
 		{
-			//fprintf(stderr, "inp: %d\n", inp);
+			// fprintf(stderr, "inp: %d\n", inp);
 			unresonable = 1;
 		}
 		meld_inp[inp_count] = inp;
@@ -51,14 +51,14 @@ int main()
 
 		if (inp)
 		{
-			//fprintf(stderr, "inp: %d\n", inp);
+			// fprintf(stderr, "inp: %d\n", inp);
 			unresonable = 1;
 		}
 	}
 	scanf("%*[^\n]%n", &errinp);
 	if (errinp)
 	{
-		//fprintf(stderr, "errinp: %d\n", errinp);
+		// fprintf(stderr, "errinp: %d\n", errinp);
 		unresonable = 1;
 	}
 	if (inp_count == 13)
@@ -71,12 +71,12 @@ int main()
 	}
 	else
 	{
-		ptf("Is open/closed group(1: open 0: closed): ");
+		ptf("Is open group(1: YES 0: NO): ");
 		int32_t inp_hand = 0;
 		scanf("%d", &inp_hand);
 		if (inp_hand > 1 || inp_hand < 0)
 		{
-			//fprintf(stderr, "inp_hand: %d\n", inp_hand);
+			// fprintf(stderr, "inp_hand: %d\n", inp_hand);
 			unresonable = 1;
 		}
 		if (inp_hand)
@@ -86,7 +86,7 @@ int main()
 		}
 		if (inp_count < 3 || inp_count > 4)
 		{
-			//fprintf(stderr, "inp_count: %d\n", inp_count);
+			// fprintf(stderr, "inp_count: %d\n", inp_count);
 			unresonable = 1;
 		}
 		int32_t is_same = 1, is_straight = 1;
@@ -94,7 +94,7 @@ int main()
 		{
 			cards_count[meld_inp[i] - 1]++;
 			melds[0][i] = meld_inp[i];
-			if ((i > 0 && meld_inp[i] != meld_inp[i - 1] + 1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9) || meld_inp[i] > 27)
+			if (i > 0 && ((meld_inp[i] != meld_inp[i - 1] + 1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9)) || meld_inp[i] > 27)
 			{
 				is_straight = 0;
 			}
@@ -106,12 +106,12 @@ int main()
 		}
 		if (!(is_same || is_straight))
 		{
-			//fprintf(stderr, "is_same: %d is_straight: %d\n", is_same, is_straight);
+			// fprintf(stderr, "is_same: %d is_straight: %d\n", is_same, is_straight);
 			unresonable = 1;
 		}
 		if (is_straight && inp_count == 4)
 		{
-			//fprintf(stderr, "is_straight: %d inp_count: %d\n", is_straight, inp_count);
+			// fprintf(stderr, "is_straight: %d inp_count: %d\n", is_straight, inp_count);
 			unresonable = 1;
 		}
 		if (is_same && inp_count == 3)
@@ -129,10 +129,11 @@ int main()
 			melds_kind[0] = 3;
 			sequences++;
 		}
-		is_same = 1, is_straight = 1;
+
 		meld_count++;
 		for (int32_t i = 1; i < 4; i++)
 		{
+			is_same = 1, is_straight = 1;
 			inp_count = 0;
 			ptf("Please input meld: ");
 			scanf("%d", &inp);
@@ -140,7 +141,7 @@ int main()
 			{
 				if (inp > 34 || inp < 0)
 				{
-					//fprintf(stderr, "%d inp: %d\n", i, inp);
+					// fprintf(stderr, "%d inp: %d\n", i, inp);
 					unresonable = 1;
 				}
 				meld_inp[inp_count] = inp;
@@ -151,19 +152,19 @@ int main()
 			scanf("%*[^\n]%n", &errinp);
 			if (errinp)
 			{
-				//fprintf(stderr, "%d errinp: %d\n", i, errinp);
+				// fprintf(stderr, "%d errinp: %d\n", i, errinp);
 				unresonable = 1;
 			}
 			if (inp_count < 3 || inp_count > 4)
 			{
-				//fprintf(stderr, "%d inp_count: %d\n", i, inp_count);
+				// fprintf(stderr, "%d inp_count: %d\n", i, inp_count);
 				unresonable = 1;
 			}
 			for (int32_t j = 0; j < inp_count; j++)
 			{
 				cards_count[meld_inp[j] - 1]++;
 				melds[i][j] = meld_inp[j];
-				if ((j > 0 && meld_inp[j] != meld_inp[j - 1] + 1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9) || meld_inp[i] > 27)
+				if ((j > 0 && (meld_inp[j] != meld_inp[j - 1] + 1 || (meld_inp[j] - 1) / 9 != (meld_inp[j - 1] - 1) / 9)) || meld_inp[j] > 27)
 				{
 					is_straight = 0;
 				}
@@ -172,11 +173,11 @@ int main()
 					is_same = 0;
 				}
 			}
-			ptf("Is open/closed group(1: open 0: closed): ");
+			ptf("Is open group(1: YES 0: NO): ");
 			scanf("%d", &inp_hand);
 			if (inp_hand > 1 || inp_hand < 0)
 			{
-				//fprintf(stderr, "%d inp_hand: %d\n", i, inp_hand);
+				// fprintf(stderr, "%d inp_hand: %d\n", i, inp_hand);
 				unresonable = 1;
 			}
 			if (inp_hand)
@@ -186,12 +187,12 @@ int main()
 			}
 			if (!(is_same || is_straight))
 			{
-				//fprintf(stderr, "%d is_same: %d is_straight: %d\n", i, is_same, is_straight);
+				// fprintf(stderr, "%d is_same: %d is_straight: %d\n", i, is_same, is_straight);
 				unresonable = 1;
 			}
 			if (is_straight && inp_count == 4)
 			{
-				//fprintf(stderr, "%d is_straight: %d inp_count: %d\n", i, is_straight, inp_count);
+				// fprintf(stderr, "%d is_straight: %d inp_count: %d\n", i, is_straight, inp_count);
 				unresonable = 1;
 			}
 			if (is_same && inp_count == 3)
@@ -219,7 +220,7 @@ int main()
 			scanf("%d", &inp_pair);
 			if (inp_pair > 34 || inp_pair < 1)
 			{
-				//fprintf(stderr, "inp_pair: %d\n", inp_pair);
+				// fprintf(stderr, "inp_pair: %d\n", inp_pair);
 				unresonable = 1;
 			}
 			cards_count[inp_pair - 1]++;
@@ -229,12 +230,12 @@ int main()
 		scanf("%*[^\n]%n", &errinp);
 		if (errinp)
 		{
-			//fprintf(stderr, "errinp: %d\n", errinp);
+			// fprintf(stderr, "errinp: %d\n", errinp);
 			unresonable = 1;
 		}
 		if (pair[0] != pair[1])
 		{
-			//fprintf(stderr, "pair[0]: %d pair[1]: %d\n", pair[0], pair[1]);
+			// fprintf(stderr, "pair[0]: %d pair[1]: %d\n", pair[0], pair[1]);
 			unresonable = 1;
 		}
 	}
@@ -243,7 +244,7 @@ int main()
 	{
 		if (cards_count[i] > 4)
 		{
-			//fprintf(stderr, "cards_count[%d]: %d\n", i, cards_count[i]);
+			// fprintf(stderr, "cards_count[%d]: %d\n", i, cards_count[i]);
 			unresonable = 1;
 		}
 	}
@@ -251,7 +252,7 @@ int main()
 	scanf("%d", &winning_tile);
 	if (cards_count[winning_tile - 1] == 0)
 	{
-		//fprintf(stderr, "winning_tile: %d %d\n", winning_tile, cards_count[winning_tile - 1]);
+		// fprintf(stderr, "winning_tile: %d %d\n", winning_tile, cards_count[winning_tile - 1]);
 		unresonable = 1;
 	}
 	if (!special_case)
@@ -262,19 +263,21 @@ int main()
 
 				if (melds[i][0] == winning_tile)
 				{
-					//fprintf(stderr, "melds[%d][0],kind: %d %d\n", i, melds[i][0], melds_kind[i]);
+					// fprintf(stderr, "melds[%d][0],kind: %d %d\n", i, melds[i][0], melds_kind[i]);
 					unresonable = 1;
 					break;
 				}
 		}
 	}
+	/* self drwan win
 	ptf("Is Self-drawn win?(1: YES 0: NO): "); //
 	scanf("%d", &self_drawn_win);
 	if (self_drawn_win > 1 || self_drawn_win < 0)
 	{
-		//fprintf(stderr, "self_drawn_win: %d\n", self_drawn_win);
+		// fprintf(stderr, "self_drawn_win: %d\n", self_drawn_win);
 		unresonable = 1;
 	}
+	
 	if (!special_case && unresonable == 0)
 	{
 		if (self_drawn_win)
@@ -287,7 +290,7 @@ int main()
 					{
 						if (melds[i][j] == winning_tile && open_hand_meld[i] == 1)
 						{
-							//fprintf(stderr, "melds[%d][%d]: %d\n", i, j, melds[i][j]);
+							// fprintf(stderr, "melds[%d][%d]: %d\n", i, j, melds[i][j]);
 							unresonable = 1;
 						}
 					}
@@ -305,7 +308,7 @@ int main()
 						{
 							if (melds_kind[i] == 2)
 							{
-								//fprintf(stderr, "melds_kind[%d]: %d\n", i, melds_kind[i]);
+								// fprintf(stderr, "melds_kind[%d]: %d\n", i, melds_kind[i]);
 								unresonable = 1;
 								break;
 							}
@@ -323,7 +326,7 @@ int main()
 						{
 							if (open_hand_meld[i] == 1)
 							{
-								//fprintf(stderr, "melds %d\n", i);
+								// fprintf(stderr, "melds %d\n", i);
 								unresonable = 1;
 								break;
 							}
@@ -332,26 +335,25 @@ int main()
 				}
 			}
 		}
-	}
+	}*/
 	ptf("Player's wind(0:E 1:S 2:W 3:N): "); //
 	scanf("%d", &player_wind);
 	if (player_wind > 3 || player_wind < 0)
 	{
-		//fprintf(stderr, "player_wind: %d\n", player_wind);
+		// fprintf(stderr, "player_wind: %d\n", player_wind);
 		unresonable = 1;
 	}
 	ptf("Prevailing wind(0:E 1:S 2:W 3:N): "); //
 	scanf("%d", &prevailing_wind);
 	if (prevailing_wind > 3 || prevailing_wind < 0)
 	{
-		//fprintf(stderr, "prevailing_wind: %d\n", prevailing_wind);
+		// fprintf(stderr, "prevailing_wind: %d\n", prevailing_wind);
 		unresonable = 1;
 	}
 	if (unresonable)
 	{
 		goto unresonable_case;
 	}
-	// 二盃口比七對子優先
 	// unresonable case
 	ptf("\nThe Score is...\n");
 	count_yaku();
@@ -389,7 +391,7 @@ static void count_yaku()
 {
 	if (special_case)
 	{
-		// 國士無雙(兩種)
+		// Thirteen orphans (Two kinds)
 		{
 			int32_t thirteen_orphans = 0, thirteen_orphans_flag = 0;
 			for (int32_t i = 0; i < 3; i++)
@@ -442,14 +444,14 @@ static void count_yaku()
 			}
 			if (thirteen_orphans == 13)
 			{
-				if (winning_tile == thirteen_orphans_flag) // 國士無雙十三面
+				if (winning_tile == thirteen_orphans_flag) // Thirteen orphans 13 wait
 				{
 					yaku_flag[0] = 1;
 					yakuman += 2;
 					ptf("    Thirteen orphans 13 wait (2 Yakuman)\n");
 					return;
 				}
-				else // 國士無雙
+				else // Thirteen orphans
 				{
 					yaku_flag[1] = 1;
 					yakuman++;
@@ -458,7 +460,7 @@ static void count_yaku()
 				}
 			}
 		}
-		// 七對子
+		// Seven pairs
 		{
 			int32_t pair_count = 0;
 
@@ -479,7 +481,7 @@ static void count_yaku()
 		}
 	}
 	// 2 Yakuman
-	// Big four winds 大四喜
+	// Big four winds 
 	{
 		int8_t big_four_winds = 0;
 		for (int32_t i = 0; i < 4; i++)
@@ -496,7 +498,7 @@ static void count_yaku()
 			ptf("    Big four winds (2 Yakuman)\n");
 		}
 	}
-	// Four concealed triplets single wait 四暗刻單騎
+	// Four concealed triplets single wait 
 	{
 		int8_t four_concealed_triplets_single_wait = 0;
 		if (triplets + kans == 4 && closed_hand)
@@ -510,7 +512,7 @@ static void count_yaku()
 			ptf("    Four concealed triplets single wait (2 Yakuman)\n");
 		}
 	}
-	// Nine gates nine wait 純正九蓮寶燈
+	// Nine gates nine wait 
 	{
 		int8_t nine_gates_nine_wait = 0, nine_gates_nine_wait_flag = -1;
 
@@ -561,7 +563,7 @@ static void count_yaku()
 	}
 
 	// 1 Yakuman
-	// All green 綠一色
+	// All green 
 	{
 		int8_t all_green = 1;
 		for (int32_t i = 0; i <= 33; i++)
@@ -579,7 +581,7 @@ static void count_yaku()
 			ptf("    All green (1 Yakuman)\n");
 		}
 	}
-	// All honors 字一色
+	// All honors 
 	{
 		int8_t all_honors = 1;
 		for (int32_t i = 0; i <= 33; i++)
@@ -597,7 +599,7 @@ static void count_yaku()
 			ptf("    All honors (1 Yakuman)\n");
 		}
 	}
-	// All terminals 清老頭
+	// All terminals 
 	{
 		int8_t all_terminals = 1;
 		for (int32_t i = 0; i <= 33; i++)
@@ -615,7 +617,7 @@ static void count_yaku()
 			ptf("    All terminals (1 Yakuman)\n");
 		}
 	}
-	// Big three dragons 大三元
+	// Big three dragons 
 	{
 		int8_t big_three_dragons = 0;
 		for (int32_t i = 0; i < 3; i++)
@@ -632,7 +634,7 @@ static void count_yaku()
 			ptf("    Big three dragons (1 Yakuman)\n");
 		}
 	}
-	// Four concealed triplets 四暗刻
+	// Four concealed triplets 
 	{
 		int8_t four_concealed_triplets = 0;
 		if (triplets + kans == 4 && closed_hand)
@@ -646,7 +648,7 @@ static void count_yaku()
 			ptf("    Four concealed triplets (1 Yakuman)\n");
 		}
 	}
-	// Four kans 四槓子
+	// Four kans 
 	{
 		int8_t four_kans = 0;
 		if (kans == 4)
@@ -660,7 +662,7 @@ static void count_yaku()
 			ptf("    Four kans (1 Yakuman)\n");
 		}
 	}
-	// Little four winds 小四喜
+	// Little four winds 
 	{
 		int8_t little_four_winds = 0;
 		for (int32_t i = 0; i < 4; i++)
@@ -677,7 +679,7 @@ static void count_yaku()
 			ptf("    Little four winds (1 Yakuman)\n");
 		}
 	}
-	// Nine gates 九蓮寶燈
+	// Nine gates 
 	{
 		int8_t nine_gates = 0;
 		for (int32_t i = 0; i < 3; i++)
@@ -719,7 +721,7 @@ static void count_yaku()
 	// Han
 
 	// 6 Han
-	// Flush 清一色 (6 or 5 Han)
+	// Flush (6 or 5 Han)
 	{
 		int8_t flush[3] = {1, 1, 1};
 		for (int32_t i = 0; i <= 33; i++)
@@ -754,7 +756,7 @@ static void count_yaku()
 	}
 
 	// 3 Han
-	// Half-flush 混一色 (3 or 2 Han)
+	// Half-flush (3 or 2 Han)
 	{
 		int8_t half_flush[3] = {1, 1, 1};
 		for (int32_t i = 0; i <= 26; i++)
@@ -782,7 +784,7 @@ static void count_yaku()
 			}
 		}
 	}
-	// Terminal in each set 純全帶么九 (3 or 2 Han)
+	// Terminal in each set (3 or 2 Han)
 	{
 		int8_t terminal_in_each_set = 1;
 		for (int32_t i = 0; i < 4; i++)
@@ -813,7 +815,7 @@ static void count_yaku()
 	}
 
 	// 2 Han
-	// All triplets 對對和 (2 Han)
+	// All triplets (2 Han)
 	{
 		if (sequences == 0)
 		{
@@ -822,7 +824,7 @@ static void count_yaku()
 			ptf("    All triplets (2 Han)\n");
 		}
 	}
-	// All terminals and honors 混老頭 (2 Han)
+	// All terminals and honors (2 Han)
 	{
 		int8_t all_terminals_and_honors = 1;
 		for (int32_t i = 0; i <= 33; i++)
@@ -840,7 +842,7 @@ static void count_yaku()
 			ptf("    All terminals and honors (2 Han)\n");
 		}
 	}
-	// Half-flush 混一色 (3 or 2 Han)
+	// Half-flush (3 or 2 Han)
 	{
 		if (yaku_flag[15] == 1 && closed_hand == 0)
 		{
@@ -848,7 +850,7 @@ static void count_yaku()
 			ptf("    Half-flush (2 Han)\n");
 		}
 	}
-	// Little three dragons 小三元 (2 Han)
+	// Little three dragons (2 Han)
 	{
 		int8_t little_three_dragons = 0;
 		for (int32_t i = 0; i < 3; i++)
@@ -865,7 +867,7 @@ static void count_yaku()
 			ptf("    Little three dragons (2 Han)\n");
 		}
 	}
-	// Straight 一氣通貫 (2 or 1 Han)
+	// Straight (2 or 1 Han)
 	{
 		int8_t straight[3] = {1, 1, 1};
 		for (int32_t i = 0; i < 9; i++)
@@ -893,7 +895,7 @@ static void count_yaku()
 			}
 		}
 	}
-	// Terminal in each set 純全帶么九 (3 or 2 Han)
+	// Terminal in each set (3 or 2 Han)
 	{
 		if (yaku_flag[16] && closed_hand == 0)
 		{
@@ -901,7 +903,7 @@ static void count_yaku()
 			ptf("    Terminal in each set (2 Han)\n");
 		}
 	}
-	// Terminal or honor in each set 混全帶九 (2 or 1 Han)
+	// Terminal or honor in each set (2 or 1 Han)
 	{
 		int8_t termianl_or_honor_in_each_set = 1;
 		for (int32_t i = 0; i < 4; i++)
@@ -938,7 +940,7 @@ static void count_yaku()
 			}
 		}
 	}
-	// Three colour triplets 三色同刻 (2 Han)
+	// Three colour triplets (2 Han)
 	{
 		int8_t three_colour_triplets[3] = {0};
 		if (triplets + kans > 3)
@@ -958,7 +960,7 @@ static void count_yaku()
 			ptf("    Three colour triplets (2 Han)\n");
 		}
 	}
-	// Three colour straights 三色同順 (2 or Han)
+	// Three colour straights (2 or Han)
 	{
 		int8_t three_colour_straights = 0;
 		int8_t three_colour_straights_count[4] = {0};
@@ -1001,7 +1003,7 @@ static void count_yaku()
 			ptf("    Three colour straights (2 Han)\n");
 		}
 	}
-	// Three concealed triplets 三暗刻 (2 Han)
+	// Three concealed triplets (2 Han)
 	{
 		int8_t three_concealed_triplets = 0;
 		if (triplets + kans == 3 && closed_hand)
@@ -1026,7 +1028,7 @@ static void count_yaku()
 		}
 	}
 
-	// Three kans 三槓子 (2 Han)
+	// Three kans (2 Han)
 	{
 		if (kans == 3)
 		{
@@ -1035,7 +1037,7 @@ static void count_yaku()
 			ptf("    Three kans (2 Han)\n");
 		}
 	}
-	// Two sets of identical sequences 二盃口 (2 Han)
+	// Two sets of identical sequences (2 Han)
 	{
 		if (sequences == 4)
 		{
@@ -1057,7 +1059,7 @@ static void count_yaku()
 	}
 
 	// 1 Han
-	// All simples 斷么九 (1 Han)
+	// All simples (1 Han)
 	{
 		int8_t all_simples = 1;
 		for (int32_t i = 0; i <= 33; i++)
@@ -1075,7 +1077,7 @@ static void count_yaku()
 			ptf("    All simples (1 Han)\n");
 		}
 	}
-	// No-points hand 平和 (1 Han) **********
+	// No-points hand (1 Han) **********
 	{
 		if (sequences == 4)
 		{
@@ -1105,15 +1107,15 @@ static void count_yaku()
 			}
 		}
 	}
-	// One set of identical sequences 一盃口 (1 Han)
+	// One set of identical sequences (1 Han)
 	{
-		if (sequences == 4)
+		if (sequences >= 2)
 		{
 			int8_t one_set_of_identical_sequences = 0;
 			int8_t counter[27] = {0};
 			for (int32_t i = 0; i < 4; i++)
 			{
-				if (melds[i][0] + 1 == melds[i][1] && melds[i][2] < 27)
+				if (melds_kind[i] == 3)
 				{
 					counter[melds[i][0] - 1]++;
 				}
@@ -1134,8 +1136,8 @@ static void count_yaku()
 			}
 		}
 	}
-	// Honors(役牌)**********
-	//  tiles of White(白) or Green(發) or Red(中)
+	// Honors**********
+	//  tiles of White or Green or Red
 	{
 
 		if (cards_count[32] >= 3)
@@ -1145,7 +1147,7 @@ static void count_yaku()
 			ptf("    Honors: Green (1 Han)\n");
 		}
 
-		// Player’s wind of East(東風) South(南風) West(西風) North(北風)
+		// Player’s wind of East South West North
 
 		if (cards_count[27 + player_wind] >= 3)
 		{
@@ -1154,7 +1156,7 @@ static void count_yaku()
 			ptf("    Honors: Player's wind (1 Han)\n");
 		}
 
-		// Prevailing wind of East(東風) South(南風) West(西風) North(北風)
+		// Prevailing wind of East South West North
 		{
 			if (cards_count[27 + prevailing_wind] >= 3)
 			{
@@ -1176,7 +1178,7 @@ static void count_yaku()
 			ptf("    Honors: White (1 Han)\n");
 		}
 	}
-	// Straight 一氣通貫 (2 or 1 Han)
+	// Straight (2 or 1 Han)
 	{
 		if (yaku_flag[20] == 1 && closed_hand == 0)
 		{
@@ -1184,7 +1186,7 @@ static void count_yaku()
 			ptf("    Straight (1 Han)\n");
 		}
 	}
-	// Terminal or honor in each set 混全帶九 (2 or 1 Han)
+	// Terminal or honor in each set (2 or 1 Han)
 	{
 		if (yaku_flag[21] == 1 && closed_hand == 0)
 		{
@@ -1192,7 +1194,7 @@ static void count_yaku()
 			ptf("    Terminal or honor in each set (1 Han)\n");
 		}
 	}
-	// Three colour straights 三色同順 (2 or Han)
+	// Three colour straights (2 or Han)
 	{
 		if (yaku_flag[23] == 1 && closed_hand == 0)
 		{
@@ -1205,8 +1207,8 @@ static void count_yaku()
 // Pin: 1~9 (0~8)
 // So: 10~18 (9~17)
 // Wan: 19~27 (18~26)
-// wind ( 東南西北 ): 28~31 (27~30)
-// 白發中: 32~34 (31~33)
+// wind ( ESWN ): 28~31 (27~30)
+// White Green Red: 32~34 (31~33)
 
 /*
 0// Thirteen orphans 13 wait [*]
@@ -1266,10 +1268,10 @@ static void count_yaku()
 27// All simples
 28// No-points hand (Closed hands only)
 29// One set of identical sequences (Closed hands only)
-30// Honor(役牌)
-	tiles of White(白) or Green(發) or Red(中)
-	Player’s wind of East(東風) South(南風) West(西風) North(北風)
-	Prevailing wind of East(東風) South(南風) West(西風) North(北風)
+30// Honor
+	tiles of White or Green or Red
+	Player’s wind of East South West North
+	Prevailing wind of East South West North
 20// Straight (have open group)(Closed hand only)
 21// Terminal or honor in each set (have open group)
 23// Three colour straights (have opne group)
