@@ -37,9 +37,9 @@ for i in range(8,9): # Two sets of identical sequences
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         f.write("10 11 12 0\n0\n10 11 12 0\n0\n2 3 4 0\n0\n2 3 4 0\n0\n28 28\n28\n0\n0")
         f.write('\n')
-for i in range(9,10): # All triplets
+for i in range(9,10): # All triplets 
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
-        f.write("21 21 21 0\n0\n4 4 4 0\n0\n12 12 12 0\n0\n28 28 28 0\n0\n29 29\n29\n0\n0")
+        f.write("21 21 21 0\n1\n4 4 4 0\n0\n12 12 12 0\n0\n28 28 28 0\n0\n29 29\n29\n0\n0")
         f.write('\n')
 for i in range(10,11): # Three concealed triplets
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
@@ -49,7 +49,7 @@ for i in range(11,12): # Three colour triplets
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
         f.write("21 21 21 0\n0\n3 3 3 0\n0\n12 12 12 0\n0\n14 15 16 0\n0\n34 34\n34\n0\n0")
         f.write('\n')
-for i in range(12,13): # Three kongs
+for i in range(12,13): # Three kans
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
         f.write("14 15 16 0\n0\n21 21 21 21 0\n1\n3 3 3 3 0\n1\n12 12 12 12 0\n1\n34 34\n34\n0\n0")
         f.write('\n')
@@ -57,7 +57,7 @@ for i in range(13,14): # All simples
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
         f.write("20 21 22 0\n0\n23 24 25 0\n0\n3 3 3 0\n0\n13 14 15 0\n0\n17 17\n17\n0\n0")
         f.write('\n')
-for i in range(14,15): # Terminal or honor in each set
+for i in range(14,15): # Terminal or honor in each set 
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
         f.write("19 20 21 0\n0\n25 26 27 0\n0\n1 2 3 0\n0\n28 28 28 0\n0\n33 33\n33\n0\n0")
         f.write('\n')
@@ -65,9 +65,9 @@ for i in range(15,16): # Terminal in each set
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
         f.write("19 20 21 0\n0\n25 26 27 0\n0\n1 2 3 0\n0\n18 18 18 0\n0\n10 10\n10\n0\n0")
         f.write('\n')
-for i in range(16,17): # All terminals or honors
+for i in range(16,17): # All terminals and honors
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
-        f.write("19 19 19 0\n0\n27 27 27 0\n0\n1 1 1 0\n0\n10 10 10 0\n0\n28 28\n28\n0\n0")
+        f.write("19 19 19 0\n1\n27 27 27 0\n0\n1 1 1 0\n0\n10 10 10 0\n0\n28 28\n28\n0\n0")
         f.write('\n')
 for i in range(17,18): # Little three dragons
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
@@ -81,9 +81,9 @@ for i in range(19,20): # Flush
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f: # 7 Pairs
         f.write("19 20 21 0\n0\n20 21 22 0\n0\n21 22 23 0\n0\n24 24 24 0\n0\n27 27\n27\n0\n0")
         f.write('\n')
-for i in range(20,21): # Four concealed triplets
+for i in range(20,21): # Four concealed triplets 
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
-        f.write("19 19 19 0\n0\n20 20 20 0\n0\n3 3 3 0\n0\n4 4 4 0\n0\n14 14\n14\n0\n0")
+        f.write("19 19 19 0\n0\n20 20 20 0\n0\n3 3 3 0\n0\n4 4 4 0\n0\n14 14\n4\n0\n0")
         f.write('\n')
 for i in range(21,22): # Four concealed triplets single wait
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
@@ -103,25 +103,25 @@ for i in range(24,25): # Big four winds
         f.write('\n')
 for i in range(25,26): # All honors
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
-        f.write("28 28 28 0\n0\n29 29 29 0\n0\n30 30 30 0\n0\n32 32 32 0\n0\n33 33\n33\n0\n0")
+        f.write("28 28 28 0\n1\n29 29 29 0\n0\n30 30 30 0\n0\n32 32 32 0\n0\n33 33\n33\n0\n0")
         f.write('\n')
 for i in range(26,27): # All terminals
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
-        f.write("19 19 19 0\n0\n27 27 27 0\n0\n1 1 1 0\n0\n9 9 9 0\n0\n10 10\n10\n0\n0")
+        f.write("19 19 19 0\n1\n27 27 27 0\n0\n1 1 1 0\n0\n9 9 9 0\n0\n10 10\n10\n0\n0")
         f.write('\n')
 for i in range(27,28): # All green
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
-        f.write("11 11 11 0\n0\n12 12 12 0\n0\n13 13 13 0\n0\n15 15 15 0\n0\n33 33\n33\n0\n0")
+        f.write("11 11 11 0\n1\n12 12 12 0\n0\n13 13 13 0\n0\n15 15 15 0\n0\n33 33\n33\n0\n0")
         f.write('\n')
-for i in range(28,29): # Nine gates
+for i in range(28,29): # Nine gates 
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
         f.write("19 19 19 0\n0\n19 20 21 0\n0\n22 23 24 0\n0\n25 26 27 0\n0\n27 27\n27\n0\n0")
         f.write('\n')
-for i in range(29,30): # Nine gates nine wait
+for i in range(29,30): # Nine gates nine wait #####
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
-        f.write("19 19 19 0\n0\n19 20 21 0\n0\n22 23 24 0\n0\n25 26 27 0\n0\n27 27\n23\n0\n0")
+        f.write("19 19 19 0\n0\n20 21 22 0\n0\n24 25 26 0\n0\n27 27 27 0\n0\n23 23\n23\n0\n0")
         f.write('\n')
-for i in range(31,32): # Four kans
+for i in range(30,31): # Four kans
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_"+str(i)+'.in', 'w') as f:
         f.write("19 19 19 19 0\n0\n2 2 2 2 0\n0\n12 12 12 12 0\n0\n28 28 28 28 0\n0\n33 33\n33\n0\n0")
         f.write('\n')
