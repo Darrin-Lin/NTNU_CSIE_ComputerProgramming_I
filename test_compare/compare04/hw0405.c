@@ -357,7 +357,7 @@ int main()
 	// unresonable case
 	ptf("\nThe Score is...\n");
 	count_yaku();
-	if(yakuman + han == 0&&special_case)
+	if (yakuman + han == 0 && special_case)
 	{
 		ptf("    Unreasonable case\n");
 	}
@@ -948,18 +948,27 @@ static void count_yaku()
 		}
 		// Three colour triplets (2 Han)
 		{
-			int8_t three_colour_triplets[3] = {0};
+			int8_t three_colour_triplets[3][9] = {0};
+			int8_t three_colour_triplets_flag = 0;
 			if (triplets + kans >= 3)
 			{
 				for (int32_t i = 0; i < 4; i++)
 				{
 					if (melds_kind[i] < 3 && melds[i][0] < 28)
 					{
-						three_colour_triplets[(melds[i][0] - 1) / 9] = (melds[i][0] - 1) % 9;
+						three_colour_triplets[(melds[i][0] - 1) / 9][(melds[i][0] - 1) % 9]++;
 					}
 				}
 			}
-			if (three_colour_triplets[0] && three_colour_triplets[1] && three_colour_triplets[2] && (three_colour_triplets[0] == three_colour_triplets[1] && three_colour_triplets[0] == three_colour_triplets[2]))
+			for(int32_t i=0;i<9;i++)
+			{
+				if(three_colour_triplets[0][i] && three_colour_triplets[1][i] && three_colour_triplets[2][i])
+				{
+					three_colour_triplets_flag++;
+					break;
+				}
+			}
+			if (three_colour_triplets_flag)
 			{
 				yaku_flag[22] = 1;
 				han += 2;

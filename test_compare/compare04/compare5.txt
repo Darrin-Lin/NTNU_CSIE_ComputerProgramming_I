@@ -77,10 +77,12 @@
 < Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input pair: Please input winning tile: Player's wind(0:E 1:S 2:W 3:N): Prevailing wind(0:E 1:S 2:W 3:N): 
 ---
 > Please input meld: Is open/closed group(1: YES 0: NO): Please input meld: Is open/closed group(1: YES 0: NO): Please input meld: Is open/closed group(1: YES 0: NO): Please input meld: Is open/closed group(1: YES 0: NO): Please input pair: Please input winning tile: Player's wind(0:E 1:S 2:W 3:N): Prevailing wind(0:E 1:S 2:W 3:N): 
-4c4
+5d4
 <     Three concealed triplets (2 Han)
+7c6
+< Total: 8 Han
 ---
->     Three colour triplets (2 Han)
+> Total: 6 Han
 12--------------------
 1c1
 < Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input pair: Please input winning tile: Player's wind(0:E 1:S 2:W 3:N): Prevailing wind(0:E 1:S 2:W 3:N): 
