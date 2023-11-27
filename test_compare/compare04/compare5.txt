@@ -6,12 +6,6 @@
  5--------------------
  6--------------------
  7--------------------
-2a3
->     All terminals and honors (2 Han)
-4c5
-< Total: 2 Han
----
-> Total: 4 Han
  8--------------------
 6c6
 <     No-points hand (1 Han)
@@ -19,51 +13,16 @@
 >     No points Hand (1 Han)
  9--------------------
 10--------------------
-4c4,5
-< Total: 2 Han
+4c4
+<     No-points hand (1 Han)
 ---
 >     No points Hand (1 Han)
-> Total: 3 Han
 11--------------------
 12--------------------
 13--------------------
-1c1,2
-< Please input meld: Is open group(1: YES 0: NO): Please input meld: The Score is...
----
-> Please input meld: Is open group(1: YES 0: NO): Please input meld: 
-> The Score is...
 14--------------------
-1c1,2
-< Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input pair: Please input winning tile: The Score is...
----
-> Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input pair: Please input winning tile: 
-> The Score is...
 15--------------------
-1c1,2
-< Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input pair: Please input winning tile: The Score is...
----
-> Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input meld: Is open group(1: YES 0: NO): Please input pair: Please input winning tile: 
-> The Score is...
 16--------------------
-1c1,2
-< Please input meld: The Score is...
----
-> Please input meld: 
-> The Score is...
 17--------------------
-1c1,2
-< Please input meld: The Score is...
----
-> Please input meld: 
-> The Score is...
 18--------------------
-1c1,2
-< Please input meld: Is open group(1: YES 0: NO): Please input meld: The Score is...
----
-> Please input meld: Is open group(1: YES 0: NO): Please input meld: 
-> The Score is...
 19--------------------
-1c1
-< Please input meld: Please input winning tile: Player's wind(0:E 1:S 2:W 3:N): Prevailing wind(0:E 1:S 2:W 3:N): 
----
-> Please input meld: 

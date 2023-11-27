@@ -69,6 +69,87 @@ int main()
 		for (int32_t i = 0; i < 14; i++)
 		{
 			cards_count[meld_inp[i] - 1]++;
+			if(cards_count[meld_inp[i] - 1] > 4)
+			{
+				// fprintf(stderr, "cards_count[%d]: %d\n", meld_inp[i] - 1, cards_count[meld_inp[i] - 1]);
+				goto unresonable_case;
+			}
+		}
+		int8_t checker = 0;
+		// checker
+		{
+			int32_t thirteen_orphans = 0, thirteen_orphans_flag = 0;
+			for (int32_t i = 0; i < 3; i++)
+			{
+				if (cards_count[i * 9] == 1)
+				{
+					thirteen_orphans++;
+				}
+				else if (cards_count[i * 9] == 2 && !thirteen_orphans_flag)
+				{
+					thirteen_orphans++;
+					thirteen_orphans_flag = i * 9 + 1;
+				}
+				if (cards_count[(i + 1) * 9 - 1] == 1)
+				{
+					thirteen_orphans++;
+				}
+				else if (cards_count[(i + 1) * 9 - 1] == 2 && !thirteen_orphans_flag)
+				{
+					thirteen_orphans++;
+					thirteen_orphans_flag = (i + 1) * 9;
+				}
+				if (cards_count[27 + i] == 1)
+				{
+					thirteen_orphans++;
+				}
+				else if (cards_count[27 + i] == 2 && !thirteen_orphans_flag)
+				{
+					thirteen_orphans++;
+					thirteen_orphans_flag = 27 + i + 1;
+				}
+				if (cards_count[31 + i] == 1)
+				{
+					thirteen_orphans++;
+				}
+				else if (cards_count[31 + i] == 2 && !thirteen_orphans_flag)
+				{
+					thirteen_orphans++;
+					thirteen_orphans_flag = 31 + i + 1;
+				}
+			}
+			if (cards_count[30] == 1)
+			{
+				thirteen_orphans++;
+			}
+			else if (cards_count[30] == 2 && !thirteen_orphans_flag)
+			{
+				thirteen_orphans++;
+				thirteen_orphans_flag == 31;
+			}
+			if (thirteen_orphans == 13)
+			{
+				checker = 1;
+			}
+		// Seven pairs
+			int32_t pair_count = 0;
+
+			for (int32_t i = 0; i <= 33; i++)
+			{
+				if (cards_count[i] == 2)
+				{
+					pair_count++;
+				}
+			}
+			if (pair_count == 7 && closed_hand)
+			{
+				checker = 1;
+			}
+		}
+		if (checker==0)
+		{
+			// fprintf(stderr, "checker: %d\n", checker);
+			goto unresonable_case;
 		}
 	}
 	else
@@ -364,10 +445,10 @@ int main()
 		// fprintf(stderr, "prevailing_wind: %d\n", prevailing_wind);
 		goto unresonable_case;
 	}
-	if (unresonable)
-	{
-		goto unresonable_case;
-	}
+	// if (unresonable)
+	// {
+	// 	goto unresonable_case;
+	// }
 	// unresonable case
 	ptf("\nThe Score is...\n");
 	count_yaku();
@@ -399,7 +480,7 @@ int main()
 	if (0)
 	{
 	unresonable_case:
-		ptf("The Score is...\n    Unreasonable case\nTotal: 0 Han\n");
+		ptf("\nThe Score is...\n    Unreasonable case\nTotal: 0 Han\n");
 		return 1;
 	}
 
@@ -514,8 +595,119 @@ static void count_yaku()
 			{
 				yaku_flag[2] = 1;
 				han += 2;
+				// ptf("    Seven pairs (2 Han)\n");
+				// return;
+			}
+
+			if (yaku_flag[2])
+			{
+				// All honors
+				{
+					int8_t all_honors = 1;
+					for (int32_t i = 0; i <= 33; i++)
+					{
+						if (cards_count[i] && i < 27)
+						{
+							all_honors = 0;
+							break;
+						}
+					}
+					if (all_honors)
+					{
+						yaku_flag[7] = 1;
+						yakuman++;
+						ptf("    All honors (1 Yakuman)\n");
+						return;
+					}
+				}
+				// Flush (6 Han)
+				{
+					int8_t flush[3] = {1, 1, 1};
+					for (int32_t i = 0; i <= 33; i++)
+					{
+						if (cards_count[i] && i > 8)
+						{
+							flush[0] = 0;
+						}
+						if (cards_count[i] && (i > 17 || i < 9))
+						{
+							flush[1] = 0;
+						}
+						if (cards_count[i] && (i < 18 || i > 26))
+						{
+							flush[2] = 0;
+						}
+					}
+					if (flush[0] || flush[1] || flush[2])
+					{
+						yaku_flag[14] = 1;
+						han += 6;
+						ptf("    Flush (6 Han)\n");
+					}
+				}
+				// Half-flush (3 Han)
+				{
+					int8_t half_flush[3] = {1, 1, 1};
+					for (int32_t i = 0; i <= 26; i++)
+					{
+						if (cards_count[i] && i > 8)
+						{
+							half_flush[0] = 0;
+						}
+						if (cards_count[i] && (i > 17 || i < 9))
+						{
+							half_flush[1] = 0;
+						}
+						if (cards_count[i] && i < 18)
+						{
+							half_flush[2] = 0;
+						}
+					}
+					if ((half_flush[0] || half_flush[1] || half_flush[2]) && yaku_flag[14] == 0)
+					{
+						yaku_flag[15] = 1;
+						han += 3;
+						ptf("    Half-flush (3 Han)\n");
+					}
+				}
+				// All terminals and honors (2 Han)
+				{
+					int8_t all_terminals_and_honors = 1;
+					for (int32_t i = 0; i <= 33; i++)
+					{
+						if (cards_count[i] && !(((i >= 0 && i <= 26) && (i % 9 == 0 || i % 9 == 8)) || (i >= 27 && i <= 33)))
+						{
+							all_terminals_and_honors = 0;
+							break;
+						}
+					}
+					if (all_terminals_and_honors)
+					{
+						yaku_flag[18] = 1;
+						han += 2;
+						ptf("    All terminals and honors (2 Han)\n");
+					}
+				}
+				// Seven pairs (2 Han)
 				ptf("    Seven pairs (2 Han)\n");
-				return;
+				// All simples (1 Han)
+				{
+					int8_t all_simples = 1;
+					for (int32_t i = 0; i <= 33; i++)
+					{
+						if (cards_count[i] && (i % 9 == 0 || i % 9 == 8 || i > 26))
+						{
+							all_simples = 0;
+							break;
+						}
+					}
+					if (all_simples)
+					{
+						yaku_flag[27] = 1;
+						han++;
+						ptf("    All simples (1 Han)\n");
+					}
+				}
 			}
 		}
 	}
@@ -1098,7 +1290,7 @@ static void count_yaku()
 					{
 						two_sets_of_identical_sequences++;
 					}
-					else if(cards_count[i] == 4)
+					else if (cards_count[i] == 4)
 					{
 						two_sets_of_identical_sequences += 2;
 					}
@@ -1138,7 +1330,7 @@ static void count_yaku()
 				int8_t no_points_hand = 1;
 				for (int32_t i = 0; i <= 33; i++)
 				{
-					if (cards_count[i] && i > 26)
+					if (cards_count[i] && (i == prevailing_wind + 26 || i == player_wind + 26 || i > 30))
 					{
 						no_points_hand = 0;
 						break;
