@@ -357,11 +357,15 @@ int main()
 	// unresonable case
 	ptf("\nThe Score is...\n");
 	count_yaku();
-	if (yakuman + han == 0)
+	if (yakuman + han == 0 && special_case)
+	{
+		ptf("    Unreasonable case\n");
+	}
+	else if (yakuman + han == 0)
 	{
 		ptf("    No Yaku\n");
 	}
-	ptf("Toltal: ");
+	ptf("Total: ");
 
 	if (yakuman)
 	{
@@ -480,725 +484,738 @@ static void count_yaku()
 			}
 		}
 	}
-	// 2 Yakuman
-	// Big four winds
+	else
 	{
-		int8_t big_four_winds = 0;
-		for (int32_t i = 0; i < 4; i++)
+		// 2 Yakuman
+		// Big four winds
 		{
-			if (cards_count[27 + i] == 3 || cards_count[27 + i] == 4)
+			int8_t big_four_winds = 0;
+			for (int32_t i = 0; i < 4; i++)
 			{
-				big_four_winds++;
+				if (cards_count[27 + i] == 3 || cards_count[27 + i] == 4)
+				{
+					big_four_winds++;
+				}
+			}
+			if (big_four_winds == 4)
+			{
+				yaku_flag[3] = 1;
+				yakuman += 2;
+				ptf("    Big four winds (2 Yakuman)\n");
 			}
 		}
-		if (big_four_winds == 4)
+		// Four concealed triplets single wait
 		{
-			yaku_flag[3] = 1;
-			yakuman += 2;
-			ptf("    Big four winds (2 Yakuman)\n");
+			int8_t four_concealed_triplets_single_wait = 0;
+			if (triplets + kans == 4 && closed_hand && winning_tile == pair[0])
+			{
+				four_concealed_triplets_single_wait++;
+			}
+			if (four_concealed_triplets_single_wait)
+			{
+				yaku_flag[4] = 1;
+				yakuman += 2;
+				ptf("    Four concealed triplets single wait (2 Yakuman)\n");
+			}
 		}
-	}
-	// Four concealed triplets single wait
-	{
-		int8_t four_concealed_triplets_single_wait = 0;
-		if (triplets + kans == 4 && closed_hand && winning_tile == pair[0])
+		// Nine gates nine wait
 		{
-			four_concealed_triplets_single_wait++;
-		}
-		if (four_concealed_triplets_single_wait)
-		{
-			yaku_flag[4] = 1;
-			yakuman += 2;
-			ptf("    Four concealed triplets single wait (2 Yakuman)\n");
-		}
-	}
-	// Nine gates nine wait
-	{
-		int8_t nine_gates_nine_wait = 0, nine_gates_nine_wait_flag = -1;
+			int8_t nine_gates_nine_wait = 0, nine_gates_nine_wait_flag = -1;
 
-		if (closed_hand)
+			if (closed_hand)
+			{
+				for (int32_t i = 0; i < 3; i++)
+				{
+					if (cards_count[i * 9])
+					{
+						for (int32_t j = 0; j < 9; j++)
+						{
+							if ((i * 9 + j) % 9 != 8 && (i * 9 + j) % 9 != 0 && cards_count[i * 9 + j] == 1)
+							{
+								nine_gates_nine_wait++;
+							}
+							else if ((i * 9 + j) % 9 != 8 && (i * 9 + j) % 9 != 0 && cards_count[i * 9 + j] == 2 && nine_gates_nine_wait_flag == -1)
+							{
+								nine_gates_nine_wait_flag = i * 9 + j + 1;
+								nine_gates_nine_wait++;
+							}
+							else if (((i * 9 + j) % 9 == 8 || (i * 9 + j) % 9 == 0) && cards_count[i * 9 + j] == 3)
+							{
+								nine_gates_nine_wait++;
+							}
+							else if (((i * 9 + j) % 9 == 8 || (i * 9 + j) % 9 == 0) && cards_count[i * 9 + j] == 4 && nine_gates_nine_wait_flag == -1)
+							{
+								nine_gates_nine_wait_flag = i * 9 + j + 1;
+								nine_gates_nine_wait++;
+							}
+						}
+						if (nine_gates_nine_wait != 9)
+						{
+							nine_gates_nine_wait = 0;
+							nine_gates_nine_wait_flag = -1;
+						}
+						else
+							break;
+					}
+				}
+				if (nine_gates_nine_wait_flag == winning_tile && nine_gates_nine_wait == 9 && closed_hand)
+				{
+					yaku_flag[5] = 1;
+					yakuman += 2;
+					ptf("    Nine gates nine wait (2 Yakuman)\n");
+				}
+			}
+		}
+
+		// 1 Yakuman
+		// All green
 		{
+			int8_t all_green = 1;
+			for (int32_t i = 0; i <= 33; i++)
+			{
+				if (cards_count[i] && !((i >= 9 && i <= 17 && (i % 2 == 0 || i == 11)) || i == 32))
+				{
+					all_green = 0;
+					break;
+				}
+			}
+			if (all_green)
+			{
+				yaku_flag[6] = 1;
+				yakuman++;
+				ptf("    All green (1 Yakuman)\n");
+			}
+		}
+		// All honors
+		{
+			int8_t all_honors = 1;
+			for (int32_t i = 0; i <= 33; i++)
+			{
+				if (cards_count[i] && i < 27)
+				{
+					all_honors = 0;
+					break;
+				}
+			}
+			if (all_honors)
+			{
+				yaku_flag[7] = 1;
+				yakuman++;
+				ptf("    All honors (1 Yakuman)\n");
+			}
+		}
+		// All terminals
+		{
+			int8_t all_terminals = 1;
+			for (int32_t i = 0; i <= 33; i++)
+			{
+				if (cards_count[i] && (i > 26 || !(i % 9 == 0 || i % 9 == 8)))
+				{
+					all_terminals = 0;
+					break;
+				}
+			}
+			if (all_terminals)
+			{
+				yaku_flag[8] = 1;
+				yakuman++;
+				ptf("    All terminals (1 Yakuman)\n");
+			}
+		}
+		// Big three dragons
+		{
+			int8_t big_three_dragons = 0;
+			for (int32_t i = 0; i < 3; i++)
+			{
+				if (cards_count[31 + i] == 3 || cards_count[31 + i] == 4)
+				{
+					big_three_dragons++;
+				}
+			}
+			if (big_three_dragons == 3)
+			{
+				yaku_flag[9] = 1;
+				yakuman++;
+				ptf("    Big three dragons (1 Yakuman)\n");
+			}
+		}
+		// Four concealed triplets
+		{
+			int8_t four_concealed_triplets = 0;
+			if (triplets + kans == 4 && closed_hand)
+			{
+				four_concealed_triplets++;
+			}
+			if (four_concealed_triplets && yaku_flag[4] == 0)
+			{
+				yaku_flag[10] = 1;
+				yakuman++;
+				ptf("    Four concealed triplets (1 Yakuman)\n");
+			}
+		}
+		// Four kans
+		{
+			int8_t four_kans = 0;
+			if (kans == 4)
+			{
+				four_kans++;
+			}
+			if (four_kans)
+			{
+				yaku_flag[11] = 1;
+				yakuman++;
+				ptf("    Four kans (1 Yakuman)\n");
+			}
+		}
+		// Little four winds
+		{
+			int8_t little_four_winds = 0;
+			for (int32_t i = 0; i < 4; i++)
+			{
+				if (cards_count[27 + i] == 3 || cards_count[27 + i] == 4)
+				{
+					little_four_winds++;
+				}
+			}
+			if (little_four_winds == 3 && pair[0] >= 28 && pair[0] <= 31) // pair didn't minuse 1
+			{
+				yaku_flag[12] = 1;
+				yakuman++;
+				ptf("    Little four winds (1 Yakuman)\n");
+			}
+		}
+		// Nine gates
+		{
+			int8_t nine_gates = 0;
 			for (int32_t i = 0; i < 3; i++)
 			{
 				if (cards_count[i * 9])
 				{
 					for (int32_t j = 0; j < 9; j++)
 					{
-						if ((i * 9 + j) % 9 != 8 && (i * 9 + j) % 9 != 0 && cards_count[i * 9 + j] == 1)
+						if ((i * 9 + j) % 9 != 8 && (i * 9 + j) % 9 != 0 && cards_count[i * 9 + j] >= 1)
 						{
-							nine_gates_nine_wait++;
+							nine_gates++;
 						}
-						else if ((i * 9 + j) % 9 != 8 && (i * 9 + j) % 9 != 0 && cards_count[i * 9 + j] == 2 && nine_gates_nine_wait_flag == -1)
+
+						else if (((i * 9 + j) % 9 == 8 || (i * 9 + j) % 9 == 0) && cards_count[i * 9 + j] >= 3)
 						{
-							nine_gates_nine_wait_flag = i * 9 + j + 1;
-							nine_gates_nine_wait++;
-						}
-						else if (((i * 9 + j) % 9 == 8 || (i * 9 + j) % 9 == 0) && cards_count[i * 9 + j] == 3)
-						{
-							nine_gates_nine_wait++;
-						}
-						else if (((i * 9 + j) % 9 == 8 || (i * 9 + j) % 9 == 0) && cards_count[i * 9 + j] == 4 && nine_gates_nine_wait_flag == -1)
-						{
-							nine_gates_nine_wait_flag = i * 9 + j + 1;
-							nine_gates_nine_wait++;
+							nine_gates++;
 						}
 					}
-					if (nine_gates_nine_wait != 9)
+					if (nine_gates != 9)
 					{
-						nine_gates_nine_wait = 0;
-						nine_gates_nine_wait_flag = -1;
+						nine_gates = 0;
 					}
 					else
 						break;
 				}
 			}
-			if (nine_gates_nine_wait_flag == winning_tile && nine_gates_nine_wait == 9 && closed_hand)
+			if (nine_gates == 9 && yaku_flag[5] == 0 && closed_hand)
 			{
-				yaku_flag[5] = 1;
-				yakuman += 2;
-				ptf("    Nine gates nine wait (2 Yakuman)\n");
+				yaku_flag[13] = 1;
+				yakuman++;
+				ptf("    Nine gates (1 Yakuman)\n");
 			}
 		}
-	}
 
-	// 1 Yakuman
-	// All green
-	{
-		int8_t all_green = 1;
-		for (int32_t i = 0; i <= 33; i++)
+		if (yakuman)
 		{
-			if (cards_count[i] && !((i >= 9 && i <= 17 && (i % 2 == 0 || i == 11)) || i == 32))
-			{
-				all_green = 0;
-				break;
-			}
+			return;
 		}
-		if (all_green)
-		{
-			yaku_flag[6] = 1;
-			yakuman++;
-			ptf("    All green (1 Yakuman)\n");
-		}
-	}
-	// All honors
-	{
-		int8_t all_honors = 1;
-		for (int32_t i = 0; i <= 33; i++)
-		{
-			if (cards_count[i] && i < 27)
-			{
-				all_honors = 0;
-				break;
-			}
-		}
-		if (all_honors)
-		{
-			yaku_flag[7] = 1;
-			yakuman++;
-			ptf("    All honors (1 Yakuman)\n");
-		}
-	}
-	// All terminals
-	{
-		int8_t all_terminals = 1;
-		for (int32_t i = 0; i <= 33; i++)
-		{
-			if (cards_count[i] && (i > 26 || !(i % 9 == 0 || i % 9 == 8)))
-			{
-				all_terminals = 0;
-				break;
-			}
-		}
-		if (all_terminals)
-		{
-			yaku_flag[8] = 1;
-			yakuman++;
-			ptf("    All terminals (1 Yakuman)\n");
-		}
-	}
-	// Big three dragons
-	{
-		int8_t big_three_dragons = 0;
-		for (int32_t i = 0; i < 3; i++)
-		{
-			if (cards_count[31 + i] == 3 || cards_count[31 + i] == 4)
-			{
-				big_three_dragons++;
-			}
-		}
-		if (big_three_dragons == 3)
-		{
-			yaku_flag[9] = 1;
-			yakuman++;
-			ptf("    Big three dragons (1 Yakuman)\n");
-		}
-	}
-	// Four concealed triplets
-	{
-		int8_t four_concealed_triplets = 0;
-		if (triplets + kans == 4 && closed_hand)
-		{
-			four_concealed_triplets++;
-		}
-		if (four_concealed_triplets && yaku_flag[4] == 0)
-		{
-			yaku_flag[10] = 1;
-			yakuman++;
-			ptf("    Four concealed triplets (1 Yakuman)\n");
-		}
-	}
-	// Four kans
-	{
-		int8_t four_kans = 0;
-		if (kans == 4)
-		{
-			four_kans++;
-		}
-		if (four_kans)
-		{
-			yaku_flag[11] = 1;
-			yakuman++;
-			ptf("    Four kans (1 Yakuman)\n");
-		}
-	}
-	// Little four winds
-	{
-		int8_t little_four_winds = 0;
-		for (int32_t i = 0; i < 4; i++)
-		{
-			if (cards_count[27 + i] == 3 || cards_count[27 + i] == 4)
-			{
-				little_four_winds++;
-			}
-		}
-		if (little_four_winds == 3 && pair[0] >= 28 && pair[0] <= 31) // pair didn't minuse 1
-		{
-			yaku_flag[12] = 1;
-			yakuman++;
-			ptf("    Little four winds (1 Yakuman)\n");
-		}
-	}
-	// Nine gates
-	{
-		int8_t nine_gates = 0;
-		for (int32_t i = 0; i < 3; i++)
-		{
-			if (cards_count[i * 9])
-			{
-				for (int32_t j = 0; j < 9; j++)
-				{
-					if ((i * 9 + j) % 9 != 8 && (i * 9 + j) % 9 != 0 && cards_count[i * 9 + j] >= 1)
-					{
-						nine_gates++;
-					}
+		// Han
 
-					else if (((i * 9 + j) % 9 == 8 || (i * 9 + j) % 9 == 0) && cards_count[i * 9 + j] >= 3)
-					{
-						nine_gates++;
-					}
-				}
-				if (nine_gates != 9)
-				{
-					nine_gates = 0;
-				}
-				else
-					break;
-			}
-		}
-		if (nine_gates == 9 && yaku_flag[5] == 0 && closed_hand)
+		// 6 Han
+		// Flush (6 or 5 Han)
 		{
-			yaku_flag[13] = 1;
-			yakuman++;
-			ptf("    Nine gates (1 Yakuman)\n");
-		}
-	}
-
-	if (yakuman)
-	{
-		return;
-	}
-	// Han
-
-	// 6 Han
-	// Flush (6 or 5 Han)
-	{
-		int8_t flush[3] = {1, 1, 1};
-		for (int32_t i = 0; i <= 33; i++)
-		{
-			if (cards_count[i] && i > 8)
-			{
-				flush[0] = 0;
-			}
-			if (cards_count[i] && (i > 17 || i < 9))
-			{
-				flush[1] = 0;
-			}
-			if (cards_count[i] && (i < 18 || i > 26))
-			{
-				flush[2] = 0;
-			}
-		}
-		if (flush[0] || flush[1] || flush[2])
-		{
-			yaku_flag[14] = 1;
-			if (closed_hand)
-			{
-				han += 6;
-				ptf("    Flush (6 Han)\n");
-			}
-			else
-			{
-				han += 5;
-				ptf("    Flush (5 Han)\n");
-			}
-		}
-	}
-
-	// 3 Han
-	// Half-flush (3 or 2 Han)
-	{
-		int8_t half_flush[3] = {1, 1, 1};
-		for (int32_t i = 0; i <= 26; i++)
-		{
-			if (cards_count[i] && i > 8)
-			{
-				half_flush[0] = 0;
-			}
-			if (cards_count[i] && (i > 17 || i < 9))
-			{
-				half_flush[1] = 0;
-			}
-			if (cards_count[i] && i < 18)
-			{
-				half_flush[2] = 0;
-			}
-		}
-		if (half_flush[0] || half_flush[1] || half_flush[2] && yaku_flag[14] == 0)
-		{
-			yaku_flag[15] = 1;
-			if (closed_hand)
-			{
-				han += 3;
-				ptf("    Half-flush (3 Han)\n");
-			}
-		}
-	}
-	// Terminal in each set (3 or 2 Han)
-	{
-		int8_t terminal_in_each_set = 1;
-		for (int32_t i = 0; i < 4; i++)
-		{
-			if (!((melds[i][0] - 1) % 9 == 0 || (melds[i][2] - 1) % 9 == 8))
-			{
-				terminal_in_each_set = 0;
-				break;
-			}
-		}
-		for (int32_t i = 0; i < 7; i++)
-		{
-			if (cards_count[27 + i])
-			{
-				terminal_in_each_set = 0;
-				break;
-			}
-		}
-		if (terminal_in_each_set && (((pair[0] - 1) % 9 == 0 || (pair[0] - 1) % 9 == 8) && pair[0] < 28))
-		{
-			yaku_flag[16] = 1;
-			if (closed_hand)
-			{
-				han += 3;
-				ptf("    Terminal in each set (3 Han)\n");
-			}
-		}
-	}
-
-	// 2 Han
-	// All triplets (2 Han)
-	{
-		if (sequences == 0)
-		{
-			yaku_flag[17] = 1;
-			han += 2;
-			ptf("    All triplets (2 Han)\n");
-		}
-	}
-	// All terminals and honors (2 Han)
-	{
-		int8_t all_terminals_and_honors = 1;
-		for (int32_t i = 0; i <= 33; i++)
-		{
-			if (cards_count[i] && !(((i >= 0 && i <= 26) && (i % 9 == 0 || i % 9 == 8)) || (i >= 27 && i <= 33)))
-			{
-				all_terminals_and_honors = 0;
-				break;
-			}
-		}
-		if (all_terminals_and_honors)
-		{
-			yaku_flag[18] = 1;
-			han += 2;
-			ptf("    All terminals and honors (2 Han)\n");
-		}
-	}
-	// Half-flush (3 or 2 Han)
-	{
-		if (yaku_flag[15] == 1 && closed_hand == 0)
-		{
-			han += 2;
-			ptf("    Half-flush (2 Han)\n");
-		}
-	}
-	// Little three dragons (2 Han)
-	{
-		int8_t little_three_dragons = 0;
-		for (int32_t i = 0; i < 3; i++)
-		{
-			if (cards_count[31 + i] == 3 || cards_count[31 + i] == 4)
-			{
-				little_three_dragons++;
-			}
-		}
-		if (little_three_dragons == 2 && (pair[0] >= 32 && pair[0] <= 34)) // pair didn't minuse 1
-		{
-			yaku_flag[19] = 1;
-			han += 2;
-			ptf("    Little three dragons (2 Han)\n");
-		}
-	}
-	// Straight (2 or 1 Han)
-	{
-		int8_t straight[3] = {1, 1, 1};
-		for (int32_t i = 0; i < 9; i++)
-		{
-			if (cards_count[i] == 0)
-			{
-				straight[0] = 0;
-			}
-			if (cards_count[i + 9] == 0)
-			{
-				straight[1] = 0;
-			}
-			if (cards_count[i + 18] == 0)
-			{
-				straight[2] = 0;
-			}
-		}
-		if (straight[0] || straight[1] || straight[2])
-		{
-			yaku_flag[20] = 1;
-			if (closed_hand)
-			{
-				han += 2;
-				ptf("    Straight (2 Han)\n");
-			}
-		}
-	}
-	// Terminal in each set (3 or 2 Han)
-	{
-		if (yaku_flag[16] && closed_hand == 0)
-		{
-			han += 2;
-			ptf("    Terminal in each set (2 Han)\n");
-		}
-	}
-	// Terminal or honor in each set (2 or 1 Han)
-	{
-		int8_t termianl_or_honor_in_each_set = 1;
-		for (int32_t i = 0; i < 4; i++)
-		{
-			if (!((melds[i][0] - 1) % 9 == 0 || (melds[i][2] - 1) % 9 == 8 || melds[i][0] > 27))
-			{
-				termianl_or_honor_in_each_set = 0;
-				break;
-			}
-			// else if ((melds[i][0] - 1) % 9 == 0 || (melds[i][2] - 1) % 9 == 8 || melds[i][0] > 27)
-			// {
-			// 	termianl_or_honor_in_each_set++;
-			// }
-		}
-		if (!(pair[0] > 27 || (pair[0] - 1) % 9 == 0 || (pair[0] - 1) % 9 == 8))
-		{
-			termianl_or_honor_in_each_set = 0;
-		}
-		// if (termianl_or_honor_in_each_set > 1)
-		// {
-		// 	// termianl_or_honor_in_each_set = 1;
-		// 	for (int32_t i = 0; i < ; i++)
-		// 	{
-
-		// 	}
-		// }
-		if (termianl_or_honor_in_each_set && yaku_flag[16] == 0)
-		{
-			yaku_flag[21] = 1;
-			if (closed_hand)
-			{
-				han += 3;
-				ptf("    Terminal or honor in each set (2 Han)\n");
-			}
-		}
-	}
-	// Three colour triplets (2 Han)
-	{
-		int8_t three_colour_triplets[3] = {0};
-		if (triplets + kans >= 3)
-		{
-			for (int32_t i = 0; i < 4; i++)
-			{
-				if (melds_kind[i] < 3 && melds[i][0] < 28)
-				{
-					three_colour_triplets[(melds[i][0] - 1) / 9] = (melds[i][0] - 1) % 9;
-				}
-			}
-		}
-		if (three_colour_triplets[0] && three_colour_triplets[1] && three_colour_triplets[2] && (three_colour_triplets[0] == three_colour_triplets[1] && three_colour_triplets[0] == three_colour_triplets[2]))
-		{
-			yaku_flag[22] = 1;
-			han += 2;
-			ptf("    Three colour triplets (2 Han)\n");
-		}
-	}
-	// Three colour straights (2 or Han)
-	{
-		int8_t three_colour_straights = 0;
-		int8_t three_colour_straights_count[4] = {0};
-		int8_t color[3] = {0};
-		int8_t num = -1;
-		if (sequences >= 3)
-		{
-			for (int32_t i = 0; i < 4; i++)
-			{
-				if (melds[i][0] + 1 == melds[i][1] && melds[i][0] < 28)
-				{
-					three_colour_straights_count[i] = melds[i][0];
-					color[(melds[i][0] - 1) / 9]++;
-				}
-			}
-		}
-		if (color[0] && color[1] && color[2])
-		{
-			int8_t counter[9] = {0};
-			for (int32_t i = 0; i < 4; i++)
-			{
-				if (three_colour_straights_count[i])
-				{
-					counter[(three_colour_straights_count[i] - 1) % 9]++;
-				}
-			}
-			for (int32_t i = 0; i < 9; i++)
-			{
-				if (counter[i] >= 3)
-				{
-					three_colour_straights = 1;
-					break;
-				}
-			}
-		}
-		if (three_colour_straights)
-		{
-			yaku_flag[23] = 1;
-			han += 2;
-			ptf("    Three colour straights (2 Han)\n");
-		}
-	}
-	// Three concealed triplets (2 Han)
-	{
-		int8_t three_concealed_triplets = 0;
-		if (triplets + kans == 3 && closed_hand)
-		{
-			three_concealed_triplets = 3;
-		}
-		else if (triplets + kans == 4)
-		{
-			for (int32_t i = 0; i < 4; i++)
-			{
-				if (melds[i][0] == melds[i][1] && open_hand_meld[i] == 0)
-				{
-					three_concealed_triplets++;
-				}
-			}
-		}
-		if (three_concealed_triplets == 3 && yaku_flag[4] == 0)
-		{
-			yaku_flag[24] = 1;
-			han += 2;
-			ptf("    Three concealed triplets (2 Han)\n");
-		}
-	}
-
-	// Three kans (2 Han)
-	{
-		if (kans == 3)
-		{
-			yaku_flag[25] = 1;
-			han += 2;
-			ptf("    Three kans (2 Han)\n");
-		}
-	}
-	// Two sets of identical sequences (2 Han)
-	{
-		if (sequences == 4)
-		{
-			int8_t two_sets_of_identical_sequences = 0;
-			for (int32_t i = 0; i < 34; i++)
-			{
-				if (cards_count[i] == 2)
-				{
-					two_sets_of_identical_sequences++;
-				}
-			}
-			if (two_sets_of_identical_sequences == 7 && closed_hand)
-			{
-				yaku_flag[26] = 1;
-				han += 2;
-				ptf("    Two sets of identical sequences (2 Han)\n");
-			}
-		}
-	}
-
-	// 1 Han
-	// All simples (1 Han)
-	{
-		int8_t all_simples = 1;
-		for (int32_t i = 0; i <= 33; i++)
-		{
-			if (cards_count[i] && (i % 9 == 0 || i % 9 == 8 || i > 26))
-			{
-				all_simples = 0;
-				break;
-			}
-		}
-		if (all_simples)
-		{
-			yaku_flag[27] = 1;
-			han++;
-			ptf("    All simples (1 Han)\n");
-		}
-	}
-	// No-points hand (1 Han) **********
-	{
-		if (sequences == 4)
-		{
-			int8_t no_points_hand = 1;
+			int8_t flush[3] = {1, 1, 1};
 			for (int32_t i = 0; i <= 33; i++)
 			{
-				if (cards_count[i] && i > 26)
+				if (cards_count[i] && i > 8)
 				{
-					no_points_hand = 0;
-					break;
+					flush[0] = 0;
+				}
+				if (cards_count[i] && (i > 17 || i < 9))
+				{
+					flush[1] = 0;
+				}
+				if (cards_count[i] && (i < 18 || i > 26))
+				{
+					flush[2] = 0;
 				}
 			}
-			int8_t winning_tile_flag = 0;
+			if (flush[0] || flush[1] || flush[2])
+			{
+				yaku_flag[14] = 1;
+				if (closed_hand)
+				{
+					han += 6;
+					ptf("    Flush (6 Han)\n");
+				}
+				else
+				{
+					han += 5;
+					ptf("    Flush (5 Han)\n");
+				}
+			}
+		}
+
+		// 3 Han
+		// Half-flush (3 or 2 Han)
+		{
+			int8_t half_flush[3] = {1, 1, 1};
+			for (int32_t i = 0; i <= 26; i++)
+			{
+				if (cards_count[i] && i > 8)
+				{
+					half_flush[0] = 0;
+				}
+				if (cards_count[i] && (i > 17 || i < 9))
+				{
+					half_flush[1] = 0;
+				}
+				if (cards_count[i] && i < 18)
+				{
+					half_flush[2] = 0;
+				}
+			}
+			if (half_flush[0] || half_flush[1] || half_flush[2] && yaku_flag[14] == 0)
+			{
+				yaku_flag[15] = 1;
+				if (closed_hand)
+				{
+					han += 3;
+					ptf("    Half-flush (3 Han)\n");
+				}
+			}
+		}
+		// Terminal in each set (3 or 2 Han)
+		{
+			int8_t terminal_in_each_set = 1;
 			for (int32_t i = 0; i < 4; i++)
 			{
-				if (melds[i][0] == winning_tile || melds[i][2] == winning_tile)
+				if (!((melds[i][0] - 1) % 9 == 0 || (melds[i][2] - 1) % 9 == 8))
 				{
-					winning_tile_flag++;
+					terminal_in_each_set = 0;
 					break;
 				}
 			}
-			if (no_points_hand && closed_hand && winning_tile_flag)
+			for (int32_t i = 0; i < 7; i++)
 			{
-				yaku_flag[28] = 1;
-				han++;
-				ptf("    No-points hand (1 Han)\n");
+				if (cards_count[27 + i])
+				{
+					terminal_in_each_set = 0;
+					break;
+				}
+			}
+			if (terminal_in_each_set && (((pair[0] - 1) % 9 == 0 || (pair[0] - 1) % 9 == 8) && pair[0] < 28))
+			{
+				yaku_flag[16] = 1;
+				if (closed_hand)
+				{
+					han += 3;
+					ptf("    Terminal in each set (3 Han)\n");
+				}
 			}
 		}
-	}
-	// One set of identical sequences (1 Han)
-	{
-		if (sequences >= 2)
+
+		// 2 Han
+		// All terminals and honors (2 Han)
 		{
-			int8_t one_set_of_identical_sequences = 0;
-			int8_t counter[27] = {0};
+			int8_t all_terminals_and_honors = 1;
+			for (int32_t i = 0; i <= 33; i++)
+			{
+				if (cards_count[i] && !(((i >= 0 && i <= 26) && (i % 9 == 0 || i % 9 == 8)) || (i >= 27 && i <= 33)))
+				{
+					all_terminals_and_honors = 0;
+					break;
+				}
+			}
+			if (all_terminals_and_honors)
+			{
+				yaku_flag[18] = 1;
+				han += 2;
+				ptf("    All terminals and honors (2 Han)\n");
+			}
+		}
+		// All triplets (2 Han)
+		{
+			if (sequences == 0)
+			{
+				yaku_flag[17] = 1;
+				han += 2;
+				ptf("    All triplets (2 Han)\n");
+			}
+		}
+
+		// Half-flush (3 or 2 Han)
+		{
+			if (yaku_flag[15] == 1 && closed_hand == 0)
+			{
+				han += 2;
+				ptf("    Half-flush (2 Han)\n");
+			}
+		}
+		// Little three dragons (2 Han)
+		{
+			int8_t little_three_dragons = 0;
+			for (int32_t i = 0; i < 3; i++)
+			{
+				if (cards_count[31 + i] == 3 || cards_count[31 + i] == 4)
+				{
+					little_three_dragons++;
+				}
+			}
+			if (little_three_dragons == 2 && (pair[0] >= 32 && pair[0] <= 34)) // pair didn't minuse 1
+			{
+				yaku_flag[19] = 1;
+				han += 2;
+				ptf("    Little three dragons (2 Han)\n");
+			}
+		}
+		// Straight (2 or 1 Han)
+		{
+			int8_t straight[3] = {1, 1, 1};
+			for (int32_t i = 0; i < 9; i++)
+			{
+				if (cards_count[i] == 0)
+				{
+					straight[0] = 0;
+				}
+				if (cards_count[i + 9] == 0)
+				{
+					straight[1] = 0;
+				}
+				if (cards_count[i + 18] == 0)
+				{
+					straight[2] = 0;
+				}
+			}
+			if (straight[0] || straight[1] || straight[2])
+			{
+				yaku_flag[20] = 1;
+				if (closed_hand)
+				{
+					han += 2;
+					ptf("    Straight (2 Han)\n");
+				}
+			}
+		}
+		// Terminal in each set (3 or 2 Han)
+		{
+			if (yaku_flag[16] && closed_hand == 0)
+			{
+				han += 2;
+				ptf("    Terminal in each set (2 Han)\n");
+			}
+		}
+		// Terminal or honor in each set (2 or 1 Han)
+		{
+			int8_t termianl_or_honor_in_each_set = 1;
 			for (int32_t i = 0; i < 4; i++)
 			{
-				if (melds_kind[i] == 3)
+				if (!((melds[i][0] - 1) % 9 == 0 || (melds[i][2] - 1) % 9 == 8 || melds[i][0] > 27))
 				{
-					counter[melds[i][0] - 1]++;
+					termianl_or_honor_in_each_set = 0;
+					break;
+				}
+				// else if ((melds[i][0] - 1) % 9 == 0 || (melds[i][2] - 1) % 9 == 8 || melds[i][0] > 27)
+				// {
+				// 	termianl_or_honor_in_each_set++;
+				// }
+			}
+			if (!(pair[0] > 27 || (pair[0] - 1) % 9 == 0 || (pair[0] - 1) % 9 == 8))
+			{
+				termianl_or_honor_in_each_set = 0;
+			}
+			// if (termianl_or_honor_in_each_set > 1)
+			// {
+			// 	// termianl_or_honor_in_each_set = 1;
+			// 	for (int32_t i = 0; i < ; i++)
+			// 	{
+
+			// 	}
+			// }
+			if (termianl_or_honor_in_each_set && yaku_flag[16] == 0 && yaku_flag[18] == 0)
+			{
+				yaku_flag[21] = 1;
+				if (closed_hand)
+				{
+					han += 3;
+					ptf("    Terminal or honor in each set (2 Han)\n");
 				}
 			}
-			for (int32_t i = 0; i < 27; i++)
+		}
+		// Three colour triplets (2 Han)
+		{
+			int8_t three_colour_triplets[3][9] = {0};
+			int8_t three_colour_triplets_flag = 0;
+			if (triplets + kans >= 3)
 			{
-				if (counter[i] >= 2)
+				for (int32_t i = 0; i < 4; i++)
 				{
-					one_set_of_identical_sequences = 1;
+					if (melds_kind[i] < 3 && melds[i][0] < 28)
+					{
+						three_colour_triplets[(melds[i][0] - 1) / 9][(melds[i][0] - 1) % 9]++;
+					}
+				}
+			}
+			for(int32_t i=0;i<9;i++)
+			{
+				if(three_colour_triplets[0][i] && three_colour_triplets[1][i] && three_colour_triplets[2][i])
+				{
+					three_colour_triplets_flag++;
 					break;
 				}
 			}
-			if (one_set_of_identical_sequences && yaku_flag[26] == 0)
+			if (three_colour_triplets_flag)
 			{
-				yaku_flag[29] = 1;
-				han++;
-				ptf("    One set of identical sequences (1 Han)\n");
+				yaku_flag[22] = 1;
+				han += 2;
+				ptf("    Three colour triplets (2 Han)\n");
 			}
 		}
-	}
-	// Honors**********
-	//  tiles of White or Green or Red
-	{
-
-		if (cards_count[32] >= 3)
+		// Three colour straights (2 or Han)
 		{
-			yaku_flag[30] = 1;
-			han++;
-			ptf("    Honors: Green (1 Han)\n");
+			int8_t three_colour_straights = 0;
+			int8_t three_colour_straights_count[4] = {0};
+			int8_t color[3] = {0};
+			int8_t num = -1;
+			if (sequences >= 3)
+			{
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (melds[i][0] + 1 == melds[i][1] && melds[i][0] < 28)
+					{
+						three_colour_straights_count[i] = melds[i][0];
+						color[(melds[i][0] - 1) / 9]++;
+					}
+				}
+			}
+			if (color[0] && color[1] && color[2])
+			{
+				int8_t counter[9] = {0};
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (three_colour_straights_count[i])
+					{
+						counter[(three_colour_straights_count[i] - 1) % 9]++;
+					}
+				}
+				for (int32_t i = 0; i < 9; i++)
+				{
+					if (counter[i] >= 3)
+					{
+						three_colour_straights = 1;
+						break;
+					}
+				}
+			}
+			if (three_colour_straights)
+			{
+				yaku_flag[23] = 1;
+				han += 2;
+				ptf("    Three colour straights (2 Han)\n");
+			}
+		}
+		// Three concealed triplets (2 Han)
+		{
+			int8_t three_concealed_triplets = 0;
+			if (triplets + kans == 3 && closed_hand)
+			{
+				three_concealed_triplets = 3;
+			}
+			else if (triplets + kans == 4)
+			{
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (melds[i][0] == melds[i][1] && open_hand_meld[i] == 0)
+					{
+						three_concealed_triplets++;
+					}
+				}
+			}
+			if (three_concealed_triplets == 3 && yaku_flag[4] == 0)
+			{
+				yaku_flag[24] = 1;
+				han += 2;
+				ptf("    Three concealed triplets (2 Han)\n");
+			}
 		}
 
-		// Player’s wind of East South West North
-
-		if (cards_count[27 + player_wind] >= 3)
+		// Three kans (2 Han)
 		{
-			yaku_flag[30] = 1;
-			han++;
-			ptf("    Honors: Player's wind (1 Han)\n");
+			if (kans == 3)
+			{
+				yaku_flag[25] = 1;
+				han += 2;
+				ptf("    Three kans (2 Han)\n");
+			}
+		}
+		// Two sets of identical sequences (2 Han)
+		{
+			if (sequences == 4)
+			{
+				int8_t two_sets_of_identical_sequences = 0;
+				for (int32_t i = 0; i < 34; i++)
+				{
+					if (cards_count[i] == 2)
+					{
+						two_sets_of_identical_sequences++;
+					}
+				}
+				if (two_sets_of_identical_sequences == 7 && closed_hand)
+				{
+					yaku_flag[26] = 1;
+					han += 2;
+					ptf("    Two sets of identical sequences (2 Han)\n");
+				}
+			}
 		}
 
-		// Prevailing wind of East South West North
+		// 1 Han
+		// All simples (1 Han)
 		{
-			if (cards_count[27 + prevailing_wind] >= 3)
+			int8_t all_simples = 1;
+			for (int32_t i = 0; i <= 33; i++)
+			{
+				if (cards_count[i] && (i % 9 == 0 || i % 9 == 8 || i > 26))
+				{
+					all_simples = 0;
+					break;
+				}
+			}
+			if (all_simples)
+			{
+				yaku_flag[27] = 1;
+				han++;
+				ptf("    All simples (1 Han)\n");
+			}
+		}
+		// No-points hand (1 Han) **********
+		{
+			if (sequences == 4)
+			{
+				int8_t no_points_hand = 1;
+				for (int32_t i = 0; i <= 33; i++)
+				{
+					if (cards_count[i] && i > 26)
+					{
+						no_points_hand = 0;
+						break;
+					}
+				}
+				int8_t winning_tile_flag = 0;
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (melds[i][0] == winning_tile || melds[i][2] == winning_tile)
+					{
+						winning_tile_flag++;
+						break;
+					}
+				}
+				if (no_points_hand && closed_hand && winning_tile_flag)
+				{
+					yaku_flag[28] = 1;
+					han++;
+					ptf("    No-points hand (1 Han)\n");
+				}
+			}
+		}
+		// One set of identical sequences (1 Han)
+		{
+			if (sequences >= 2)
+			{
+				int8_t one_set_of_identical_sequences = 0;
+				int8_t counter[27] = {0};
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (melds_kind[i] == 3)
+					{
+						counter[melds[i][0] - 1]++;
+					}
+				}
+				for (int32_t i = 0; i < 27; i++)
+				{
+					if (counter[i] >= 2)
+					{
+						one_set_of_identical_sequences = 1;
+						break;
+					}
+				}
+				if (one_set_of_identical_sequences && yaku_flag[26] == 0)
+				{
+					yaku_flag[29] = 1;
+					han++;
+					ptf("    One set of identical sequences (1 Han)\n");
+				}
+			}
+		}
+		// Honer**********
+		//  tiles of White or Green or Red
+		{
+
+			if (cards_count[32] >= 3)
 			{
 				yaku_flag[30] = 1;
 				han++;
-				ptf("    Honors: Prevailing wind (1 Han)\n");
+				ptf("    Honer: Green (1 Han)\n");
+			}
+
+			// Player’s wind of East South West North
+
+			if (cards_count[27 + player_wind] >= 3)
+			{
+				yaku_flag[30] = 1;
+				han++;
+				ptf("    Honer: Player's wind (1 Han)\n");
+			}
+
+			// Prevailing wind of East South West North
+			{
+				if (cards_count[27 + prevailing_wind] >= 3)
+				{
+					yaku_flag[30] = 1;
+					han++;
+					ptf("    Honer: Prevailing wind (1 Han)\n");
+				}
+			}
+			if (cards_count[33] >= 3)
+			{
+				yaku_flag[30] = 1;
+				han++;
+				ptf("    Honer: Red (1 Han)\n");
+			}
+			if (cards_count[31] >= 3)
+			{
+				yaku_flag[30] = 1;
+				han++;
+				ptf("    Honer: White (1 Han)\n");
 			}
 		}
-		if (cards_count[33] >= 3)
+		// Straight (2 or 1 Han)
 		{
-			yaku_flag[30] = 1;
-			han++;
-			ptf("    Honors: Red (1 Han)\n");
+			if (yaku_flag[20] == 1 && closed_hand == 0)
+			{
+				han++;
+				ptf("    Straight (1 Han)\n");
+			}
 		}
-		if (cards_count[31] >= 3)
+		// Terminal or honor in each set (2 or 1 Han)
 		{
-			yaku_flag[30] = 1;
-			han++;
-			ptf("    Honors: White (1 Han)\n");
+			if (yaku_flag[21] == 1 && closed_hand == 0)
+			{
+				han++;
+				ptf("    Terminal or honor in each set (1 Han)\n");
+			}
 		}
-	}
-	// Straight (2 or 1 Han)
-	{
-		if (yaku_flag[20] == 1 && closed_hand == 0)
+		// Three colour straights (2 or Han)
 		{
-			han++;
-			ptf("    Straight (1 Han)\n");
-		}
-	}
-	// Terminal or honor in each set (2 or 1 Han)
-	{
-		if (yaku_flag[21] == 1 && closed_hand == 0)
-		{
-			han++;
-			ptf("    Terminal or honor in each set (1 Han)\n");
-		}
-	}
-	// Three colour straights (2 or Han)
-	{
-		if (yaku_flag[23] == 1 && closed_hand == 0)
-		{
-			han++;
-			ptf("    Three colour straights (1 Han)\n");
+			if (yaku_flag[23] == 1 && closed_hand == 0)
+			{
+				han++;
+				ptf("    Three colour straights (1 Han)\n");
+			}
 		}
 	}
 }
@@ -1248,8 +1265,9 @@ static void count_yaku()
 
 2 Han
 
-17// All triplets
-18// All terminals and honors
+
+17// All terminals and honors
+18// All triplets
 15// Half-flush (have open group)
 19// Little three dragons
 //// Seven pairs (no Two sets of identical sequences)(Closed hands only) [*]
