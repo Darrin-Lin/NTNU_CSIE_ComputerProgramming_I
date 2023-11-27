@@ -19,6 +19,7 @@ static int32_t melds_kind[4] = {0};
 static int32_t han = 0, yakuman = 0;
 static int8_t yaku_flag[31] = {0};
 
+static void bubble_sort(int32_t *array, uint64_t size);
 static void count_yaku();
 
 int main()
@@ -37,7 +38,7 @@ int main()
 		if (inp > 34 || inp < 0)
 		{
 			// fprintf(stderr, "inp: %d\n", inp);
-			unresonable = 1;
+			goto unresonable_case;
 		}
 		meld_inp[inp_count] = inp;
 		scanf("%d", &inp);
@@ -52,18 +53,19 @@ int main()
 		if (inp)
 		{
 			// fprintf(stderr, "inp: %d\n", inp);
-			unresonable = 1;
+			goto unresonable_case;
 		}
 	}
 	scanf("%*[^\n]%n", &errinp);
 	if (errinp)
 	{
 		// fprintf(stderr, "errinp: %d\n", errinp);
-		unresonable = 1;
+		goto unresonable_case;
 	}
 	if (inp_count == 13)
 	{
 		special_case = 1;
+		bubble_sort(meld_inp, 14); ////
 		for (int32_t i = 0; i < 14; i++)
 		{
 			cards_count[meld_inp[i] - 1]++;
@@ -71,28 +73,20 @@ int main()
 	}
 	else
 	{
-		ptf("Is open group(1: YES 0: NO): ");
-		int32_t inp_hand = 0;
-		scanf("%d", &inp_hand);
-		if (inp_hand > 1 || inp_hand < 0)
-		{
-			// fprintf(stderr, "inp_hand: %d\n", inp_hand);
-			unresonable = 1;
-		}
-		if (inp_hand)
-		{
-			open_hand_meld[0] = 1;
-			closed_hand = 0;
-		}
 		if (inp_count < 3 || inp_count > 4)
 		{
 			// fprintf(stderr, "inp_count: %d\n", inp_count);
-			unresonable = 1;
+			goto unresonable_case;
 		}
+		bubble_sort(meld_inp, inp_count);
 		int32_t is_same = 1, is_straight = 1;
 		for (int32_t i = 0; i < inp_count; i++)
 		{
 			cards_count[meld_inp[i] - 1]++;
+			if (cards_count[meld_inp[i] - 1] > 4)
+			{
+				goto unresonable_case;
+			}
 			melds[0][i] = meld_inp[i];
 			if (i > 0 && ((meld_inp[i] != meld_inp[i - 1] + 1) || ((meld_inp[i] - 1) / 9 != (meld_inp[i - 1] - 1) / 9)) || meld_inp[i] > 27)
 			{
@@ -107,12 +101,12 @@ int main()
 		if (!(is_same || is_straight))
 		{
 			// fprintf(stderr, "is_same: %d is_straight: %d\n", is_same, is_straight);
-			unresonable = 1;
+			goto unresonable_case;
 		}
 		if (is_straight && inp_count == 4)
 		{
 			// fprintf(stderr, "is_straight: %d inp_count: %d\n", is_straight, inp_count);
-			unresonable = 1;
+			goto unresonable_case;
 		}
 		if (is_same && inp_count == 3)
 		{
@@ -129,6 +123,19 @@ int main()
 			melds_kind[0] = 3;
 			sequences++;
 		}
+		ptf("Is open group(1: YES 0: NO): ");
+		int32_t inp_hand = 0;
+		scanf("%d", &inp_hand);
+		if (inp_hand > 1 || inp_hand < 0)
+		{
+			// fprintf(stderr, "inp_hand: %d\n", inp_hand);
+			goto unresonable_case;
+		}
+		if (inp_hand)
+		{
+			open_hand_meld[0] = 1;
+			closed_hand = 0;
+		}
 
 		meld_count++;
 		for (int32_t i = 1; i < 4; i++)
@@ -142,7 +149,7 @@ int main()
 				if (inp > 34 || inp < 0)
 				{
 					// fprintf(stderr, "%d inp: %d\n", i, inp);
-					unresonable = 1;
+					goto unresonable_case;
 				}
 				meld_inp[inp_count] = inp;
 
@@ -153,16 +160,22 @@ int main()
 			if (errinp)
 			{
 				// fprintf(stderr, "%d errinp: %d\n", i, errinp);
-				unresonable = 1;
+				goto unresonable_case;
 			}
 			if (inp_count < 3 || inp_count > 4)
 			{
 				// fprintf(stderr, "%d inp_count: %d\n", i, inp_count);
-				unresonable = 1;
+				goto unresonable_case;
 			}
+			bubble_sort(meld_inp, inp_count);
 			for (int32_t j = 0; j < inp_count; j++)
 			{
 				cards_count[meld_inp[j] - 1]++;
+				if (cards_count[meld_inp[j] - 1] > 4)
+				{
+					// fprintf(stderr, "%d cards_count[%d]: %d\n", i, meld_inp[j] - 1, cards_count[meld_inp[j] - 1]);
+					goto unresonable_case;
+				}
 				melds[i][j] = meld_inp[j];
 				if ((j > 0 && (meld_inp[j] != meld_inp[j - 1] + 1 || (meld_inp[j] - 1) / 9 != (meld_inp[j - 1] - 1) / 9)) || meld_inp[j] > 27)
 				{
@@ -173,27 +186,15 @@ int main()
 					is_same = 0;
 				}
 			}
-			ptf("Is open group(1: YES 0: NO): ");
-			scanf("%d", &inp_hand);
-			if (inp_hand > 1 || inp_hand < 0)
-			{
-				// fprintf(stderr, "%d inp_hand: %d\n", i, inp_hand);
-				unresonable = 1;
-			}
-			if (inp_hand)
-			{
-				closed_hand = 0;
-				open_hand_meld[i] = 1;
-			}
 			if (!(is_same || is_straight))
 			{
 				// fprintf(stderr, "%d is_same: %d is_straight: %d\n", i, is_same, is_straight);
-				unresonable = 1;
+				goto unresonable_case;
 			}
 			if (is_straight && inp_count == 4)
 			{
 				// fprintf(stderr, "%d is_straight: %d inp_count: %d\n", i, is_straight, inp_count);
-				unresonable = 1;
+				goto unresonable_case;
 			}
 			if (is_same && inp_count == 3)
 			{
@@ -210,6 +211,19 @@ int main()
 				melds_kind[i] = 3;
 				sequences++;
 			}
+			ptf("Is open group(1: YES 0: NO): ");
+			scanf("%d", &inp_hand);
+			if (inp_hand > 1 || inp_hand < 0)
+			{
+				// fprintf(stderr, "%d inp_hand: %d\n", i, inp_hand);
+				goto unresonable_case;
+			}
+			if (inp_hand)
+			{
+				closed_hand = 0;
+				open_hand_meld[i] = 1;
+			}
+
 			is_same = 1, is_straight = 1;
 			meld_count++;
 		}
@@ -221,7 +235,7 @@ int main()
 			if (inp_pair > 34 || inp_pair < 1)
 			{
 				// fprintf(stderr, "inp_pair: %d\n", inp_pair);
-				unresonable = 1;
+				goto unresonable_case;
 			}
 			cards_count[inp_pair - 1]++;
 			pair[i] = inp_pair;
@@ -231,12 +245,12 @@ int main()
 		if (errinp)
 		{
 			// fprintf(stderr, "errinp: %d\n", errinp);
-			unresonable = 1;
+			goto unresonable_case;
 		}
 		if (pair[0] != pair[1])
 		{
 			// fprintf(stderr, "pair[0]: %d pair[1]: %d\n", pair[0], pair[1]);
-			unresonable = 1;
+			goto unresonable_case;
 		}
 	}
 
@@ -245,7 +259,7 @@ int main()
 		if (cards_count[i] > 4)
 		{
 			// fprintf(stderr, "cards_count[%d]: %d\n", i, cards_count[i]);
-			unresonable = 1;
+			goto unresonable_case;
 		}
 	}
 	ptf("Please input winning tile: "); //
@@ -253,7 +267,7 @@ int main()
 	if (cards_count[winning_tile - 1] == 0)
 	{
 		// fprintf(stderr, "winning_tile: %d %d\n", winning_tile, cards_count[winning_tile - 1]);
-		unresonable = 1;
+		goto unresonable_case;
 	}
 	if (!special_case)
 	{
@@ -264,7 +278,7 @@ int main()
 				if (melds[i][0] == winning_tile)
 				{
 					// fprintf(stderr, "melds[%d][0],kind: %d %d\n", i, melds[i][0], melds_kind[i]);
-					unresonable = 1;
+					goto unresonable_case;
 					break;
 				}
 		}
@@ -275,7 +289,7 @@ int main()
 	if (self_drawn_win > 1 || self_drawn_win < 0)
 	{
 		// fprintf(stderr, "self_drawn_win: %d\n", self_drawn_win);
-		unresonable = 1;
+		goto unresonable_case;
 	}
 
 	if (!special_case && unresonable == 0)
@@ -291,7 +305,7 @@ int main()
 						if (melds[i][j] == winning_tile && open_hand_meld[i] == 1)
 						{
 							// fprintf(stderr, "melds[%d][%d]: %d\n", i, j, melds[i][j]);
-							unresonable = 1;
+							goto unresonable_case;
 						}
 					}
 				}
@@ -309,7 +323,7 @@ int main()
 							if (melds_kind[i] == 2)
 							{
 								// fprintf(stderr, "melds_kind[%d]: %d\n", i, melds_kind[i]);
-								unresonable = 1;
+								goto unresonable_case;
 								break;
 							}
 							flag[i] = 1;
@@ -327,7 +341,7 @@ int main()
 							if (open_hand_meld[i] == 1)
 							{
 								// fprintf(stderr, "melds %d\n", i);
-								unresonable = 1;
+								goto unresonable_case;
 								break;
 							}
 						}
@@ -341,14 +355,14 @@ int main()
 	if (player_wind > 3 || player_wind < 0)
 	{
 		// fprintf(stderr, "player_wind: %d\n", player_wind);
-		unresonable = 1;
+		goto unresonable_case;
 	}
 	ptf("Prevailing wind(0:E 1:S 2:W 3:N): "); //
 	scanf("%d", &prevailing_wind);
 	if (prevailing_wind > 3 || prevailing_wind < 0)
 	{
 		// fprintf(stderr, "prevailing_wind: %d\n", prevailing_wind);
-		unresonable = 1;
+		goto unresonable_case;
 	}
 	if (unresonable)
 	{
@@ -391,6 +405,27 @@ int main()
 
 	return 0;
 }
+static void bubble_sort(int32_t *array, uint64_t size)
+{
+	if (array == NULL)
+	{
+		return;
+	}
+	for (uint64_t i = 0; i < size; i++)
+	{
+		for (uint64_t j = 0; j < size - i - 1; j++)
+		{
+			if (*(array + j) > *(array + j + 1))
+			{
+				int32_t temp = *(array + j);
+				*(array + j) = *(array + j + 1);
+				*(array + j + 1) = temp;
+			}
+		}
+	}
+	return;
+}
+
 static void count_yaku()
 {
 	if (special_case)
@@ -779,7 +814,7 @@ static void count_yaku()
 					half_flush[2] = 0;
 				}
 			}
-			if (half_flush[0] || half_flush[1] || half_flush[2] && yaku_flag[14] == 0)
+			if ((half_flush[0] || half_flush[1] || half_flush[2]) && yaku_flag[14] == 0)
 			{
 				yaku_flag[15] = 1;
 				if (closed_hand)
@@ -960,9 +995,9 @@ static void count_yaku()
 					}
 				}
 			}
-			for(int32_t i=0;i<9;i++)
+			for (int32_t i = 0; i < 9; i++)
 			{
-				if(three_colour_triplets[0][i] && three_colour_triplets[1][i] && three_colour_triplets[2][i])
+				if (three_colour_triplets[0][i] && three_colour_triplets[1][i] && three_colour_triplets[2][i])
 				{
 					three_colour_triplets_flag++;
 					break;
@@ -1062,6 +1097,10 @@ static void count_yaku()
 					if (cards_count[i] == 2)
 					{
 						two_sets_of_identical_sequences++;
+					}
+					else if(cards_count[i] == 4)
+					{
+						two_sets_of_identical_sequences += 2;
 					}
 				}
 				if (two_sets_of_identical_sequences == 7 && closed_hand)
