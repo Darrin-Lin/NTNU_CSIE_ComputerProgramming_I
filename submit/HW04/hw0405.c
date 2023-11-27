@@ -683,7 +683,7 @@ static void count_yaku()
 					}
 					if (all_terminals_and_honors)
 					{
-						yaku_flag[18] = 1;
+						yaku_flag[19] = 1;
 						han += 2;
 						ptf("    All terminals and honors (2 Han)\n");
 					}
@@ -1045,7 +1045,30 @@ static void count_yaku()
 				}
 			}
 		}
-
+		// Two sets of identical sequences (3 Han)
+		{
+			if (sequences == 4)
+			{
+				int8_t two_sets_of_identical_sequences = 0;
+				for (int32_t i = 0; i < 34; i++)
+				{
+					if (cards_count[i] == 2)
+					{
+						two_sets_of_identical_sequences++;
+					}
+					else if (cards_count[i] == 4)
+					{
+						two_sets_of_identical_sequences += 2;
+					}
+				}
+				if (two_sets_of_identical_sequences == 7 && closed_hand)
+				{
+					yaku_flag[17] = 1;
+					han += 3;
+					ptf("    Two sets of identical sequences (3 Han)\n");
+				}
+			}
+		}
 		// 2 Han
 		// All terminals and honors (2 Han)
 		{
@@ -1060,7 +1083,7 @@ static void count_yaku()
 			}
 			if (all_terminals_and_honors)
 			{
-				yaku_flag[18] = 1;
+				yaku_flag[19] = 1;
 				han += 2;
 				ptf("    All terminals and honors (2 Han)\n");
 			}
@@ -1069,7 +1092,7 @@ static void count_yaku()
 		{
 			if (sequences == 0)
 			{
-				yaku_flag[17] = 1;
+				yaku_flag[18] = 1;
 				han += 2;
 				ptf("    All triplets (2 Han)\n");
 			}
@@ -1095,7 +1118,7 @@ static void count_yaku()
 			}
 			if (little_three_dragons == 2 && (pair[0] >= 32 && pair[0] <= 34)) // pair didn't minuse 1
 			{
-				yaku_flag[19] = 1;
+				yaku_flag[20] = 1;
 				han += 2;
 				ptf("    Little three dragons (2 Han)\n");
 			}
@@ -1120,7 +1143,7 @@ static void count_yaku()
 			}
 			if (straight[0] || straight[1] || straight[2])
 			{
-				yaku_flag[20] = 1;
+				yaku_flag[21] = 1;
 				if (closed_hand)
 				{
 					han += 2;
@@ -1163,9 +1186,9 @@ static void count_yaku()
 
 			// 	}
 			// }
-			if (termianl_or_honor_in_each_set && yaku_flag[16] == 0 && yaku_flag[18] == 0)
+			if (termianl_or_honor_in_each_set && yaku_flag[16] == 0 && yaku_flag[19] == 0)
 			{
-				yaku_flag[21] = 1;
+				yaku_flag[22] = 1;
 				if (closed_hand)
 				{
 					han += 3;
@@ -1197,7 +1220,7 @@ static void count_yaku()
 			}
 			if (three_colour_triplets_flag)
 			{
-				yaku_flag[22] = 1;
+				yaku_flag[23] = 1;
 				han += 2;
 				ptf("    Three colour triplets (2 Han)\n");
 			}
@@ -1240,7 +1263,7 @@ static void count_yaku()
 			}
 			if (three_colour_straights)
 			{
-				yaku_flag[23] = 1;
+				yaku_flag[24] = 1;
 				han += 2;
 				ptf("    Three colour straights (2 Han)\n");
 			}
@@ -1264,7 +1287,7 @@ static void count_yaku()
 			}
 			if (three_concealed_triplets == 3 && yaku_flag[4] == 0)
 			{
-				yaku_flag[24] = 1;
+				yaku_flag[25] = 1;
 				han += 2;
 				ptf("    Three concealed triplets (2 Han)\n");
 			}
@@ -1274,33 +1297,9 @@ static void count_yaku()
 		{
 			if (kans == 3)
 			{
-				yaku_flag[25] = 1;
+				yaku_flag[26] = 1;
 				han += 2;
 				ptf("    Three kans (2 Han)\n");
-			}
-		}
-		// Two sets of identical sequences (2 Han)
-		{
-			if (sequences == 4)
-			{
-				int8_t two_sets_of_identical_sequences = 0;
-				for (int32_t i = 0; i < 34; i++)
-				{
-					if (cards_count[i] == 2)
-					{
-						two_sets_of_identical_sequences++;
-					}
-					else if (cards_count[i] == 4)
-					{
-						two_sets_of_identical_sequences += 2;
-					}
-				}
-				if (two_sets_of_identical_sequences == 7 && closed_hand)
-				{
-					yaku_flag[26] = 1;
-					han += 2;
-					ptf("    Two sets of identical sequences (2 Han)\n");
-				}
 			}
 		}
 
@@ -1374,7 +1373,7 @@ static void count_yaku()
 						break;
 					}
 				}
-				if (one_set_of_identical_sequences && yaku_flag[26] == 0)
+				if (one_set_of_identical_sequences && yaku_flag[17] == 0)
 				{
 					yaku_flag[29] = 1;
 					han++;
@@ -1426,7 +1425,7 @@ static void count_yaku()
 		}
 		// Straight (2 or 1 Han)
 		{
-			if (yaku_flag[20] == 1 && closed_hand == 0)
+			if (yaku_flag[21] == 1 && closed_hand == 0)
 			{
 				han++;
 				ptf("    Straight (1 Han)\n");
@@ -1434,7 +1433,7 @@ static void count_yaku()
 		}
 		// Terminal or honor in each set (2 or 1 Han)
 		{
-			if (yaku_flag[21] == 1 && closed_hand == 0)
+			if (yaku_flag[22] == 1 && closed_hand == 0)
 			{
 				han++;
 				ptf("    Terminal or honor in each set (1 Han)\n");
@@ -1442,7 +1441,7 @@ static void count_yaku()
 		}
 		// Three colour straights (2 or Han)
 		{
-			if (yaku_flag[23] == 1 && closed_hand == 0)
+			if (yaku_flag[24] == 1 && closed_hand == 0)
 			{
 				han++;
 				ptf("    Three colour straights (1 Han)\n");
@@ -1493,23 +1492,24 @@ static void count_yaku()
 
 15// Half-flush (no open group)
 16// Terminal in each set (no open group)
+17// Two sets of identical sequences (Closed hands only)
 
 2 Han
 
 
-17// All terminals and honors
-18// All triplets
+18// All terminals and honors
+19// All triplets
 15// Half-flush (have open group)
-19// Little three dragons
+20// Little three dragons
 //// Seven pairs (no Two sets of identical sequences)(Closed hands only) [*]
-20// Straight (no open group)(Closed hands only)
+21// Straight (no open group)(Closed hands only)
 16// Terminal in each set (have open group)
-21// Terminal or honor in each set (no open group)
-22// Three colour triplets
-23// Three colour straights (no open group)(Closed hands only)
-24// Three concealed triplets
-25// Three kans
-26// Two sets of identical sequences (Closed hands only)
+22// Terminal or honor in each set (no open group)
+23// Three colour triplets
+24// Three colour straights (no open group)(Closed hands only)
+25// Three concealed triplets
+26// Three kans
+
 
 1 Han
 
@@ -1520,9 +1520,9 @@ static void count_yaku()
 	tiles of White or Green or Red
 	Player’s wind of East South West North
 	Prevailing wind of East South West North
-20// Straight (have open group)(Closed hand only)
-21// Terminal or honor in each set (have open group)
-23// Three colour straights (have opne group)
+21// Straight (have open group)(Closed hand only)
+22// Terminal or honor in each set (have open group)
+24// Three colour straights (have opne group)
 
 
 */
