@@ -3,15 +3,16 @@ hw_number = 0
 all: hw0${hw_number}01 hw0${hw_number}02 hw0${hw_number}03 hw0${hw_number}04 hw0${hw_number}05
 
 CC=gcc
-CFLAGS= -g -lm -Wall -Wextra -fsanitize=address -lubsan -lasan
-obj = mysort.o mychess.o
+CFLAGS= -g -Wall -Wextra -fsanitize=address -lubsan -lasan
+LDLIBS= -lm
+obj = 
 target = hw0${hw_number}01 hw0${hw_number}02 hw0${hw_number}03 hw0${hw_number}04 hw0${hw_number}05
 
 $(target): $(obj)
 
 %.d: %.c
 	@set -e; rm -f $@; \
-	$(CC) -MM $(CFLAGS) $< > $@.$$$$; \
+	$(CC) -MM $(CFLAGS) $< > $@.$$$$ $(LDLIBS); \
 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
 	rm -f $@.$$$$
 
