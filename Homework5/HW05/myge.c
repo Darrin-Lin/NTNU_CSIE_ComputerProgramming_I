@@ -94,22 +94,22 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
         }
     }
 
-    // print error message
-    fprintf(stderr, "A:\n");
-    for (int32_t i = 0; i < n; i++)
-    {
-        for (int32_t j = 0; j < n; j++)
-        {
-            fprintf(stderr, "%f ", A[i][j]);
-        }
-        fprintf(stderr, "\n");
-    }
-    fprintf(stderr, "y:\n");
-    for (int32_t i = 0; i < n; i++)
-    {
-        fprintf(stderr, "%f\n", y[i]);
-    }
-    // print error message
+    // // print error message
+    // fprintf(stderr, "A:\n");
+    // for (int32_t i = 0; i < n; i++)
+    // {
+    //     for (int32_t j = 0; j < n; j++)
+    //     {
+    //         fprintf(stderr, "%f ", A[i][j]);
+    //     }
+    //     fprintf(stderr, "\n");
+    // }
+    // fprintf(stderr, "y:\n");
+    // for (int32_t i = 0; i < n; i++)
+    // {
+    //     fprintf(stderr, "%f\n", y[i]);
+    // }
+    // // print error message
 
     // reduce row echelon form
     for (int32_t i = 0; i < n; i++) // set leading 1
@@ -124,22 +124,22 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
             A[i][i] = 1;
         }
     }
-    // print error message
-    fprintf(stderr, "A:\n");
-    for (int32_t i = 0; i < n; i++)
-    {
-        for (int32_t j = 0; j < n; j++)
-        {
-            fprintf(stderr, "%f ", A[i][j]);
-        }
-        fprintf(stderr, "\n");
-    }
-    fprintf(stderr, "y:\n");
-    for (int32_t i = 0; i < n; i++)
-    {
-        fprintf(stderr, "%f\n", y[i]);
-    }
-    // print error message
+    // // print error message
+    // fprintf(stderr, "A:\n");
+    // for (int32_t i = 0; i < n; i++)
+    // {
+    //     for (int32_t j = 0; j < n; j++)
+    //     {
+    //         fprintf(stderr, "%f ", A[i][j]);
+    //     }
+    //     fprintf(stderr, "\n");
+    // }
+    // fprintf(stderr, "y:\n");
+    // for (int32_t i = 0; i < n; i++)
+    // {
+    //     fprintf(stderr, "%f\n", y[i]);
+    // }
+    // // print error message
     for (int32_t i = n - 1; i > 0; i--) // set 0
     {
         for (int32_t j = i - 1; j >= 0; j--)
@@ -150,23 +150,23 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     }
     for (int32_t i = 0; i < n; i++)
     {
-        *(ptr_x + i) = (int32_t)(y[i]+1e-6);
+        *(ptr_x + i) = (int32_t)(y[i] + 1e-6);
     }
-    // print error message
-    fprintf(stderr, "A:\n");
-    for (int32_t i = 0; i < n; i++)
-    {
-        for (int32_t j = 0; j < n; j++)
-        {
-            fprintf(stderr, "%f ", A[i][j]);
-        }
-        fprintf(stderr, "\n");
-    }
-    fprintf(stderr, "y:\n");
-    for (int32_t i = 0; i < n; i++)
-    {
-        fprintf(stderr, "%f\n", y[i]);
-    }
-    // print error message
+    // // print error message
+    // fprintf(stderr, "A:\n");
+    // for (int32_t i = 0; i < n; i++)
+    // {
+    //     for (int32_t j = 0; j < n; j++)
+    //     {
+    //         fprintf(stderr, "%f ", A[i][j]);
+    //     }
+    //     fprintf(stderr, "\n");
+    // }
+    // fprintf(stderr, "y:\n");
+    // for (int32_t i = 0; i < n; i++)
+    // {
+    //     fprintf(stderr, "%f\n", y[i]);
+    // }
+    // // print error message
     return 1;
 }
