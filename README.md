@@ -90,7 +90,7 @@ Finish hw0405.
 ### [HW5](./Homework5/)
 
 #### 12/1 Create
-Finish hw0501, hw0502 and hw0503.
+Finish hw0501, hw0502, hw0503 and hw0506.
 
 #### 12/2 Update
-Finish hw0504.
+Finish hw0504 and hw0505.
