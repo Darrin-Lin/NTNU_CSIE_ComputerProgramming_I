@@ -24,7 +24,7 @@ int main()
             scanf("%d", &data[i]);
         }
 
-        printf("return: %d\n", statistics(&data, size, &mean, &variance, &std));
+        printf("return: %d\n", statistics(data, size, &mean, &variance, &std));
         printf("mean = %.3f\n", mean);
         printf("variance = %.3f\n", variance);
         printf("std = %.3f\n", std);

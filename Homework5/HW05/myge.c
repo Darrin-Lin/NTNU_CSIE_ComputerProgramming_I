@@ -79,7 +79,7 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     }
     for (int32_t i = 0; i < n; i++)
     {
-        if (fabs(A[i][i] - 0) < 1e-6 && fabs(y[i] - 0) > 1e-6)
+        if (fabs(A[i][i]) < 1e-6 && fabs(y[i]) > 1e-6)
         {
             *(px) = NULL;
             return 0;
@@ -87,7 +87,7 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     }
     for (int32_t i = 0; i < n; i++)
     {
-        if (fabs(A[i][i] - 0) < 1e-6 && fabs(y[i] - 0) < 1e-6)
+        if (fabs(A[i][i]) < 1e-6 && fabs(y[i]) < 1e-6)
         {
             *(px) = NULL;
             return 2;

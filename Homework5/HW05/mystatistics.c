@@ -21,7 +21,7 @@ int32_t statistics(int32_t *pData, int32_t size, double *pMean, double *pVarianc
     double variance;
     double std;
 
-    for (size_t i = 0; i < size; i++)
+    for (int32_t i = 0; i < size; i++)
     {
         sum += (int64_t) * (pData + i);
     }
