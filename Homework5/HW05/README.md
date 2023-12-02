@@ -40,6 +40,9 @@ no such a plane 不知道跟 inputs are invalid 有什麼差別，所以之後�
 
 ### hw0504
 
+#### 12/2 Finish
+不確定 skip 會有 value 跟 length 以及 length 計算方式還有 print 格式。
+
 ----
 
 ### hw0505
