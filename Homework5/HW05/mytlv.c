@@ -19,7 +19,7 @@ static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 static int32_t TLV8(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
 static int32_t TLV9(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
 static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static (*TLVtype[11])(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number) = {skip, TLV1, TLV2, TLV3, TLV4, TLV5, TLV6, TLV7, TLV8, TLV9, TLV10};
+static int32_t (*TLVtype[11])(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number) = {skip, TLV1, TLV2, TLV3, TLV4, TLV5, TLV6, TLV7, TLV8, TLV9, TLV10};
 
 static int32_t save = 0;
 
