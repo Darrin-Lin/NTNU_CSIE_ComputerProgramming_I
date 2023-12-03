@@ -22,6 +22,10 @@ void button_set_frame(uint8_t **src, size_t *size, const uint8_t button, const u
             free((void *)*src);
             *src = ptr;
         }
+        for(size_t i = *size; i <= end_frame; i++)
+        {
+            (*src)[i] = 0;
+        }
         *size = end_frame + 1;
     }
     for(size_t i = start_frame; i <= end_frame; i++)
