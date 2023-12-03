@@ -24,6 +24,7 @@ clean: clean_executable_file clean_object_file
 
 clean_executable_file:
 	-rm hw0${hw_number}0?
+	-rm output.fm2
 
 clean_object_file:
 	-rm *.o

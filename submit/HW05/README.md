@@ -53,7 +53,7 @@ no such a plane 不知道跟 inputs are invalid 有什麼差別，所以之後�
 不知道 decode.c 要怎麼用，先寫完其他部分並寫信問助教了。
 
 ####　12/3 Update
-助教回信了，說 decode.c 只要在 Makefile 連結就好。
+助教回信了，說 decode.c 只要在 Makefile 連結就好，~~然後 free 那邊有問題~~ realloc 會自動釋放。
 
 ----
 

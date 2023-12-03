@@ -17,11 +17,17 @@ void button_set_frame(uint8_t **src, size_t *size, const uint8_t button, const u
 	{
 		uint8_t *ptr = NULL;
 		ptr = (uint8_t *)realloc(*src, end_frame + 1);
-		if (ptr != *src)
+		if(ptr == NULL)
 		{
-			free((void *)*src);
-			*src = ptr;
+			// perror("Invalid Frame");
+			return;
 		}
+		*src = ptr;
+		// if (ptr != *src)
+		// {
+		// 	free((void *)*src);
+		// 	*src = ptr;
+		// }
 		for (size_t i = *size; i <= end_frame; i++)
 		{
 			(*src)[i] = 0;
