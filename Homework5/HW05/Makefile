@@ -5,7 +5,7 @@ all: hw0${hw_number}01 hw0${hw_number}02 hw0${hw_number}03 hw0${hw_number}04 hw0
 CC=gcc
 CFLAGS= -g -Wall -Wextra -fsanitize=address -lubsan -lasan
 LDLIBS= -lm	
-obj = mystatistics.o myge.o mysphere.o mytlv.o tas.o
+obj = mystatistics.o myge.o mysphere.o mytlv.o tas.o decode.o
 target = hw0506 hw0${hw_number}01 hw0${hw_number}02 hw0${hw_number}03 hw0${hw_number}04 hw0${hw_number}05
 
 $(target): $(obj)
