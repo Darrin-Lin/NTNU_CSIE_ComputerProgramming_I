@@ -7,7 +7,9 @@ int main()
 {
 
     uint8_t *src = NULL;
-    size_t size = 0;
+    size_t size = 10;
+    src = calloc(size, sizeof(uint8_t));
+    printf("%p", src);
     uint8_t button = 0;
     uint64_t start_frame = 0;
     uint64_t end_frame = 0;
