@@ -28,6 +28,9 @@ hw05
 助教回信了說 多組解把 pointer 設為 NULL
 然後又在計算過程中用 double 避免誤差擴大。
 
+#### 12/4 Debug
+把 NULL 化後忘了 free 補上。
+
 ----
 
 ### hw0503
