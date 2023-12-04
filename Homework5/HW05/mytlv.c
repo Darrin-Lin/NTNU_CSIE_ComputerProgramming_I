@@ -25,7 +25,8 @@ static int32_t save = 0;
 
 int32_t run(uint8_t *pByteArray, int32_t size)
 {
-	int32_t number = 0;
+	static int32_t number = -1;
+	save = -1;
 	int32_t byte = 0;
 	while (byte < size)
 	{
@@ -45,7 +46,7 @@ static int32_t get_length(uint8_t *pByteArray, int32_t size, int32_t byte)
 	{
 		return -1;
 	}
-	length = pByteArray[byte + 1] + pByteArray[byte + 2] * 10; /////
+	length = pByteArray[byte + 1] + pByteArray[byte + 2] * 256; /////
 	return length;
 }
 static int32_t get_value(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t length)
@@ -63,7 +64,6 @@ static int32_t get_value(uint8_t *pByteArray, int32_t size, int32_t byte, int32_
 }
 static int32_t TLV(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
 {
-
 	if (pByteArray[byte] > 10)
 	{
 		return TLVtype[0](pByteArray, size, byte, p_number);
@@ -93,6 +93,8 @@ static int32_t TLV1(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 static int32_t TLV2(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
 {
 	// number += value
+	if (*p_number == -1)
+		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
 	save = *p_number;
@@ -102,6 +104,8 @@ static int32_t TLV2(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 static int32_t TLV3(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
 {
 	// number *= value
+	if (*p_number == -1)
+		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
 	save = *p_number;
@@ -112,6 +116,8 @@ static int32_t TLV4(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 {
 	// number = number / 2
 	// only length = 0
+	if (*p_number == -1)
+		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	// int32_t value = get_value(pByteArray, size, byte, length);
 	if (length != 0)
@@ -126,6 +132,8 @@ static int32_t TLV5(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 {
 	// number = number /10
 	// only length = 0
+	if (*p_number == -1)
+		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	// int32_t value = get_value(pByteArray, size, byte, length);
 	if (length != 0)
@@ -139,6 +147,8 @@ static int32_t TLV5(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
 {
 	// number = value || number
+	if (*p_number == -1)
+		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
 	save = *p_number;
@@ -154,6 +164,8 @@ static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
 {
 	// number = number || value
+	if (*p_number == -1)
+		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
 	save = *p_number;
@@ -182,6 +194,8 @@ static int32_t TLV9(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 {
 	// number = print number
 	// only length = 0
+	if (*p_number == -1)
+		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	if (length != 0)
 	{
@@ -195,6 +209,10 @@ static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p
 {
 	// cancel previous TLV
 	// only length = 0
+	if (byte == 0)
+	{
+		return -1;
+	}
 	int32_t length = get_length(pByteArray, size, byte);
 	if (length != 0)
 	{
