@@ -56,6 +56,12 @@ no such a plane 不知道跟 inputs are invalid 有什麼差別，所以之後�
 invald input 是包含未 set/init 第一歩用 cancel。
 問題現在出在 cancel 掉第一個 init 再進行運算的 invalid input 不知道怎處理，應該用最初的值設為 -1 就行了。
 
+#### 12/6 Update
+不知道會不會有溢位問題還有 cancel 再 cancel 的問題。
+然後也會有 cancel print 的問題。
+老師保證一定會再 uint64_t 範圍內，所以不用擔心溢位問題。
+cancel 也問助教，會有這個問題，所以我改了一下。
+
 ----
 
 ### hw0505

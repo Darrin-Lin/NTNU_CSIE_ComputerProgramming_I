@@ -15,6 +15,6 @@ int main()
     {
         scanf("%hhd", &array[i]);
     }
-    run(array, size);
+    printf("return: %d\n",run(array, size));
     return 0;
 }

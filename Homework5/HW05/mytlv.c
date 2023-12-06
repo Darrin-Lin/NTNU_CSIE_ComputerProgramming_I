@@ -7,26 +7,29 @@
 int32_t run(uint8_t *pByteArray, int32_t size);
 static int32_t get_length(uint8_t *pByteArray, int32_t size, int32_t byte);
 static int32_t get_value(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t length);
-static int32_t TLV(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t skip(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV1(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV2(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV3(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV4(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV5(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV8(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV9(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number);
-static int32_t (*TLVtype[11])(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number) = {skip, TLV1, TLV2, TLV3, TLV4, TLV5, TLV6, TLV7, TLV8, TLV9, TLV10};
+static int32_t TLV(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t skip(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV1(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV2(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV3(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV4(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV5(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV8(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV9(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number);
+static int32_t (*TLVtype[11])(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number) = {skip, TLV1, TLV2, TLV3, TLV4, TLV5, TLV6, TLV7, TLV8, TLV9, TLV10};
+static int8_t is_cancel(uint8_t *pByteArray, int32_t size, int32_t byte);
 
-static int32_t save = 0;
-
+static uint64_t save = 0;
+int8_t set_number = -1, set_save = -1;
 int32_t run(uint8_t *pByteArray, int32_t size)
 {
-	static int32_t number = -1;
-	save = -1;
+	static uint64_t number = 0;
+	set_number = -1;
+	set_save = -1;
+	save = 0;
 	int32_t byte = 0;
 	while (byte < size)
 	{
@@ -62,7 +65,7 @@ static int32_t get_value(uint8_t *pByteArray, int32_t size, int32_t byte, int32_
 	}
 	return value;
 }
-static int32_t TLV(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	if (pByteArray[byte] > 10)
 	{
@@ -73,7 +76,7 @@ static int32_t TLV(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_n
 		return TLVtype[pByteArray[byte]](pByteArray, size, byte, p_number);
 	}
 }
-static int32_t skip(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t skip(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	save = *p_number;
 	int32_t length = get_length(pByteArray, size, byte);
@@ -81,42 +84,49 @@ static int32_t skip(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 	return (byte + 3 + length);
 }
 
-static int32_t TLV1(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV1(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number = value
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
 	save = *p_number;
+	set_save = set_number;
+	set_number = 1;
 	*p_number = value;
+
 	return (byte + 3 + length);
 }
-static int32_t TLV2(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV2(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number += value
-	if (*p_number == -1)
+	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
+	set_save = set_number;
+	set_number = 1;
 	save = *p_number;
 	*p_number += value;
 	return byte + 3 + length;
 }
-static int32_t TLV3(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV3(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number *= value
-	if (*p_number == -1)
+	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
+	set_save = set_number;
+	set_number = 1;
 	save = *p_number;
 	*p_number *= value;
 	return byte + 3 + length;
 }
-static int32_t TLV4(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV4(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number = number / 2
 	// only length = 0
-	if (*p_number == -1)
+	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	// int32_t value = get_value(pByteArray, size, byte, length);
@@ -124,15 +134,17 @@ static int32_t TLV4(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 	{
 		return -1;
 	}
+	set_save = set_number;
+	set_number = 1;
 	save = *p_number;
 	*p_number /= 2;
 	return byte + 3;
 }
-static int32_t TLV5(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV5(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number = number /10
 	// only length = 0
-	if (*p_number == -1)
+	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	// int32_t value = get_value(pByteArray, size, byte, length);
@@ -140,14 +152,16 @@ static int32_t TLV5(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 	{
 		return -1;
 	}
+	set_save = set_number;
+	set_number = 1;
 	save = *p_number;
 	*p_number /= 10;
 	return byte + 3;
 }
-static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number = value || number
-	if (*p_number == -1)
+	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
@@ -157,17 +171,20 @@ static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 	{
 		value *= 10;
 	}
-
+	set_save = set_number;
+	set_number = 1;
 	*p_number += value;
 	return byte + 3 + length;
 }
-static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number = number || value
-	if (*p_number == -1)
+	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	int32_t value = get_value(pByteArray, size, byte, length);
+	set_save = set_number;
+	set_number = 1;
 	save = *p_number;
 	int32_t n_digit = (int32_t)log10(value) + 1;
 	for (int32_t i = 0; i < n_digit; i++)
@@ -177,7 +194,7 @@ static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 	*p_number += value;
 	return byte + 3 + length;
 }
-static int32_t TLV8(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV8(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number = init to 0
 	// only length = 0
@@ -186,30 +203,34 @@ static int32_t TLV8(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_
 	{
 		return -1;
 	}
+	set_save = set_number;
+	set_number = 1;
 	save = *p_number;
 	*p_number = 0;
 	return byte + 3;
 }
-static int32_t TLV9(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV9(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// number = print number
 	// only length = 0
-	if (*p_number == -1)
+	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
 	if (length != 0)
 	{
 		return -1;
 	}
+	set_save = set_number;
 	save = *p_number;
-	printf("%d\n", *p_number);
+	if (!is_cancel(pByteArray, size, byte)) //
+		printf("%ld\n", *p_number);
 	return byte + 3;
 }
-static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p_number)
+static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
 {
 	// cancel previous TLV
 	// only length = 0
-	if (byte == 0)
+	if (byte == 0 && is_cancel(pByteArray, size, byte-3))
 	{
 		return -1;
 	}
@@ -222,5 +243,35 @@ static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t *p
 	temp = *p_number;
 	*p_number = save;
 	save = temp;
+	temp = set_number;
+	set_number = set_save;
+	set_save = temp;
 	return byte + 3;
+}
+int8_t is_cancel(uint8_t *pByteArray, int32_t size, int32_t byte)
+{
+	int32_t next = 0;
+	next = byte + 3;
+	if (next >= size)
+	{
+		return 0;
+	}
+	int32_t cancel = 0;
+	while (*(pByteArray + next) == 10 && *(pByteArray + next + 1) == 0 && *(pByteArray + next + 2) == 0)
+	{
+		if (cancel == 0)
+		{
+			cancel = 1;
+		}
+		else
+		{
+			cancel = 0;
+		}
+		next += 3;
+		if (next >= size)
+		{
+			break;
+		}
+	}
+	return cancel;
 }
