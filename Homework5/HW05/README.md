@@ -41,6 +41,9 @@ no such a plane 不知道跟 inputs are invalid 有什麼差別，所以之後�
 #### 12/3 Update
 助教回信了，說需要在回傳時四捨五入到小數點第二位。
 
+#### 12/6 Update
+發現是要去求圓面積，更改。
+
 ----
 
 ### hw0504

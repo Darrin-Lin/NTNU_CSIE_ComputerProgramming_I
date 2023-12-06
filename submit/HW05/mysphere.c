@@ -17,7 +17,7 @@ int32_t get_cap_area(double r, double a, double b, double c, double d, double *p
     {
         return -1;
     }
-    double distance = 0, h = 0;
+    double distance = 0;
 
     // distance = fabs(a * 0 + b * 0 + c * 0 - d) / sqrt(a * a + b * b + c * c);
     distance = fabs(d) / sqrt(a * a + b * b + c * c);
@@ -32,9 +32,8 @@ int32_t get_cap_area(double r, double a, double b, double c, double d, double *p
     }
     else
     {
-        h = r - distance;
         double area = 0;
-        area = 2 * M_PI * r * h;
+        area = M_PI * (r * r - distance * distance);
         area = (int)(area * 100 + 0.5) / 100.0;
         *pArea = area;
         return 1;
