@@ -18,7 +18,10 @@ int32_t get_cap_area(double r, double a, double b, double c, double d, double *p
         return -1;
     }
     double distance = 0;
-
+    if (a == b && b == c && c == 0)
+    {
+        return -1;
+    }
     // distance = fabs(a * 0 + b * 0 + c * 0 - d) / sqrt(a * a + b * b + c * c);
     distance = fabs(d) / sqrt(a * a + b * b + c * c);
     if (distance == r)
@@ -28,7 +31,8 @@ int32_t get_cap_area(double r, double a, double b, double c, double d, double *p
     }
     else if (distance > r)
     {
-        return -1;
+        *pArea = 0;
+        return 0;
     }
     else
     {

@@ -16,8 +16,8 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     {
         return -1;
     }
-    double A[n][n];
-    double y[n];
+    long double A[n][n];
+    long double y[n];
     for (int32_t i = 0; i < n; i++)
     {
         for (int32_t j = 0; j < n; j++)
@@ -41,19 +41,19 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     // reduce echelon form
     for (int32_t i = 0; i < n; i++)
     {
-        if (fabs(A[i][i]) < 1e-6)
+        if (fabsl(A[i][i]) < 1e-6)
         {
             for (int32_t j = i + 1; j < n; j++)
             {
-                if (fabs(A[j][i]) > 1e-6)
+                if (fabsl(A[j][i]) > 1e-6)
                 {
                     for (int32_t k = 0; k < n; k++)
                     {
-                        double temp = A[i][k];
+                        long double temp = A[i][k];
                         A[i][k] = A[j][k];
                         A[j][k] = temp;
                     }
-                    double temp = y[i];
+                    long double temp = y[i];
                     y[i] = y[j];
                     y[j] = temp;
                     break;
@@ -68,7 +68,7 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
         {
             for (int32_t j = i + 1; j < n; j++)
             {
-                double temp = A[j][i] / A[i][i];
+                long double temp = A[j][i] / A[i][i];
                 for (int32_t k = 0; k < n; k++)
                 {
                     A[j][k] = A[j][k] - temp * A[i][k];
@@ -79,7 +79,7 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     }
     for (int32_t i = 0; i < n; i++)
     {
-        if (fabs(A[i][i]) < 1e-6 && fabs(y[i]) > 1e-6)
+        if (fabsl(A[i][i]) < 1e-6 && fabsl(y[i]) > 1e-6)
         {
             *(px) = NULL;
             free(ptr_x);
@@ -88,7 +88,7 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     }
     for (int32_t i = 0; i < n; i++)
     {
-        if (fabs(A[i][i]) < 1e-6 && fabs(y[i]) <= 1e-6)
+        if (fabsl(A[i][i]) < 1e-6 &&  fabsl(y[i]) <= 1e-6)
         {
             *(px) = NULL;
             free(ptr_x);
@@ -116,7 +116,7 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     // reduce row echelon form
     for (int32_t i = 0; i < n; i++) // set leading 1
     {
-        if (fabs(A[i][i] - 1) > 1e-6)
+        if (fabsl(A[i][i] - 1) > 1e-6)
         {
             for (int32_t j = i + 1; j < n; j++)
             {
@@ -152,7 +152,7 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     }
     for (int32_t i = 0; i < n; i++)
     {
-        *(ptr_x + i) = (int32_t)(y[i] + 1e-6);
+        *(ptr_x + i) = (int32_t)(y[i] + (long double)1e-2);
     }
     // // print error message
     // fprintf(stderr, "A:\n");

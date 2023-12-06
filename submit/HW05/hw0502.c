@@ -26,9 +26,10 @@ int main()
 		}
 		int32_t return_value = gaussian_elimination(size, &A[0][0], &y[0], &x);
 		printf("return: %d\n", return_value);
-		printf("x = [");
+		
 		if (return_value == 1)
 		{
+			printf("x = [");
 			for (int32_t i = 0; i < size; i++)
 			{	
 				printf("%d ", *(x+i));
