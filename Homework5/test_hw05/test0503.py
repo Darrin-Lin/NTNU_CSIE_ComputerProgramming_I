@@ -6,7 +6,7 @@ for i in range(0,1):
         f.write("0\n")
         f.write("5 0 0 2 4")
         f.write("\n")
-for i in range(1,4):
+for i in range(1,3):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         f.write("0\n")
         f.write(str(r.randint(1,20))+ " ")
@@ -16,7 +16,7 @@ for i in range(1,4):
         f.write(str(r.randint(1,20)))
         f.write("\n")
 
-for i in range(4,6):
+for i in range(3,5):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         f.write("0\n")
         f.write(str(r.random()*20)+ " ")
@@ -25,7 +25,7 @@ for i in range(4,6):
         f.write(str(r.random()*20)+ " ")
         f.write(str(r.random()*20))
         f.write("\n")
-for i in range(6,7):
+for i in range(5,6):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         f.write("0\n")
         f.write(str(r.random()*20)+ " ")
@@ -33,6 +33,11 @@ for i in range(6,7):
         f.write(str(r.randrange(-1,1,2)*r.random()*20)+ " ")
         f.write(str(r.randrange(-1,1,2)*r.random()*20)+ " ")
         f.write(str(r.randrange(-1,1,2)*r.random()*20))
+        f.write("\n")
+for i in range(6,7):
+    with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
+        f.write("0\n")
+        f.write("1 0 0 0 0")
         f.write("\n")
 for i in range(7,8):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:

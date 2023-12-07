@@ -1,6 +1,14 @@
 import random as r
 hw=5
 hw_part=2
+
+# def generate_matrix(n,rang):
+#     matrix[n][n]
+#     x=list()
+#     for i in range(0,n):
+#         x.append(r.randint(1,rang))
+        
+
 for i in range(0,1):
     with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
         f.write("0\n")
