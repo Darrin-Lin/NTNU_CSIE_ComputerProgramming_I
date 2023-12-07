@@ -88,7 +88,7 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     }
     for (int32_t i = 0; i < n; i++)
     {
-        if (fabsl(A[i][i]) < 1e-6 &&  fabsl(y[i]) <= 1e-6)
+        if (fabsl(A[i][i]) < 1e-6 && fabsl(y[i]) <= 1e-6)
         {
             *(px) = NULL;
             free(ptr_x);
@@ -152,7 +152,10 @@ int32_t gaussian_elimination(int32_t n, int32_t *pA, int32_t *py, int32_t **px)
     }
     for (int32_t i = 0; i < n; i++)
     {
-        *(ptr_x + i) = (int32_t)(y[i] + (long double)1e-2);
+        if (*(ptr_x + i) >= 0)
+            *(ptr_x + i) = roundl(y[i]);
+        else
+            *(ptr_x + i) = roundl(y[i]);
     }
     // // print error message
     // fprintf(stderr, "A:\n");
