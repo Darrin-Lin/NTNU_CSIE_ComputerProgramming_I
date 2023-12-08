@@ -27,7 +27,7 @@ int32_t get_cap_area(double r, double a, double b, double c, double d, double *p
     if (fabs(distance - r) < 1e-6)
     {
         *pArea = 0;
-        return 1;
+        return 0;
     }
     else if (distance > r)
     {
@@ -42,4 +42,4 @@ int32_t get_cap_area(double r, double a, double b, double c, double d, double *p
         *pArea = area;
         return 1;
     }
-}
+}           
