@@ -7,7 +7,7 @@ value = 0
 
 def gen_tlv(t):
 	if((t >= 1 and t <= 3) or (t >= 6 and t <= 7)):
-		leng = r.randint(1, 99)
+		leng = r.randint(1, 20)
 		val = r.randint(10**leng, 10**(leng+1)-1)
 	elif((t >= 4 and t <= 5) or (t >= 8 and t <= 10)):
 		leng = 0
