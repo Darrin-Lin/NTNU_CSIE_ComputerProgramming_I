@@ -32,8 +32,8 @@ void button_set_frame(uint8_t **src, size_t *size, const uint8_t button, const u
             size of array: 7
             
         After passing the function of src will be:
-            {0, 8, 130, 80, 210, 210, 255, 210 ..... 210}
-            size of array: 480
+            {0, 8, 130, 80, 210, 210, 255, 80 ..... 80}
+            size of array: 481
 */
 
 void button_unset_frame(uint8_t *src, const size_t size, const uint8_t button, const uint64_t start_frame, const uint64_t end_frame);
@@ -48,7 +48,7 @@ void button_unset_frame(uint8_t *src, const size_t size, const uint8_t button, c
     Examples:
         Unset 2 value (B button) from frame 1 to frame 100.
         
-        $ button_unset_frame(src, size, 2, 1, 6);
+        $ button_unset_frame(src, size, 2, 1, 100);
                
              RLDUTSBA 
         2 -> 00000010 -> unset B
