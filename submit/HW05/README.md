@@ -71,6 +71,9 @@ invald input 是包含未 set/init 第一歩用 cancel。
 老師保證一定會再 uint64_t 範圍內，所以不用擔心溢位問題。
 cancel 也問助教，會有這個問題，所以我改了一下。
 
+#### 12/15 Update
+改了 `printf` 成 `%lu`
+
 ----
 
 ### hw0505

@@ -68,8 +68,8 @@ for i in range(3,7):
 			type = r.randint(0, 10)
 			length,value = gen_tlv(type)
 			tlv.append(type)
-			tlv.append(length%256)
-			tlv.append(length/256)
+			tlv.append(int(length%256))
+			tlv.append(int(length/256))
 			for k in range(length):
 				tlv.append(int(value / (10**(length-k-1))))
 				value = value % (10**(length-k-1))

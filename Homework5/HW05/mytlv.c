@@ -223,7 +223,7 @@ static int32_t TLV9(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	set_save = set_number;
 	save = *p_number;
 	if (!is_cancel(pByteArray, size, byte)) //
-		printf("%ld\n", *p_number);
+		printf("%lu\n", *p_number);
 	return byte + 3;
 }
 static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p_number)
