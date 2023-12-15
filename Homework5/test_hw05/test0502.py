@@ -22,7 +22,7 @@ def generate_matrix(n,rang):
         f.write('\n')
     for i in range(0,n):
         f.write(str(y[i])+' ')
-        print(str(x[i])+' ',end='')
+        print(str(x[i]), end=' ')
     print('\n')
     f.write('\n')
     

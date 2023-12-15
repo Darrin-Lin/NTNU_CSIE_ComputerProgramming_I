@@ -26,7 +26,7 @@ for i in range(0,1):
 		f.write("9 0 0\n")
 for i in range(1,2):
 	with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
-		f.write("327\n")#48+256+23=327
+		f.write("328\n")#48+256+24=328
 		f.write("0 0 0\n")
 		f.write("0 0 1")
 		for j in range(256):
@@ -36,7 +36,7 @@ for i in range(1,2):
 		f.write("9 0 0\n")
 		f.write("2 2 0 9 9\n")
 		f.write("9 0 0\n")
-		f.write("3 3 0 20\n")
+		f.write("3 2 0 2 0\n")
 		f.write("9 0 0\n")
 		f.write("4 0 0\n")
 		f.write("9 0 0\n")
