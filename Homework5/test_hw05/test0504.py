@@ -5,9 +5,9 @@ hw_part=4
 length = 0
 value = 0
 
-def gen_tlv(t):
+def gen_tlv(t,l):
 	if((t >= 1 and t <= 3) or (t >= 6 and t <= 7)):
-		leng = r.randint(1, 20)
+		leng = r.randint(1, l)
 		val = r.randint(10**(leng-1), 10**(leng)-1)
 	elif((t >= 4 and t <= 5) or (t >= 8 and t <= 10)):
 		leng = 0
@@ -61,20 +61,43 @@ for i in range(2,3):
 		f.write("10 0 0\n")
 		f.write("1 1 0 1\n")
 		f.write("9 0 0\n")
-for i in range(3,7):
+for i in range(3,5):
 	with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
 		tlv = list()
 		for j in range(10):
 			type = r.randint(0, 10)
-			length,value = gen_tlv(type)
+			length,value = gen_tlv(type,5)
 			tlv.append(type)
 			tlv.append(int(length%256))
 			tlv.append(int(length/256))
 			for k in range(length):
 				tlv.append(int(value / (10**(length-k-1))))
 				value = value % (10**(length-k-1))
-		f.write(str(len(tlv)+3)) #size
+		f.write(str(len(tlv)+6)) #size
 		f.write('\n')
+		f.write("8 0 0\n")
+		for j in range(len(tlv)):
+			f.write(str(tlv[j]))
+			f.write(' ')
+		f.write('\n')
+		f.write("9 0 0")
+		# tlv.clear()
+		f.write('\n')
+for i in range(5,7):
+	with open('./0'+str(hw_part)+'/in/hw0'+str(hw)+'0'+str(hw_part)+"_0"+str(i)+'.in', 'w') as f:
+		tlv = list()
+		for j in range(10):
+			type = r.randint(0, 10)
+			length,value = gen_tlv(type,20)
+			tlv.append(type)
+			tlv.append(int(length%256))
+			tlv.append(int(length/256))
+			for k in range(length):
+				tlv.append(int(value / (10**(length-k-1))))
+				value = value % (10**(length-k-1))
+		f.write(str(len(tlv)+6)) #size
+		f.write('\n')
+		f.write("8 0 0\n")
 		for j in range(len(tlv)):
 			f.write(str(tlv[j]))
 			f.write(' ')
