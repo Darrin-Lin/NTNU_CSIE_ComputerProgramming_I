@@ -38,6 +38,7 @@ int32_t run(uint8_t *pByteArray, int32_t size)
 		{
 			return -1;
 		}
+		// fprintf(stderr,"%lu\n", number);
 	}
 	return 0;
 }
@@ -54,7 +55,7 @@ static int32_t get_length(uint8_t *pByteArray, int32_t size, int32_t byte)
 }
 static int32_t get_value(uint8_t *pByteArray, int32_t size, int32_t byte, int32_t length)
 {
-	int32_t value = 0;
+	uint64_t value = 0;
 	if (size < byte + 3 + length)
 	{
 		return -1;
@@ -80,7 +81,7 @@ static int32_t skip(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 {
 	save = *p_number;
 	int32_t length = get_length(pByteArray, size, byte);
-	// int32_t value = get_value(pByteArray, size, byte, length);
+	// uint64_t value = get_value(pByteArray, size, byte, length);
 	return (byte + 3 + length);
 }
 
@@ -88,7 +89,7 @@ static int32_t TLV1(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 {
 	// number = value
 	int32_t length = get_length(pByteArray, size, byte);
-	int32_t value = get_value(pByteArray, size, byte, length);
+	uint64_t value = get_value(pByteArray, size, byte, length);
 	save = *p_number;
 	set_save = set_number;
 	set_number = 1;
@@ -102,7 +103,7 @@ static int32_t TLV2(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
-	int32_t value = get_value(pByteArray, size, byte, length);
+	uint64_t value = get_value(pByteArray, size, byte, length);
 	set_save = set_number;
 	set_number = 1;
 	save = *p_number;
@@ -115,7 +116,7 @@ static int32_t TLV3(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
-	int32_t value = get_value(pByteArray, size, byte, length);
+	uint64_t value = get_value(pByteArray, size, byte, length);
 	set_save = set_number;
 	set_number = 1;
 	save = *p_number;
@@ -129,7 +130,7 @@ static int32_t TLV4(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
-	// int32_t value = get_value(pByteArray, size, byte, length);
+	// uint64_t value = get_value(pByteArray, size, byte, length);
 	if (length != 0)
 	{
 		return -1;
@@ -147,7 +148,7 @@ static int32_t TLV5(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
-	// int32_t value = get_value(pByteArray, size, byte, length);
+	// uint64_t value = get_value(pByteArray, size, byte, length);
 	if (length != 0)
 	{
 		return -1;
@@ -164,9 +165,11 @@ static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
-	int32_t value = get_value(pByteArray, size, byte, length);
+	uint64_t value = get_value(pByteArray, size, byte, length);
 	save = *p_number;
 	int32_t n_digit = (int32_t)log10(*p_number) + 1;
+	if(*p_number == 0)
+		n_digit = 1;
 	for (int32_t i = 0; i < n_digit; i++)
 	{
 		value *= 10;
@@ -182,11 +185,13 @@ static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	if (set_number == -1)
 		return -1;
 	int32_t length = get_length(pByteArray, size, byte);
-	int32_t value = get_value(pByteArray, size, byte, length);
+	uint64_t value = get_value(pByteArray, size, byte, length);
 	set_save = set_number;
 	set_number = 1;
 	save = *p_number;
 	int32_t n_digit = (int32_t)log10(value) + 1;
+	if(value == 0)
+		n_digit = 1;
 	for (int32_t i = 0; i < n_digit; i++)
 	{
 		*p_number *= 10;

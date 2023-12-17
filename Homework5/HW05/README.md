@@ -74,6 +74,9 @@ cancel 也問助教，會有這個問題，所以我改了一下。
 #### 12/15 Update
 改了 `printf` 成 `%lu`
 
+#### 12/17 Update
+修了 type = 6, number = 0 要 * 10 的問題跟 type = 7, value = 0 要 * 10 的問題，還有過程中 value 要用 `uint64_t` 存的問題。
+
 ----
 
 ### hw0505
