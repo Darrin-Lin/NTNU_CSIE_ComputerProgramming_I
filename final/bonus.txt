@@ -6,7 +6,7 @@
 喜樂悲愁，皆歸塵土。憐我世人，作業實多！
 憐我世人，作業實多！
 
-bug 到極盛，便漸轉衰，segmentation fault 暗生，segmentation fault 漸衰而 bug 漸盛，segmentation fault bug 互補，互生互濟，少 bug 生於老 segmentation fault，少 segmentation fault 生於老 bug。凡事不可極，極則變易，由重轉輕，由輕轉重……
+memory leak 到極盛，便漸轉衰，segmentation fault 暗生，segmentation fault 漸衰而 memory leak 漸盛，segmentation fault memory leak 互補，互生互濟，少 memory leak 生於老 segmentation fault，少 segmentation fault 生於老 memory leak。凡事不可極，極則變易，由重轉輕，由輕轉重……
 
 
 到了學期末，雖然有一百多人選課，但到到課人數最後也剩下十幾個人，如同相聲瓦舍經典段子：全真三子，全真七子，今天只來了三位。不過至少不至於像是武當三俠，只有俞岱嚴一位，好了不再惡搞了，我覺得這堂課學到的東西很多，作業有趣，也對於慢慢習慣寫大約 1000 行上下的程式了，真的這堂課是對於「程式設計」的課程，不只是教基礎語法而已。
