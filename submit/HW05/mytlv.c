@@ -167,9 +167,12 @@ static int32_t TLV6(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	int32_t length = get_length(pByteArray, size, byte);
 	uint64_t value = get_value(pByteArray, size, byte, length);
 	save = *p_number;
-	int32_t n_digit = (int32_t)log10(*p_number) + 1;
-	if(*p_number == 0)
+	int32_t n_digit = 0;
+	if (*p_number == 0)
 		n_digit = 1;
+	else
+		n_digit = (int32_t)log10(*p_number) + 1;
+
 	for (int32_t i = 0; i < n_digit; i++)
 	{
 		value *= 10;
@@ -189,9 +192,13 @@ static int32_t TLV7(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *p
 	set_save = set_number;
 	set_number = 1;
 	save = *p_number;
-	int32_t n_digit = (int32_t)log10(value) + 1;
-	if(value == 0)
+	int32_t n_digit = 0;
+	if (value == 0 && length != 0)
 		n_digit = 1;
+	else if (value == 0 && length == 0)
+		n_digit = 0;
+	else
+		n_digit = (int32_t)log10(value) + 1;
 	for (int32_t i = 0; i < n_digit; i++)
 	{
 		*p_number *= 10;
@@ -235,7 +242,7 @@ static int32_t TLV10(uint8_t *pByteArray, int32_t size, int32_t byte, uint64_t *
 {
 	// cancel previous TLV
 	// only length = 0
-	if (byte == 0 && is_cancel(pByteArray, size, byte-3))
+	if (byte == 0 && is_cancel(pByteArray, size, byte - 3))
 	{
 		return -1;
 	}

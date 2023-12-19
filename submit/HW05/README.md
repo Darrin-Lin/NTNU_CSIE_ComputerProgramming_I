@@ -77,6 +77,9 @@ cancel 也問助教，會有這個問題，所以我改了一下。
 #### 12/17 Update
 修了 type = 6, number = 0 要 * 10 的問題跟 type = 7, value = 0 要 * 10 的問題，還有過程中 value 要用 `uint64_t` 存的問題。
 
+#### 12/17 Update
+更新了 type 7 length 的問題。
+
 ----
 
 ### hw0505
