@@ -13,7 +13,7 @@ for n in $(
 		mkdir ./0${n}/in
 	fi
 
-	# python test0${hw}0${n}.py
+	python3 test0${hw}0${n}.py
 
 	if ! [ -d "0${n}/out" ]; then
 		mkdir ./0${n}/out
@@ -46,7 +46,7 @@ if ! [ -d "05/in" ]; then
 	mkdir ./05/in
 fi
 
-python test0${hw}05.py
+python3 test0${hw}05.py
 
 if ! [ -d "05/out" ]; then
 	mkdir ./05/out

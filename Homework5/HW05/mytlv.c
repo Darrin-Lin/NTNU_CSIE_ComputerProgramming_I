@@ -26,6 +26,10 @@ static uint64_t save = 0;
 int8_t set_number = -1, set_save = -1;
 int32_t run(uint8_t *pByteArray, int32_t size)
 {
+	if(pByteArray == NULL)
+	{
+		return -1;
+	}
 	static uint64_t number = 0;
 	set_number = -1;
 	set_save = -1;

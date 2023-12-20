@@ -80,6 +80,9 @@ cancel 也問助教，會有這個問題，所以我改了一下。
 #### 12/17 Update
 更新了 type 7 length 的問題。
 
+#### 12/20 Update
+更新了 NULL 的問題。
+
 ----
 
 ### hw0505
@@ -89,6 +92,9 @@ cancel 也問助教，會有這個問題，所以我改了一下。
 
 ####　12/3 Update
 助教回信了，說 decode.c 只要在 Makefile 連結就好，~~然後 free 那邊有問題~~ realloc 會自動釋放。
+
+#### 12/20 Update
+更新了 NULL 的問題。
 
 ----
 
