@@ -46,7 +46,7 @@ if ! [ -d "05/in" ]; then
 	mkdir ./05/in
 fi
 
-python3 test0${hw}05.py
+python3	 test0${hw}05.py
 
 if ! [ -d "05/out" ]; then
 	mkdir ./05/out
