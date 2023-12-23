@@ -3,7 +3,7 @@ hw=fin
 make_clean=0
 
 for n in $(
-	seq 1 5
+	seq 1 3
 ); do
 	if ! [ -d "0${n}" ]; then
 		mkdir ./0${n}
@@ -20,7 +20,7 @@ for n in $(
 	fi
 
 	if ! [ -f "${hw}0${n}" ]; then
-		if ! [ -f "../${hw}/${hw}0${n}" ]; then
+		if ! [ -f "../fin/${hw}0${n}" ]; then
 			make -C ../${hw}
 			make_clean=1
 		fi

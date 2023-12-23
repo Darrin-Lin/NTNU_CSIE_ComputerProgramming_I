@@ -1,12 +1,12 @@
-hw_number = mid
+hw_number = fin
 # example: 1
-all: fin0${hw_number}01 fin0${hw_number}02 fin0${hw_number}03 fin0${hw_number}04
+all: ${hw_number}01 ${hw_number}02 ${hw_number}03 ${hw_number}04
 
 CC=gcc
 CFLAGS= -g -Wall -Wextra -fsanitize=address -lubsan -lasan
 LDLIBS= -lm
-obj = 
-target = fin0${hw_number}01 fin0${hw_number}02 fin0${hw_number}03 fin0${hw_number}04 fin0${hw_number}05
+obj = frac.o mine.o firewall.o
+target = ${hw_number}01 ${hw_number}02 ${hw_number}03 ${hw_number}04
 
 $(target): $(obj)
 
@@ -23,7 +23,7 @@ include $(obj:.o=.d)
 clean: clean_executable_file clean_object_file
 
 clean_executable_file:
-	-rm fin0${hw_number}0?
+	-rm ${hw_number}0?
 
 clean_object_file:
 	-rm *.o
