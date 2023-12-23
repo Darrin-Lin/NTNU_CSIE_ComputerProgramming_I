@@ -18,7 +18,7 @@ struct player
 static int32_t width = 0, height = 0;
 static int8_t show_cannon(int32_t x, int32_t y, int8_t cannon, int32_t map[height][width]);
 static void show_map(int32_t map[height][width]);
-static void shot(int32_t x, int32_t y, int8_t cannon, int32_t map[height][width]);
+static int8_t shot(int32_t x, int32_t y, int8_t cannon, int32_t map[height][width]);
 
 int main()
 {
@@ -122,29 +122,51 @@ int main()
         case 'Q':
             if (human.bullet)
             {
-                shot(human.x, human.y, human.cannon, map);
+                int8_t kill = 0;
+                kill = shot(human.x, human.y, human.cannon, map);
+                if (kill == 2)
+                {
+                    computer1.alive = 0;
+                }
+                else if (kill == 3)
+                {
+                    computer2.alive = 0;
+                }
+                else if (kill == 4)
+                {
+                    computer3.alive = 0;
+                }
             }
             break;
         default:
             break;
         }
         show_cannon(human.x, human.y, human.cannon, map);
-        show_cannon(computer1.x, computer1.y, computer1.cannon, map);
-        show_cannon(computer2.x, computer2.y, computer2.cannon, map);
-        show_cannon(computer3.x, computer3.y, computer3.cannon, map);
-        if(computer1.alive)
+        if (computer1.alive)
+        {
+            show_cannon(computer1.x, computer1.y, computer1.cannon, map);
+        }
+        if (computer2.alive)
+        {
+            show_cannon(computer2.x, computer2.y, computer2.cannon, map);
+        }
+        if (computer3.alive)
+        {
+            show_cannon(computer3.x, computer3.y, computer3.cannon, map);
+        }
+        if (computer1.alive)
         {
             map[computer1.y][computer1.x] = 2;
         }
-        if(computer2.alive)
+        if (computer2.alive)
         {
             map[computer2.y][computer2.x] = 3;
         }
-        if(computer3.alive)
+        if (computer3.alive)
         {
             map[computer3.y][computer3.x] = 4;
         }
-        
+
         show_map(map);
     }
 
@@ -211,7 +233,6 @@ static void show_map(int32_t map[height][width])
         printf("|");
         for (int32_t j = 0; j < width; j++)
         {
-
             if (map[i][j])
             {
                 if (map[i][j] == 1)
@@ -259,57 +280,222 @@ static void show_map(int32_t map[height][width])
     printf("\n");
     return;
 }
-static void shot(int32_t x, int32_t y, int8_t cannon, int32_t map[height][width])
+static int8_t shot(int32_t x, int32_t y, int8_t cannon, int32_t map[height][width])
 {
     switch (cannon)
     {
     case 1:
         if (y - 2 >= 0)
         {
-            map[y - 2][x] = -2;
+            if (map[y - 2][x] == -1)
+            {
+                map[y - 2][x] = 0;
+            }
+            else if (map[y - 2][x] == 2)
+            {
+                map[y - 2][x] = 0;
+                return 2;
+            }
+            else if (map[y - 2][x] == 3)
+            {
+                map[y - 2][x] = 0;
+                return 3;
+            }
+            else if (map[y - 2][x] == 4)
+            {
+                map[y - 2][x] = 0;
+                return 4;
+            }
+            else
+                map[y - 2][x] = -2;
         }
         break;
     case 2:
         if (y - 2 >= 0 && x + 2 < width)
         {
-            map[y - 2][x + 2] = -2;
+            if (map[y - 2][x + 2] == -1)
+            {
+                map[y - 2][x + 2] = 0;
+            }
+            else if (map[y - 2][x + 2] == 2)
+            {
+                map[y - 2][x + 2] = 0;
+                return 2;
+            }
+            else if (map[y - 2][x + 2] == 3)
+            {
+                map[y - 2][x + 2] = 0;
+                return 3;
+            }
+            else if (map[y - 2][x + 2] == 4)
+            {
+                map[y - 2][x + 2] = 0;
+                return 4;
+            }
+            else
+                map[y - 2][x + 2] = -2;
         }
         break;
     case 3:
         if (x + 2 < width)
         {
-            map[y][x + 2] = -2;
+            if (map[y][x + 2] == -1)
+            {
+                map[y][x + 2] = 0;
+            }
+            else if (map[y][x + 2] == 2)
+            {
+                map[y][x + 2] = 0;
+                return 2;
+            }
+            else if (map[y][x + 2] == 3)
+            {
+                map[y][x + 2] = 0;
+                return 3;
+            }
+            else if (map[y][x + 2] == 4)
+            {
+                map[y][x + 2] = 0;
+                return 4;
+            }
+            else
+                map[y][x + 2] = -2;
         }
         break;
     case 4:
         if (y + 2 < height && x + 2 < width)
         {
-            map[y + 2][x + 2] = -2;
+            if (map[y + 2][x + 2] == -1)
+            {
+                map[y + 2][x + 2] = 0;
+            }
+            else if (map[y + 2][x + 2] == 2)
+            {
+                map[y + 2][x + 2] = 0;
+                return 2;
+            }
+            else if (map[y + 2][x + 2] == 3)
+            {
+                map[y + 2][x + 2] = 0;
+                return 3;
+            }
+            else if (map[y + 2][x + 2] == 4)
+            {
+                map[y + 2][x + 2] = 0;
+                return 4;
+            }
+            else
+                map[y + 2][x + 2] = -2;
         }
         break;
     case 5:
         if (y + 2 < height)
         {
-            map[y + 2][x] = -2;
+
+            if (map[y + 2][x] == -1)
+            {
+                map[y + 2][x] = 0;
+            }
+            else if (map[y + 2][x] == 2)
+            {
+                map[y + 2][x] = 0;
+                return 2;
+            }
+            else if (map[y + 2][x] == 3)
+            {
+                map[y + 2][x] = 0;
+                return 3;
+            }
+            else if (map[y + 2][x] == 4)
+            {
+                map[y + 2][x] = 0;
+                return 4;
+            }
+            else
+                map[y + 2][x] = -2;
         }
         break;
     case 6:
         if (y + 2 < height && x - 2 >= 0)
         {
-            map[y + 2][x - 2] = -2;
+            
+            if (map[y + 2][x - 2] == -1)
+            {
+                map[y + 2][x - 2] = 0;
+            }
+            else if (map[y + 2][x - 2] == 2)
+            {
+                map[y + 2][x - 2] = 0;
+                return 2;
+            }
+            else if (map[y + 2][x - 2] == 3)
+            {
+                map[y + 2][x - 2] = 0;
+                return 3;
+            }
+            else if (map[y + 2][x - 2] == 4)
+            {
+                map[y + 2][x - 2] = 0;
+                return 4;
+            }
+            else
+                map[y + 2][x - 2] = -2;
         }
         break;
     case 7:
         if (x - 2 >= 0)
         {
-            map[y][x - 2] = -2;
+            if (map[y][x - 2] == -1)
+            {
+                map[y][x - 2] = 0;
+            }
+            else if (map[y][x - 2] == 2)
+            {
+                map[y][x - 2] = 0;
+                return 2;
+            }
+            else if (map[y][x - 2] == 3)
+            {
+                map[y][x - 2] = 0;
+                return 3;
+            }
+            else if (map[y][x - 2] == 4)
+            {
+                map[y][x - 2] = 0;
+                return 4;
+            }
+            else
+                map[y][x - 2] = -2;
         }
         break;
     case 8:
         if (y - 2 >= 0 && x - 2 >= 0)
         {
-            map[y - 2][x - 2] = -2;
+            if (map[y - 2][x - 2] == -1)
+            {
+                map[y - 2][x - 2] = 0;
+            }
+            else if (map[y - 2][x - 2] == 2)
+            {
+                map[y - 2][x - 2] = 0;
+                return 2;
+            }
+            else if (map[y - 2][x - 2] == 3)
+            {
+                map[y - 2][x - 2] = 0;
+                return 3;
+            }
+            else if (map[y - 2][x - 2] == 4)
+            {
+                map[y - 2][x - 2] = 0;
+                return 4;
+            }
+            else
+                map[y - 2][x - 2] = -2;
         }
         break;
+    default:
+        break;
     }
+    return 0;
 }
